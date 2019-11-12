@@ -1,0 +1,29 @@
+﻿  maze.cpp
+  Queue.cpp
+d:\coding\uni\work\maze\maze\queue.cpp(27): error C2955: "element": для использования класс шаблон требуется список аргументов шаблон
+  d:\coding\uni\work\maze\maze\queue.h(7): note:  см. объявление "element"
+d:\coding\uni\work\maze\maze\queue.h(8): error C2079: "element<T>::x" использует не имеющую определения структуру class "T"
+          with
+          [
+              T=T
+          ]
+  d:\coding\uni\work\maze\maze\queue.cpp(27): note: выполняется компиляция ссылки на экземпляр шаблон класс "element<T>"
+          with
+          [
+              T=T
+          ]
+d:\coding\uni\work\maze\maze\queue.cpp(27): error C2440: инициализация: невозможно преобразовать "element<T> *" в "element *"
+          with
+          [
+              T=T
+          ]
+  d:\coding\uni\work\maze\maze\queue.cpp(27): note: Типы, на которые указывают указатели, не связаны; для преобразования требуется reinterpret_cast, приведение в стиле С или приведение в стиле функции
+d:\coding\uni\work\maze\maze\queue.cpp(50): error C2440: инициализация: невозможно преобразовать "element<T> *" в "element *"
+          with
+          [
+              T=T
+          ]
+  d:\coding\uni\work\maze\maze\queue.cpp(50): note: Типы, на которые указывают указатели, не связаны; для преобразования требуется reinterpret_cast, приведение в стиле С или приведение в стиле функции
+d:\coding\uni\work\maze\maze\queue.cpp(53): error C2440: =: невозможно преобразовать "element<T> *" в "element *"
+  d:\coding\uni\work\maze\maze\queue.cpp(53): note: Типы, на которые указывают указатели, не связаны; для преобразования требуется reinterpret_cast, приведение в стиле С или приведение в стиле функции
+  Создание кода...

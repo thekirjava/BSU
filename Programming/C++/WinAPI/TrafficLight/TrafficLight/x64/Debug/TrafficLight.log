@@ -1,0 +1,7 @@
+﻿  TrafficLight.cpp
+d:\coding\winapi\trafficlight\trafficlight\trafficlight.cpp(158): warning C4244: =: преобразование "UINT_PTR" в "int", возможна потеря данных
+d:\coding\winapi\trafficlight\trafficlight\trafficlight.cpp(165): warning C4244: =: преобразование "UINT_PTR" в "int", возможна потеря данных
+d:\coding\winapi\trafficlight\trafficlight\trafficlight.cpp(172): warning C4244: =: преобразование "UINT_PTR" в "int", возможна потеря данных
+d:\coding\winapi\trafficlight\trafficlight\trafficlight.cpp(254): warning C4244: =: преобразование "UINT_PTR" в "int", возможна потеря данных
+d:\coding\winapi\trafficlight\trafficlight\trafficlight.cpp(201): warning C4101: ps: неиспользованная локальная переменная
+  TrafficLight.vcxproj -> D:\Coding\winapi\TrafficLight\x64\Debug\TrafficLight.exe

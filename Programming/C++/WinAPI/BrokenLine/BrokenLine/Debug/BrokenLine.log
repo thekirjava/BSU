@@ -1,0 +1,4 @@
+﻿  stdafx.cpp
+  BrokenLine.cpp
+d:\coding\winapi\brokenline\brokenline\brokenline.cpp(134): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  BrokenLine.vcxproj -> D:\Coding\winapi\BrokenLine\Debug\BrokenLine.exe

@@ -1,0 +1,8 @@
+Number of rooms:
+12
+Biggest room square:
+6
+Square of two rooms and position:
+10
+4 3
+4 4

@@ -1,0 +1,9 @@
+apple €блоко
+tree дерево
+boy мальчик
+girl девочка
+man мужчина
+woman женщина
+cube куб
+car машина
+boxer боксер

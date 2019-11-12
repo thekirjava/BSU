@@ -1,0 +1,6 @@
+﻿  VisualCastle.cpp
+d:\coding\winapi\visualcastle\visualcastle\visualcastle.cpp(16): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+d:\coding\winapi\visualcastle\visualcastle\visualcastle.cpp(291): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+d:\coding\winapi\visualcastle\visualcastle\visualcastle.cpp(344): warning C4302: приведение типов: усечение из "char *" к "wchar_t"
+d:\coding\winapi\visualcastle\visualcastle\visualcastle.cpp(346): warning C4302: приведение типов: усечение из "char *" к "wchar_t"
+  VisualCastle.vcxproj -> D:\Coding\winapi\VisualCastle\Debug\VisualCastle.exe

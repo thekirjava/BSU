@@ -1,0 +1,3 @@
+D:/Coding/course2/VMA/Lab3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/Coding/course2/VMA/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir
+D:/Coding/course2/VMA/Lab3/cmake-build-debug/CMakeFiles/edit_cache.dir
