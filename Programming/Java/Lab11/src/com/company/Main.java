@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 
 public class Main {
 
@@ -19,7 +21,7 @@ public class Main {
             redButton = new JButton();
             greenButton = new JButton();
             blueButton = new JButton();
-            penColor = Color.RED;
+            //penColor = Color.WHITE;
             this.repaint();
             redButton.setBackground(Color.RED);
 
@@ -27,12 +29,51 @@ public class Main {
 
             blueButton.setBackground(Color.BLUE);
             redButton.setPreferredSize(new Dimension(this.getWidth()/4, 30));
+            redButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    penColor = Color.RED;
+                }
+            });
             greenButton.setPreferredSize(new Dimension(this.getWidth()/4, 30));
+            greenButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    penColor = Color.GREEN;
+                }
+            });
             blueButton.setPreferredSize(new Dimension(this.getWidth()/4, 30));
+            blueButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    penColor = Color.BLUE;
+                }
+            });
             colorPanel.add(redButton);
             colorPanel.add(greenButton);
             colorPanel.add(blueButton);
-            drawSpace.addMouseListener(new MouseAdapter() {
+            drawSpace.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent mouseEvent) {
+                    Graphics g = drawSpace.getGraphics();
+                    Graphics gbuf = drawSpace.getBuffer().getGraphics();
+                    g.setColor(penColor);
+                    gbuf.setColor(penColor);
+                    g.fillRect(mouseEvent.getX(), mouseEvent.getY(), 1, 1);
+                    gbuf.fillRect(mouseEvent.getX(), mouseEvent.getY(), 1, 1);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent mouseEvent) {
+                    previousX = mouseEvent.getX();
+                    previousY = mouseEvent.getY();
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent mouseEvent) {
+
+                }
+
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
@@ -42,15 +83,18 @@ public class Main {
                 public void mouseExited(MouseEvent e) {
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
-
+            });
+            drawSpace.addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     Graphics g = drawSpace.getGraphics();
                     Graphics gbuf = drawSpace.getBuffer().getGraphics();
                     g.setColor(penColor);
                     gbuf.setColor(penColor);
-                    g.fillRect(e.getX(), e.getY(), 1, 1);
-                    gbuf.fillRect(e.getX(), e.getY(), 1, 1);
+                    g.drawLine(previousX, previousY, e.getX(), e.getY());
+                    gbuf.drawLine(previousX, previousY, e.getX(), e.getY());
+                    previousX = e.getX();
+                    previousY = e.getY();
                 }
             });
             cont.add(drawSpace, BorderLayout.CENTER);
@@ -62,6 +106,8 @@ public class Main {
         private JButton greenButton;
         private JButton blueButton;
         private Color penColor;
+        private int previousX;
+        private int previousY;
     }
 
     public static void main(String[] args) {
