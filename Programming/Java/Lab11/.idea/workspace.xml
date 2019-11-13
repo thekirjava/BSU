@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c89adf18-5fe8-46c0-bf66-b0aebae98b4e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/DrawingPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/DrawingPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +72,8 @@
       <updated>1573558488879</updated>
       <workItem from="1573558493199" duration="676000" />
       <workItem from="1573567882511" duration="3228000" />
-      <workItem from="1573655482468" duration="1241000" />
+      <workItem from="1573655482468" duration="1495000" />
+      <workItem from="1573657364779" duration="9000" />
     </task>
     <task id="LOCAL-00001" summary="Window added">
       <created>1573569999628</created>
