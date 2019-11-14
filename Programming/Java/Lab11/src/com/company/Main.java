@@ -1,11 +1,13 @@
 package com.company;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.io.IOException;
 
 public class Main {
 
@@ -16,42 +18,70 @@ public class Main {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             Container cont = this.getContentPane();
             cont.setLayout(new BorderLayout());
-            drawSpace = new DrawingPanel(this.getWidth(), this.getHeight());
-            colorPanel = new JPanel(new FlowLayout());
-            redButton = new JButton();
+            drawSpace = new DrawingPanel(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+            scrollPane = new JScrollPane(drawSpace);
+            buttonPanel = new JPanel(new FlowLayout());
+            redButton = new JButton("Chosen");
             greenButton = new JButton();
             blueButton = new JButton();
-            //penColor = Color.WHITE;
-            this.repaint();
+            saveButton = new JButton("Save");
+            loadButton = new JButton("Load");
+            error = new JOptionPane();
             redButton.setBackground(Color.RED);
-
             greenButton.setBackground(Color.GREEN);
-
             blueButton.setBackground(Color.BLUE);
-            redButton.setPreferredSize(new Dimension(this.getWidth()/4, 30));
+            penColor = Color.RED;
+            //redButton.setPreferredSize(new Dimension(this.getWidth() / 4, 30));
             redButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     penColor = Color.RED;
+                    redButton.setText("Chosen");
+                    greenButton.setText("");
+                    blueButton.setText("");
+                    ;
                 }
             });
-            greenButton.setPreferredSize(new Dimension(this.getWidth()/4, 30));
+            //greenButton.setPreferredSize(new Dimension(this.getWidth() / 4, 30));
             greenButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     penColor = Color.GREEN;
+                    redButton.setText("");
+                    greenButton.setText("Chosen");
+                    blueButton.setText("");
+                    ;
                 }
             });
-            blueButton.setPreferredSize(new Dimension(this.getWidth()/4, 30));
+            //blueButton.setPreferredSize(new Dimension(this.getWidth() / 4, 30));
             blueButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     penColor = Color.BLUE;
+                    redButton.setText("");
+                    greenButton.setText("");
+                    blueButton.setText("Chosen");
+                    ;
                 }
             });
-            colorPanel.add(redButton);
-            colorPanel.add(greenButton);
-            colorPanel.add(blueButton);
+            saveButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    fileChooser = new JFileChooser(".");
+                    if (fileChooser.showDialog(Window.this, "Save") == JFileChooser.APPROVE_OPTION) {
+                        try {
+                            ImageIO.write(drawSpace.getBuffer(), ".jpg", fileChooser.getSelectedFile());
+                        } catch (IOException exc) {
+                            error.showMessageDialog(Window.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            });
+            buttonPanel.add(redButton);
+            buttonPanel.add(greenButton);
+            buttonPanel.add(blueButton);
+            buttonPanel.add(saveButton);
+            buttonPanel.add(loadButton);
             drawSpace.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
@@ -97,17 +127,24 @@ public class Main {
                     previousY = e.getY();
                 }
             });
-            cont.add(drawSpace, BorderLayout.CENTER);
-            cont.add(colorPanel, BorderLayout.SOUTH);
+            cont.add(scrollPane, BorderLayout.CENTER);
+            cont.add(buttonPanel, BorderLayout.SOUTH);
         }
+
         private DrawingPanel drawSpace;
-        private JPanel colorPanel;
+        private JPanel buttonPanel;
         private JButton redButton;
         private JButton greenButton;
         private JButton blueButton;
+        private JButton saveButton;
+        private JButton loadButton;
         private Color penColor;
         private int previousX;
         private int previousY;
+        private JScrollPane scrollPane;
+        private JFileChooser fileChooser;
+        private JOptionPane error;
+
     }
 
     public static void main(String[] args) {

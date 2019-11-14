@@ -8,7 +8,6 @@ public class DrawingPanel extends JPanel {
     DrawingPanel(int w, int h) {
         setPreferredSize(new Dimension(w, h));
         buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-
     }
 
     @Override
