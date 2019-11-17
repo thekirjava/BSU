@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window$5.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window$7.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab11/com/company/Main$Window.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Lab11/com/company/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab11/com/company/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
@@ -85,6 +86,8 @@
       <workItem from="1573657364779" duration="9000" />
       <workItem from="1573738734110" duration="4272000" />
       <workItem from="1573992220020" duration="2392000" />
+      <workItem from="1573995078823" duration="538000" />
+      <workItem from="1574001440033" duration="2272000" />
     </task>
     <task id="LOCAL-00001" summary="Window added">
       <created>1573569999628</created>

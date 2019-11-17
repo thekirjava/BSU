@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;;
+import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 
 public class Main {
@@ -20,7 +20,6 @@ public class Main {
             cont.setLayout(new BorderLayout());
             drawSpace = new DrawingPanel(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
             scrollPane = new JScrollPane(drawSpace);
-            scrollPane.setPreferredSize(new Dimension(this.getWidth() - 100, this.getHeight() - 200));
             buttonPanel = new JPanel(new FlowLayout());
             redButton = new JButton("Chosen");
             greenButton = new JButton();
