@@ -7,11 +7,13 @@ import java.awt.image.BufferedImage;
 public class DrawingPanel extends JPanel {
     DrawingPanel(int w, int h) {
         setPreferredSize(new Dimension(w, h));
-        buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        buffer = new BufferedImage(w+10, h+10, BufferedImage.TYPE_INT_ARGB);
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
         g.drawImage(buffer, 0, 0, null);
     }
 

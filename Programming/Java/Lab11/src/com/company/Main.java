@@ -14,6 +14,7 @@ public class Main {
     static class Window extends JFrame {
         Window() {
             this.setBounds(100, 100, 900, 500);
+            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
             this.setTitle("Lab11");
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             Container cont = this.getContentPane();
