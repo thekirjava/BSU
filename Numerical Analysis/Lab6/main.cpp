@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const int N = 3;
+const int N = 4;
 ofstream out("output.txt");
 
 void gen(vector<vector<long double> > &A) {
