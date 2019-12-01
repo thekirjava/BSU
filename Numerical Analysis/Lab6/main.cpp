@@ -9,21 +9,21 @@ using namespace std;
 const int N = 4;
 ofstream out("output.txt");
 
-void gen(vector<vector<long double> > &A) {
+void gen(vector<vector<float> > &A) {
     out << "Матрица А\n";
     mt19937 gen(time(nullptr));
-    uniform_real_distribution<> urd(-50, 50);
+    uniform_int_distribution<> uid(-50, 50);
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            A[i][j] = urd(gen);
+            A[i][j] = uid(gen);
             out << A[i][j] << " ";
         }
         out << '\n';
     }
 }
 
-vector<vector<long double> > operator*(const vector<vector<long double> > &A, const vector<vector<long double> > &B) {
-    vector<vector<long double> > ans(N, vector<long double>(N, 0));
+vector<vector<float> > operator*(const vector<vector<float> > &A, const vector<vector<float> > &B) {
+    vector<vector<float> > ans(N, vector<float>(N, 0));
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             for (int k = 0; k < N; k++) {
@@ -34,8 +34,8 @@ vector<vector<long double> > operator*(const vector<vector<long double> > &A, co
     return ans;
 }
 
-vector<vector<long double> > findM(const vector<vector<long double> > &A, int k) {
-    vector<vector<long double> > M(N, vector<long double>(N, 0));
+vector<vector<float> > findM(const vector<vector<float> > &A, int k) {
+    vector<vector<float> > M(N, vector<float>(N, 0));
     for (int i = 0; i < N; i++) {
         if (i == k - 1) {
             for (int j = 0; j < N; j++) {
@@ -52,8 +52,8 @@ vector<vector<long double> > findM(const vector<vector<long double> > &A, int k)
     return M;
 }
 
-vector<vector<long double> > findInvertM(const vector<vector<long double> > &A, int k) {
-    vector<vector<long double> > invertM(N, vector<long double>(N, 0));
+vector<vector<float> > findInvertM(const vector<vector<float> > &A, int k) {
+    vector<vector<float> > invertM(N, vector<float>(N, 0));
     for (int i = 0; i < N; i++) {
         if (i == k - 1) {
             for (int j = 0; j < N; j++) {
@@ -66,8 +66,8 @@ vector<vector<long double> > findInvertM(const vector<vector<long double> > &A, 
     return invertM;
 }
 
-long double trace(const vector<vector<long double> > &A) {
-    long double ans = 0;
+float trace(const vector<vector<float> > &A) {
+    float ans = 0;
     for (int i = 0; i < N; i++) {
         ans += A[i][i];
     }
@@ -76,9 +76,9 @@ long double trace(const vector<vector<long double> > &A) {
 
 int main() {
     out << fixed;
-    vector<vector<long double> > A(N, vector<long double>(N, 0));
+    vector<vector<float> > A(N, vector<float>(N, 0));
     gen(A);
-    long double t = trace(A);
+    float t = trace(A);
     for (int i = 0; i < N - 1; i++) {
         int k = N - i - 1;
         while (fabs(A[k][k - 1]) < 1e-8) {
@@ -88,11 +88,11 @@ int main() {
             k = N - 1;
             t = trace(A);
         }
-        vector<vector<long double> > M = findM(A, k);
-        vector<vector<long double> > invertM = findInvertM(A, k);
+        vector<vector<float> > M = findM(A, k);
+        vector<vector<float> > invertM = findInvertM(A, k);
         A = A * M;
         A = invertM * A;
-        out << "M" << k + 1 << ":\n";
+        out << "M" << k << ":\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 out << M[i][j] << " ";
