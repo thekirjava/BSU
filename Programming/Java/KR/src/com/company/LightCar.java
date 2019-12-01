@@ -18,11 +18,22 @@ public class LightCar extends Auto {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
         if (!super.equals(o)) {
             return false;
         }
         LightCar x = (LightCar) o;
-        return this.material.equals(((LightCar) o).material);
+        return this.material == x.material;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + material;
     }
 
     public void setMaterial(Material material) {

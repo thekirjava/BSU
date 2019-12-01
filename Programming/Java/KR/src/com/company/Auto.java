@@ -20,7 +20,7 @@ public abstract class Auto implements Comparable<Auto> {
         if (!this.name.equals(x.name)) {
             return this.name.compareTo(x.name);
         }
-        return -this.fuel.compareTo(x.fuel);
+        return -1 * this.fuel.compareTo(x.fuel);
     }
 
     @Override

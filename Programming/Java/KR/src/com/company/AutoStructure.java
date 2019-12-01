@@ -6,7 +6,7 @@ import java.util.Collections;
 public class AutoStructure<T extends Auto> extends ArrayList<T> {
     public void printAll() {
         for (T t : this) {
-            System.out.print(t + " ");
+            t.print();
         }
     }
 
@@ -18,10 +18,8 @@ public class AutoStructure<T extends Auto> extends ArrayList<T> {
     }
 
     public T binarySearch(T o) throws EmptyException {
-        {
-            if (this.isEmpty()) {
-                throw new EmptyException();
-            }
+        if (this.isEmpty()) {
+            throw new EmptyException();
         }
         AutoStructure<T> temp = (AutoStructure<T>) this.clone();
         Collections.sort(temp);
@@ -29,7 +27,11 @@ public class AutoStructure<T extends Auto> extends ArrayList<T> {
         if (index < 0) {
             return null;
         }
-        return temp.get(index);
+        if (temp.get(index).equals(o)) {
+            return temp.get(index);
+        } else {
+            return null;
+        }
     }
 
     public T min() throws EmptyException {

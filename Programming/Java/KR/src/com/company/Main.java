@@ -15,7 +15,7 @@ public class Main {
         cars.printAll();
         System.out.println("Frequency: " + cars.frequency(new LightCar("Toyota", "Red", Fuel.BENSIN, Material.LEATHER)));
         System.out.println("Search: " + cars.binarySearch(new LightCar("Mazda", "Blue", Fuel.DIESEL, Material.FIBRE)));
-        System.out.println("Max :" + cars.min());
+        System.out.println("Min :" + cars.min());
     }
 
     public static void demo2(Scanner s) throws EnumIncorrectException, EmptyException {
@@ -26,7 +26,7 @@ public class Main {
         cars.printAll();
         System.out.println("Frequency: " + cars.frequency(new Bus("Maz", "White", Fuel.BENSIN, 30, 1)));
         System.out.println("Search: " + cars.binarySearch(new Bus("Uaz", "Black", Fuel.DIESEL, 1, 8)));
-        System.out.println("Max :" + cars.min());
+        System.out.println("Min :" + cars.min());
     }
 
     public static void main(String[] args) {
