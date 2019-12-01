@@ -1,8 +1,6 @@
 package com.company;
 
 
-import java.util.StringTokenizer;
-
 public abstract class Auto implements Comparable<Auto> {
     Auto() {
         this.name = "";
