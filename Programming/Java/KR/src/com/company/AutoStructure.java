@@ -32,10 +32,10 @@ public class AutoStructure<T extends Auto> extends ArrayList<T> {
         return temp.get(index);
     }
 
-    public T max() throws EmptyException {
+    public T min() throws EmptyException {
         if (this.isEmpty()) {
             throw new EmptyException();
         }
-        return Collections.max(this);
+        return Collections.min(this);
     }
 }
