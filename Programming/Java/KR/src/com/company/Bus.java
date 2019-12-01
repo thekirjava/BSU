@@ -12,6 +12,20 @@ public class Bus extends Auto {
         System.out.println(this);
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + doors + " " + chairs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) {
+            return false;
+        }
+        Bus x = (Bus) o;
+        return (this.chairs == x.chairs) && (this.doors == x.doors);
+    }
+
     Bus(String name, String color, Fuel fuel, int doors, int chairs) {
         super(name, color, fuel);
         this.doors = doors;

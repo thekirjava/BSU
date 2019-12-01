@@ -10,6 +10,21 @@ public class LightCar extends Auto {
         this.material = material;
     }
 
+    @Override
+    public void print() {
+        super.print();
+        System.out.println(this.material);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) {
+            return false;
+        }
+        LightCar x = (LightCar) o;
+        return this.material.equals(((LightCar) o).material);
+    }
+
     public void setMaterial(Material material) {
         this.material = material;
     }
@@ -18,10 +33,6 @@ public class LightCar extends Auto {
         return material;
     }
 
-    @Override
-    public void print() {
-        System.out.println(this);
-    }
     private Material material;
 
 }

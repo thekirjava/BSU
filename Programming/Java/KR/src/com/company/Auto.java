@@ -1,6 +1,8 @@
 package com.company;
 
 
+import java.util.StringTokenizer;
+
 public abstract class Auto implements Comparable<Auto> {
     Auto() {
         this.name = "";
@@ -33,7 +35,14 @@ public abstract class Auto implements Comparable<Auto> {
         return this.name.equals(x.name) && this.fuel.equals(x.fuel) && this.color.equals(x.color);
     }
 
-    public abstract void print();
+    @Override
+    public String toString() {
+        return new String(name + " " + color + " " + fuel);
+    }
+
+    public void print() {
+        System.out.print(name + " " + color + " " + fuel + " ");
+    }
 
     public void setName(String name) {
         this.name = name;
