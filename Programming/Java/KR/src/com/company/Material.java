@@ -26,6 +26,7 @@ public enum Material {
                 break;
             case "leather":
                 ans = LEATHER;
+                break;
             default:
                 throw new EnumIncorrectException("Wrong material type");
         }
