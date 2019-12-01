@@ -14,7 +14,7 @@ public enum Fuel {
         return null;
     }
 
-    public Fuel toType(String s) throws EnumIncorrectException{
+    public static Fuel toType(String s) throws EnumIncorrectException{
         Fuel ans;
         switch (s) {
             case "bensin":
@@ -24,7 +24,7 @@ public enum Fuel {
                 ans = DIESEL;
                 break;
             default:
-                throw new EnumIncorrectException();
+                throw new EnumIncorrectException("Wrong fuel type");
         }
         return ans;
     }

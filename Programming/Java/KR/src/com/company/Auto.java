@@ -33,8 +33,30 @@ public abstract class Auto implements Comparable<Auto> {
         return this.name.equals(x.name) && this.fuel.equals(x.fuel) && this.color.equals(x.color);
     }
 
-    public void print() {
-        System.out.print(name + " " + fuel + " " + color + " ");
+    public abstract void print();
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setFuel(Fuel fuel) {
+        this.fuel = fuel;
+    }
+
+    public void setColor(String setColor) {
+        this.color = color;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Fuel getFuel() {
+        return fuel;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     private String name;
