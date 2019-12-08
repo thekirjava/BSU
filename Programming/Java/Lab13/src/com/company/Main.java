@@ -29,6 +29,7 @@ public class Main {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setCurrentDirectory(new File(".."));
                     if (fileChooser.showDialog(Window.this, "Open") == JFileChooser.APPROVE_OPTION) {
                         try {
                             Scanner s = new Scanner(fileChooser.getSelectedFile());
