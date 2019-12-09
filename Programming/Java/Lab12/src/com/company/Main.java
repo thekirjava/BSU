@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 
 public class Main {
 
@@ -116,66 +116,25 @@ public class Main {
             JRadioButton wednesday = new JRadioButton("Wednesday");
             JRadioButton thursday = new JRadioButton("Thursday");
             JRadioButton friday = new JRadioButton("Friday");
+            JRadioButton[] buttonArray = {monday, tuesday, wednesday, thursday, friday};
             ButtonGroup week = new ButtonGroup();
-            week.add(monday);
-            week.add(tuesday);
-            week.add(wednesday);
-            week.add(thursday);
-            week.add(friday);
-            monday.setSelected(true);
-            prev = monday;
-            monday.setIcon(check);
-            tuesday.setIcon(cross);
-            wednesday.setIcon(cross);
-            thursday.setIcon(cross);
-            friday.setIcon(cross);
-            MouseListener radioListener = new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    JRadioButton cur = (JRadioButton) e.getComponent();
-                    prev.setIcon(cross);
-                    cur.setIcon(check);
-                    prev = cur;
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    JRadioButton cur = (JRadioButton) e.getComponent();
-                    cur.setIcon(hourglass);
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    this.mouseClicked(e);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    JRadioButton cur = (JRadioButton) e.getComponent();
-                    if (!cur.isSelected()) {
-                        cur.setIcon(question);
-                    }
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    JRadioButton cur = (JRadioButton) e.getComponent();
-                    if (!cur.isSelected()) {
-                        cur.setIcon(cross);
-                    }
-                }
-            };
-            monday.addMouseListener(radioListener);
-            tuesday.addMouseListener(radioListener);
-            wednesday.addMouseListener(radioListener);
-            thursday.addMouseListener(radioListener);
-            friday.addMouseListener(radioListener);
-            task3.add(monday);
-            task3.add(tuesday);
-            task3.add(wednesday);
-            task3.add(thursday);
-            task3.add(friday);
-
+            for (JRadioButton jRadioButton : buttonArray) {
+                week.add(jRadioButton);
+                ImageIcon check = new ImageIcon(Toolkit.getDefaultToolkit().getImage("check.jpg"));
+                jRadioButton.setSelectedIcon(check);
+                ImageIcon cross = new ImageIcon(Toolkit.getDefaultToolkit().getImage("cross.jpg"));
+                jRadioButton.setDisabledIcon(cross);
+                jRadioButton.setRolloverSelectedIcon(check);
+                ImageIcon question = new ImageIcon(Toolkit.getDefaultToolkit().getImage("question.png"));
+                jRadioButton.setRolloverIcon(question);
+                ImageIcon hourglass = new ImageIcon(Toolkit.getDefaultToolkit().getImage("hourglass.png"));
+                jRadioButton.setPressedIcon(hourglass);
+                jRadioButton.setRolloverEnabled(true);
+                jRadioButton.setDisabledSelectedIcon(check);
+                jRadioButton.setIcon(cross);
+                task3.add(jRadioButton);
+            }
+            buttonArray[0].setSelected(true);
             tabbedPane.add(task1, "Task1");
             tabbedPane.add(task2, "Task2");
             tabbedPane.add(task3, "Task3");
@@ -185,11 +144,6 @@ public class Main {
 
         private int buttonNumber;
         private JButton releaseButton;
-        private JRadioButton prev = null;
-        private ImageIcon check = new ImageIcon(Toolkit.getDefaultToolkit().getImage("check.jpg"));
-        private ImageIcon cross = new ImageIcon(Toolkit.getDefaultToolkit().getImage("cross.jpg"));
-        private ImageIcon hourglass = new ImageIcon(Toolkit.getDefaultToolkit().getImage("hourglass.png"));
-        private ImageIcon question = new ImageIcon(Toolkit.getDefaultToolkit().getImage("question.png"));
 
     }
 
