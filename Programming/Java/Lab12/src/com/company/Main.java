@@ -2,8 +2,7 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 
 public class Main {
@@ -40,18 +39,18 @@ public class Main {
             JPanel buttonPane = new JPanel(new BorderLayout());
             JButton toLeft = new JButton("<");
             JButton toRight = new JButton(">");
-            toLeft.addMouseListener(new MouseAdapter() {
+            toLeft.addActionListener(new ActionListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void actionPerformed(ActionEvent actionEvent) {
                     while (list2.getSelectedIndex() != -1) {
                         elements1.add(elements1.getSize(), list2.getSelectedValue());
                         elements2.remove(list2.getSelectedIndex());
                     }
                 }
             });
-            toRight.addMouseListener(new MouseAdapter() {
+            toRight.addActionListener(new ActionListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void actionPerformed(ActionEvent actionEvent) {
                     while (list1.getSelectedIndex() != -1) {
                         elements2.add(elements2.getSize(), list1.getSelectedValue());
                         elements1.remove(list1.getSelectedIndex());
@@ -68,43 +67,43 @@ public class Main {
 
             JPanel task2 = new JPanel();
             task2.setLayout(new GridLayout(6, 6));
+            MouseListener mouseListener = new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    JButton cur = (JButton) e.getComponent();
+                    if (MouseEvent.BUTTON1 == e.getButton()) {
+                        buttonNumber = Integer.parseInt(cur.getText());
+                        cur.setText("Clicked!");
+
+                    }
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    JButton cur = (JButton) e.getComponent();
+                    if (MouseEvent.BUTTON1 == e.getButton()) {
+                        cur.setText(Integer.toString(buttonNumber));
+                        buttonNumber = 0;
+
+                    }
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    JButton cur = (JButton) e.getComponent();
+                    cur.setBackground(Color.MAGENTA);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    JButton cur = (JButton) e.getComponent();
+                    cur.setBackground(Color.CYAN);
+                }
+            };
             for (int i = 0; i < 36; i++) {
                 JButton button = new JButton(Integer.toString(i + 1));
-
                 button.setBackground(Color.CYAN);
-                button.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        buttonNumber = Integer.parseInt(button.getText());
-                        button.setText("Clicked!");
-                        releaseButton = button;
-                    }
-
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-                        releaseButton.setText(Integer.toString(buttonNumber));
-                        buttonNumber = 0;
-                        releaseButton = null;
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        button.setBackground(Color.MAGENTA);
-                        if (buttonNumber != 0) {
-                            buttonNumber = Integer.parseInt(button.getText());
-                            button.setText("Clicked!");
-                            releaseButton = button;
-                        }
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        button.setBackground(Color.CYAN);
-                        if (buttonNumber != 0) {
-                            button.setText(Integer.toString(buttonNumber));
-                        }
-                    }
-                });
+                button.addMouseListener(mouseListener);
                 task2.add(button);
             }
 
@@ -117,17 +116,17 @@ public class Main {
             JRadioButton thursday = new JRadioButton("Thursday");
             JRadioButton friday = new JRadioButton("Friday");
             JRadioButton[] buttonArray = {monday, tuesday, wednesday, thursday, friday};
+            ImageIcon check = new ImageIcon(Toolkit.getDefaultToolkit().getImage("check.jpg"));
+            ImageIcon cross = new ImageIcon(Toolkit.getDefaultToolkit().getImage("cross.jpg"));
+            ImageIcon question = new ImageIcon(Toolkit.getDefaultToolkit().getImage("question.png"));
+            ImageIcon hourglass = new ImageIcon(Toolkit.getDefaultToolkit().getImage("hourglass.png"));
             ButtonGroup week = new ButtonGroup();
             for (JRadioButton jRadioButton : buttonArray) {
                 week.add(jRadioButton);
-                ImageIcon check = new ImageIcon(Toolkit.getDefaultToolkit().getImage("check.jpg"));
                 jRadioButton.setSelectedIcon(check);
-                ImageIcon cross = new ImageIcon(Toolkit.getDefaultToolkit().getImage("cross.jpg"));
                 jRadioButton.setDisabledIcon(cross);
                 jRadioButton.setRolloverSelectedIcon(check);
-                ImageIcon question = new ImageIcon(Toolkit.getDefaultToolkit().getImage("question.png"));
                 jRadioButton.setRolloverIcon(question);
-                ImageIcon hourglass = new ImageIcon(Toolkit.getDefaultToolkit().getImage("hourglass.png"));
                 jRadioButton.setPressedIcon(hourglass);
                 jRadioButton.setRolloverEnabled(true);
                 jRadioButton.setDisabledSelectedIcon(check);
@@ -143,8 +142,6 @@ public class Main {
         }
 
         private int buttonNumber;
-        private JButton releaseButton;
-
     }
 
     public static void main(String[] args) {
