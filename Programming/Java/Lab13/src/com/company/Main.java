@@ -23,6 +23,9 @@ public class Main {
             JMenuBar menuBar = new JMenuBar();
             JMenu menu = new JMenu("Файл");
             JMenuItem open = new JMenuItem("Открыть");
+            Container container = this.getContentPane();
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+
             menu.add(open);
             menuBar.add(menu);
             open.addActionListener(new ActionListener() {
@@ -33,6 +36,8 @@ public class Main {
                     if (fileChooser.showDialog(Window.this, "Open") == JFileChooser.APPROVE_OPTION) {
                         try {
                             Scanner s = new Scanner(fileChooser.getSelectedFile());
+                            studentCollection.clear();
+                            listModel.clear();
                             while (s.hasNext()) {
                                 StringTokenizer stringTokenizer = new StringTokenizer(s.nextLine());
                                 String name = stringTokenizer.nextToken();
@@ -41,7 +46,10 @@ public class Main {
                                 while (stringTokenizer.hasMoreTokens()) {
                                     exams.add(new Student.Exam(stringTokenizer.nextToken(), Integer.parseInt(stringTokenizer.nextToken()), Integer.parseInt(stringTokenizer.nextToken())));
                                 }
-                                studentCollection.add(new Student(name, id, exams));
+                                Student student = new Student(name, id, exams);
+                                studentCollection.add(student);
+                                listModel.add(listModel.getSize(), student.toString());
+                                validate();
                             }
                         } catch (FileNotFoundException ex) {
                             ex.printStackTrace();
@@ -50,19 +58,19 @@ public class Main {
                 }
             });
             this.setJMenuBar(menuBar);
-            Container container = this.getContentPane();
+
             container.setLayout(null);
             JTextField textField = new JTextField();
             JLabel label = new JLabel("Поле для ввода");
             JButton button = new JButton("Старт");
-            textField.setBounds(400, 385, 200, 40);
-            label.setBounds(400, 345, 200, 40);
-            button.setBounds(450, 425, 100, 30);
+            textField.setBounds(800, 385, 200, 40);
+            label.setBounds(800, 345, 200, 40);
+            button.setBounds(850, 425, 100, 30);
             button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     try {
-                        ArrayList ans = new ArrayList<>();
+                        ArrayList ans;
                         if (studentCollection.size() == 0) {
                             throw new EmptyCollectionException();
                         }
@@ -76,13 +84,16 @@ public class Main {
                         optionPane.showMessageDialog(Window.this, out, "Answer", JOptionPane.INFORMATION_MESSAGE);
                     } catch (NoSuchElementException ex) {
                         optionPane.showMessageDialog(Window.this, "Text field is empty or input is incorrect", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    catch (EmptyCollectionException ex) {
+                    } catch (EmptyCollectionException ex) {
                         optionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
                     }
                 }
             });
+            JList<String> studentJList = new JList<>(listModel);
+            JScrollPane scrollPane = new JScrollPane(studentJList);
+            scrollPane.setBounds(0, 0, 800, this.getHeight());
+            container.add(scrollPane);
             container.add(label);
             container.add(textField);
             container.add(button);

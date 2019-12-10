@@ -31,9 +31,23 @@ public class Student  {
             sem =0;
         }
 
+        @Override
+        public String toString() {
+            return "name='" + name + '\'' +
+                    ", sem=" + sem +
+                    ", grade=" + grade;
+        }
+
         String name;
         int sem;
         int grade;
+    }
+
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", exams=" + exams;
     }
 
     String name;
