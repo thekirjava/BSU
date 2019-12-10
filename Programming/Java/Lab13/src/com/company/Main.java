@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Main {
 
-    static StudentCollection<Student> studentCollection = new StudentCollection<>();
+    static StudentMap<String, Student> studentCollection = new StudentMap<>();
 
     public static class Window extends JFrame {
         Window() {
@@ -39,20 +39,19 @@ public class Main {
                             studentCollection.clear();
                             listModel.clear();
                             while (s.hasNext()) {
-                                StringTokenizer stringTokenizer = new StringTokenizer(s.nextLine());
-                                String name = stringTokenizer.nextToken();
-                                String id = stringTokenizer.nextToken();
-                                ArrayList<Student.Exam> exams = new ArrayList<>();
-                                while (stringTokenizer.hasMoreTokens()) {
-                                    exams.add(new Student.Exam(stringTokenizer.nextToken(), Integer.parseInt(stringTokenizer.nextToken()), Integer.parseInt(stringTokenizer.nextToken())));
-                                }
-                                Student student = new Student(name, id, exams);
-                                studentCollection.add(student);
-                                listModel.add(listModel.getSize(), student.toString());
+                                String str = s.nextLine();
+                                studentCollection.add(str);
+                                listModel.add(listModel.getSize(), str);
                                 validate();
                             }
                         } catch (FileNotFoundException ex) {
-                            ex.printStackTrace();
+                            optionPane.showMessageDialog(Window.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (NoSuchElementException ex) {
+                            optionPane.showMessageDialog(Window.this, "Wrong input format", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (NumberFormatException ex) {
+                            optionPane.showMessageDialog(Window.this, "Grade and semester must be integer", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (WrongIdException ex) {
+                            optionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
@@ -61,11 +60,13 @@ public class Main {
 
             container.setLayout(null);
             JTextField textField = new JTextField();
-            JLabel label = new JLabel("Поле для ввода");
-            JButton button = new JButton("Старт");
-            textField.setBounds(800, 385, 200, 40);
-            label.setBounds(800, 345, 200, 40);
-            button.setBounds(850, 425, 100, 30);
+            JLabel label = new JLabel("Input field");
+            JButton button = new JButton("Run!");
+            JButton inputButton = new JButton("Add");
+            textField.setBounds(800, 185, 200, 40);
+            label.setBounds(800, 145, 200, 40);
+            button.setBounds(850, 225, 100, 30);
+            inputButton.setBounds(850, 265, 100, 30);
             button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -90,6 +91,25 @@ public class Main {
                     }
                 }
             });
+            inputButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        String s = optionPane.showInputDialog(Window.this, "Input data as: \"id student_name exam_semester exam_name grade\"", "");
+                        if (s != null) {
+                            studentCollection.add(s);
+                            listModel.add(listModel.getSize(), s);
+                            validate();
+                        }
+                    } catch (NumberFormatException ex) {
+                        optionPane.showMessageDialog(Window.this, "Grade and semester must be integer", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (NoSuchElementException ex) {
+                        optionPane.showMessageDialog(Window.this, "Wrong input format", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (WrongIdException ex) {
+                        optionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
             JList<String> studentJList = new JList<>(listModel);
             JScrollPane scrollPane = new JScrollPane(studentJList);
             scrollPane.setBounds(0, 0, 800, this.getHeight());
@@ -97,6 +117,7 @@ public class Main {
             container.add(label);
             container.add(textField);
             container.add(button);
+            container.add(inputButton);
         }
 
         JOptionPane optionPane = new JOptionPane();

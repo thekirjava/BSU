@@ -1,3 +1,9 @@
-Ivanov 111111 ma 1 5 ga 1 8 prog 1 10 dm 3 10 
-Petrov 222222 ma 1 6 ga 1 4 dm 3 9 vma 3 8
-Sidorov 333333 ga 1 10 
+111111 Ivanov 1 ma 5
+222222 Petrov 1 ma 6
+111111 Ivanov 1 ga 8
+222222 Petrov 3 dm 9
+111111 Ivanov 1 prog 10
+333333 Sidorov 1 ga 10
+111111 Ivanov 3 dm 10
+222222 Petrov 3 vma 9
+222222 Petrov 1 ga 4

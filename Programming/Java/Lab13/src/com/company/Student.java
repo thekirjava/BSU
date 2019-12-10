@@ -2,6 +2,8 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 
 public class Student  {
     public Student() {
@@ -16,7 +18,18 @@ public class Student  {
         this.exams = exams;
     }
 
-
+    public Student(String s) throws NoSuchElementException {
+        StringTokenizer stringTokenizer = new StringTokenizer(s);
+        this.name = stringTokenizer.nextToken();
+        this.id = stringTokenizer.nextToken();
+        this.exams = new ArrayList<>();
+        while (stringTokenizer.hasMoreTokens()) {
+            this.exams.add(new Exam(stringTokenizer.nextToken(), Integer.parseInt(stringTokenizer.nextToken()), Integer.parseInt(stringTokenizer.nextToken())));
+        }
+    }
+    public String getName() {
+        return name;
+    }
     static class Exam {
         public Exam(String name, int sem, int grade) {
             this.name = name;
@@ -30,6 +43,8 @@ public class Student  {
             grade = 0;
             sem =0;
         }
+
+
 
         @Override
         public String toString() {
@@ -50,6 +65,9 @@ public class Student  {
                 ", exams=" + exams;
     }
 
+    public void addExam (Exam exam) {
+        exams.add(exam);
+    }
     String name;
     String id;
     ArrayList<Exam> exams;
