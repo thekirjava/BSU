@@ -6,8 +6,8 @@
 
 using namespace std;
 
-const int N = 4;
-const int M = 30;
+const int N = 12;
+const int M = 50;
 const int K = 50;
 
 ofstream out("output.txt");
@@ -107,7 +107,6 @@ void print1(vector<float> v, vector<float> u, float l, vector<vector<float> > &A
         out << Au[i] - l * u[i] << " ";
     }
     out << '\n';
-
 }
 
 float cube_norm(vector<float> v) {
@@ -136,17 +135,19 @@ float count1(vector<vector<float> > &A) {
             out << '\n';
             print1(v, u, l1, A);
             print1(v, u, l2, A);
+            out<<'\n';
         }
         if (i == 49) {
             vector<float> buf1 = l1 * u;
             vector<float> buf2 = l2 * u;
+            out << "Кубические нормы для по разному посчитанных векторов: \n";
             out << cube_norm(v - buf1) << " " << cube_norm(v - buf2) << '\n';
         }
 
         u = v / cube_norm(v);
         v = A * u;
     }
-    return l1;
+    return l2;
 }
 
 float lambda(vector<float> v_plus, vector<float> v, vector<float> u, float l) {
@@ -184,10 +185,15 @@ void count2(vector<vector<float> > A, float l) {
     out << '\n';
     vector<float> Ax = A * x;
     out << "Проверка точности\n";
+    float cn = 0;
     for (int i = 0; i < N; i++) {
         out << Ax[i] - lmbd * x[i] << " ";
+        if (fabs(Ax[i] - lmbd * x[i]) > fabs(cn)) {
+            cn = Ax[i] - lmbd * x[i];
+        }
     }
     out << '\n';
+    out << "Кубическая норма - " << cn << '\n';
 }
 
 int main() {
