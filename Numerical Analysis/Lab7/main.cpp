@@ -7,22 +7,31 @@
 using namespace std;
 
 const int N = 4;
-const int M = 5;
-const int K = 100;
+const int M = 30;
+const int K = 50;
 
 ofstream out("output.txt");
 
-void gen(vector<vector<float> > A) {
+void gen(vector<vector<float> > &A) {
     mt19937 generator(time(nullptr));
     uniform_int_distribution<> uid(-4, 0);
     for (int i = 0; i < N; i++) {
         for (int j = i + 1; j < N; j++) {
             A[i][j] = uid(generator);
+            A[j][i] = A[i][j];
             A[i][i] -= A[i][j];
+            A[j][j] -= A[j][i];
         }
         if (i == 0) {
             A[i][i]++;
         }
+    }
+    out << "Входные данные:\n";
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            out << A[i][j] << " ";
+        }
+        out << '\n';
     }
 }
 
@@ -33,6 +42,30 @@ vector<float> operator*(vector<vector<float> > &A, vector<float> &B) {
         for (int j = 0; j < N; j++) {
             ans[i] += A[i][j] * B[j];
         }
+    }
+    return ans;
+}
+
+vector<float> operator*(float l, vector<float> &A) {
+    vector<float> ans(N, 0);
+    for (int i = 0; i < N; i++) {
+        ans[i] = A[i] * l;
+    }
+    return ans;
+}
+
+vector<float> operator/(vector<float> &A, float l) {
+    vector<float> ans(N, 0);
+    for (int i = 0; i < N; i++) {
+        ans[i] = A[i] / l;
+    }
+    return ans;
+}
+
+vector<float> operator-(vector<float> &A, vector<float> &B) {
+    vector<float> ans(N, 0);
+    for (int i = 0; i < N; i++) {
+        ans[i] = A[i] - B[i];
     }
     return ans;
 }
@@ -63,12 +96,10 @@ float lambda_2(vector<float> &v, vector<float> &u) {
     return l;
 }
 
-void print(vector<float> v, vector<float> u, float l, vector<vector<float> > &A) {
-
-
+void print1(vector<float> v, vector<float> u, float l, vector<vector<float> > &A) {
     vector<float> Au = A * u;
-    out << l << '\n';
-    out << '\n';
+    out << "Собственное значение - " << l << '\n';
+    out << "Проверка точности:\n";
     for (int i = 0; i < N; i++) {
         out << v[i] - l * u[i] << " ";
     }
@@ -79,11 +110,11 @@ void print(vector<float> v, vector<float> u, float l, vector<vector<float> > &A)
 
 }
 
-float cube_norm(vector<float> v, vector<float> u, float l) {
+float cube_norm(vector<float> v) {
     float ans = 0;
     for (int i = 0; i < N; i++) {
-        if (ans < fabs(v[i] - l * u[i])) {
-            ans = fabs(v[i] - l * u[i]);
+        if (ans < fabs(v[i])) {
+            ans = fabs(v[i]);
         }
     }
     return ans;
@@ -98,25 +129,74 @@ float count1(vector<vector<float> > &A) {
         l1 = lambda_1(v, u);
         l2 = lambda_2(v, u);
         if (i >= 45) {
+            out << "Собственный вектор :\n";
             for (int j = 0; j < N; j++) {
-                out << u[i] << " ";
+                out << u[j] << " ";
             }
             out << '\n';
-            print(v, u, l1, A);
-            print(v, u, l2, A);
+            print1(v, u, l1, A);
+            print1(v, u, l2, A);
         }
         if (i == 49) {
-            out << cube_norm(v, u, l1) << " " << cube_norm(v, u, l2) << '\n';
+            vector<float> buf1 = l1 * u;
+            vector<float> buf2 = l2 * u;
+            out << cube_norm(v - buf1) << " " << cube_norm(v - buf2) << '\n';
         }
-        u = v;
-        v = A * v;
+
+        u = v / cube_norm(v);
+        v = A * u;
     }
     return l1;
 }
 
+float lambda(vector<float> v_plus, vector<float> v, vector<float> u, float l) {
+    int m = 0;
+    for (int i = 0; i < N; i++) {
+        if (fabs(v[m] - u[m] * l) < fabs(v[i] - u[i] * l)) {
+            m = i;
+        }
+    }
+    return ((cube_norm(v) * v_plus[m]) - (l * v[m])) / (v[m] - (l * u[m]));
+}
+
+
+void count2(vector<vector<float> > A, float l) {
+    vector<float> u(N, 0);
+    u[0] = 1;
+    vector<float> v = A * u;
+    vector<float> u_plus = v / cube_norm(v);
+    vector<float> v_plus = A * u_plus;
+    float lmbd = 0;
+    for (int i = 0; i < M; i++) {
+        lmbd = lambda(v_plus, v, u, l);
+        u = v / cube_norm(v);
+        v = A * u;
+        u_plus = v / cube_norm(v);
+        v_plus = A * u_plus;
+    }
+    out << "Собственное значение - " << lmbd << '\n';
+    vector<float> x = l * u;
+    x = v - x;
+    out << "Собственный вектор\n";
+    for (int i = 0; i < N; i++) {
+        out << x[i] << " ";
+    }
+    out << '\n';
+    vector<float> Ax = A * x;
+    out << "Проверка точности\n";
+    for (int i = 0; i < N; i++) {
+        out << Ax[i] - lmbd * x[i] << " ";
+    }
+    out << '\n';
+}
+
 int main() {
+    out << fixed;
     vector<vector<float> > A(N, vector<float>(N, 0));
     gen(A);
+    out << "\nПоиск первого собственного значения:\n";
     float l = count1(A);
+    out << "\nПоиск второго собственного значения:\n";
+    count2(A, l);
     return 0;
 }
