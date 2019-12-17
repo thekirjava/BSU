@@ -27,7 +27,7 @@ public class StudentMap<K extends String, T extends Student> extends HashMap<K, 
         @Override
         public String toString() {
             return "exam='" + exam + '\'' +
-                            ", student='" + student + '\'';
+                    ", student='" + student + '\'';
         }
 
         String exam;
@@ -67,7 +67,15 @@ public class StudentMap<K extends String, T extends Student> extends HashMap<K, 
                 }
             }
         }
-
+        Collections.sort(ans, new Comparator<NonPass>() {
+            @Override
+            public int compare(NonPass nonPass, NonPass t1) {
+                if (nonPass.exam.equals(t1.exam)) {
+                    return nonPass.student.compareTo(t1.student);
+                }
+                return nonPass.exam.compareTo(t1.exam);
+            }
+        });
         return ans;
     }
 
