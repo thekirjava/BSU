@@ -1,12 +1,23 @@
 package com.company;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import javax.swing.*;
-import javax.xml.parsers.SAXParserFactory;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -43,6 +54,7 @@ public class Main {
                 public void actionPerformed(ActionEvent e) {
                     JFileChooser fileChooser = new JFileChooser();
                     fileChooser.setCurrentDirectory(new File("."));
+                    fileChooser.setFileFilter(new FileNameExtensionFilter("TXT files", "txt"));
                     if (fileChooser.showDialog(Window.this, "Open") == JFileChooser.APPROVE_OPTION) {
                         try {
                             Scanner s = new Scanner(fileChooser.getSelectedFile());
@@ -55,13 +67,13 @@ public class Main {
                                 validate();
                             }
                         } catch (FileNotFoundException ex) {
-                            optionPane.showMessageDialog(Window.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(Window.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
                         } catch (NoSuchElementException ex) {
-                            optionPane.showMessageDialog(Window.this, "Wrong input format", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(Window.this, "Wrong input format", "Error", JOptionPane.ERROR_MESSAGE);
                         } catch (NumberFormatException ex) {
-                            optionPane.showMessageDialog(Window.this, "Grade and semester must be integer", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(Window.this, "Grade and semester must be integer", "Error", JOptionPane.ERROR_MESSAGE);
                         } catch (WrongIdException ex) {
-                            optionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
@@ -71,14 +83,37 @@ public class Main {
                 public void actionPerformed(ActionEvent actionEvent) {
                     JFileChooser fileChooser = new JFileChooser();
                     fileChooser.setCurrentDirectory(new File("."));
+                    fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
                     if (fileChooser.showDialog(Window.this, "Open") == JFileChooser.APPROVE_OPTION) {
                         try {
-                            Scanner s = new Scanner(fileChooser.getSelectedFile());
                             studentCollection.clear();
                             listModel.clear();
-                            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+                            Scanner s = new Scanner(fileChooser.getSelectedFile());
+                            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+                            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+                            Document document = builder.parse(fileChooser.getSelectedFile());
+                            NodeList nodeList = document.getDocumentElement().getElementsByTagName("student");
+                            for (int i = 0; i < nodeList.getLength(); i++) {
+                                Node student = nodeList.item(i);
+                                NamedNodeMap attributes = student.getAttributes();
+                                StringBuilder stringBuilder = new StringBuilder(attributes.getNamedItem("id").getNodeValue());
+                                stringBuilder.append(" ").append(attributes.getNamedItem("name").getNodeValue());
+                                stringBuilder.append(" ").append(attributes.getNamedItem("semester").getNodeValue());
+                                stringBuilder.append(" ").append(attributes.getNamedItem("examName").getNodeValue());
+                                stringBuilder.append(" ").append(attributes.getNamedItem("grade").getNodeValue());
+                                studentCollection.add(stringBuilder.toString());
+                                listModel.add(listModel.getSize(), stringBuilder.toString());
+                            }
                         } catch (FileNotFoundException e) {
-                            optionPane.showMessageDialog(Window.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(Window.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (ParserConfigurationException e) {
+                            JOptionPane.showMessageDialog(Window.this, "Parser is poorly configured", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (SAXException e) {
+                            JOptionPane.showMessageDialog(Window.this, "SAX isn't working properly", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (IOException e) {
+                            JOptionPane.showMessageDialog(Window.this, "Input file is wrong", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (WrongIdException e) {
+                            JOptionPane.showMessageDialog(Window.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
@@ -89,6 +124,7 @@ public class Main {
                     try {
                         JFileChooser jFileChooser = new JFileChooser();
                         jFileChooser.setCurrentDirectory(new File("."));
+                        jFileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
                         if (jFileChooser.showDialog(Window.this, "Save") == JFileChooser.APPROVE_OPTION) {
                             PrintStream printStream = new PrintStream(jFileChooser.getSelectedFile());
                             Iterator<Map.Entry<String, Student>> entryIterator = studentCollection.entrySet().iterator();
@@ -96,9 +132,7 @@ public class Main {
                             printStream.println("<students>");
                             while (entryIterator.hasNext()) {
                                 Map.Entry<String, Student> entry = entryIterator.next();
-                                Iterator<Student.Exam> examIterator = entry.getValue().getExams().iterator();
-                                while (examIterator.hasNext()) {
-                                    Student.Exam exam = examIterator.next();
+                                for (Student.Exam exam : entry.getValue().getExams()) {
                                     printStream.print("<student ");
                                     printStream.print("id=\"" + entry.getValue().getId() + "\" ");
                                     printStream.print("name=\"" + entry.getValue().getName() + "\" ");
@@ -111,7 +145,7 @@ public class Main {
                             printStream.println("</students>");
                         }
                     } catch (FileNotFoundException e) {
-                        optionPane.showMessageDialog(Window.this, "Wrong file", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Window.this, "Wrong file", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -119,25 +153,25 @@ public class Main {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        String s = optionPane.showInputDialog(Window.this, "Input data as: \"id student_name exam_semester exam_name grade\"", "");
+                        String s = JOptionPane.showInputDialog(Window.this, "Input data as: \"id student_name exam_semester exam_name grade\"", "");
                         if (s != null) {
                             studentCollection.add(s);
                             listModel.add(listModel.getSize(), s);
                             validate();
                         }
                     } catch (NumberFormatException ex) {
-                        optionPane.showMessageDialog(Window.this, "Grade and semester must be integer", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Window.this, "Grade and semester must be integer", "Error", JOptionPane.ERROR_MESSAGE);
                     } catch (NoSuchElementException ex) {
-                        optionPane.showMessageDialog(Window.this, "Wrong input format", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Window.this, "Wrong input format", "Error", JOptionPane.ERROR_MESSAGE);
                     } catch (WrongIdException ex) {
-                        optionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
             search.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String s = optionPane.showInputDialog(Window.this, "Input data as: \"semester exam1 exam 2 ...\"", "");
+                    String s = JOptionPane.showInputDialog(Window.this, "Input data as: \"semester exam1 exam 2 ...\"", "");
                     try {
                         ArrayList ans;
                         if (studentCollection.size() == 0) {
@@ -150,11 +184,11 @@ public class Main {
                             out.append(iterator.next());
                             out.append('\n');
                         }
-                        optionPane.showMessageDialog(Window.this, out, "Answer", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(Window.this, out, "Answer", JOptionPane.INFORMATION_MESSAGE);
                     } catch (NoSuchElementException ex) {
-                        optionPane.showMessageDialog(Window.this, "Text field is empty or input is incorrect", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Window.this, "Text field is empty or input is incorrect", "Error", JOptionPane.ERROR_MESSAGE);
                     } catch (EmptyCollectionException ex) {
-                        optionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(Window.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
                     }
                 }
@@ -165,8 +199,6 @@ public class Main {
             container.add(studentJList);
 
         }
-
-        JOptionPane optionPane = new JOptionPane();
     }
 
     public static void main(String[] args) {

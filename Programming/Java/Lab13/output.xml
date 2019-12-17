@@ -1,12 +1,13 @@
 <?xml version="1.0"  encoding="UTF-8" standalone="yes"?>
 <students>
-<student id="111111" name="Ivanov" semester="1" examName="ma" grade="5" />
+<student id="444444" name="Sokolov" semester="3" examName="dm" grade="8" />
 <student id="111111" name="Ivanov" semester="1" examName="ga" grade="8" />
+<student id="111111" name="Ivanov" semester="1" examName="ma" grade="5" />
 <student id="111111" name="Ivanov" semester="1" examName="prog" grade="10" />
 <student id="111111" name="Ivanov" semester="3" examName="dm" grade="10" />
+<student id="222222" name="Petrov" semester="1" examName="ga" grade="4" />
 <student id="222222" name="Petrov" semester="1" examName="ma" grade="6" />
 <student id="222222" name="Petrov" semester="3" examName="dm" grade="9" />
 <student id="222222" name="Petrov" semester="3" examName="vma" grade="9" />
-<student id="222222" name="Petrov" semester="1" examName="ga" grade="4" />
 <student id="333333" name="Sidorov" semester="1" examName="ga" grade="10" />
 </students>
