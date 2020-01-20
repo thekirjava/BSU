@@ -7,7 +7,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -64,7 +63,6 @@ public class Main {
                                 String str = s.nextLine();
                                 studentCollection.add(str);
                                 listModel.add(listModel.getSize(), str);
-                                validate();
                             }
                         } catch (FileNotFoundException ex) {
                             JOptionPane.showMessageDialog(Window.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
@@ -88,7 +86,6 @@ public class Main {
                         try {
                             studentCollection.clear();
                             listModel.clear();
-                            Scanner s = new Scanner(fileChooser.getSelectedFile());
                             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
                             DocumentBuilder builder = builderFactory.newDocumentBuilder();
                             Document document = builder.parse(fileChooser.getSelectedFile());
@@ -157,7 +154,6 @@ public class Main {
                         if (s != null) {
                             studentCollection.add(s);
                             listModel.add(listModel.getSize(), s);
-                            validate();
                         }
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(Window.this, "Grade and semester must be integer", "Error", JOptionPane.ERROR_MESSAGE);

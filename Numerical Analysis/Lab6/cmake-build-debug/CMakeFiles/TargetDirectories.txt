@@ -1,3 +1,3 @@
-C:/Users/user/Desktop/VMA/Lab6/cmake-build-debug/CMakeFiles/Lab6.dir
-C:/Users/user/Desktop/VMA/Lab6/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/user/Desktop/VMA/Lab6/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/Coding/BSU/Numerical Analysis/Lab6/cmake-build-debug/CMakeFiles/Lab6.dir
+D:/Coding/BSU/Numerical Analysis/Lab6/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Coding/BSU/Numerical Analysis/Lab6/cmake-build-debug/CMakeFiles/rebuild_cache.dir

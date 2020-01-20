@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void demo1(Scanner s) throws EmptyCollectionException, NoSuchElementException {
-        TreeCollection<ForestTree> trees = new TreeCollection<>();
+        TreeCollection<Tree> trees = new TreeCollection<>();
         while (s.hasNext()) {
             trees.add(new ForestTree(s.next(), Integer.parseInt(s.next()), TreeType.toType(s.next()), Integer.parseInt(s.next())));
         }
@@ -24,7 +24,7 @@ public class Main {
     }
 
     public static void demo2(Scanner s) throws EmptyCollectionException, NoSuchElementException {
-        TreeCollection<FruitTree> trees = new TreeCollection<>();
+        TreeCollection <Tree> trees = new TreeCollection<>();
         while (s.hasNext()) {
             trees.add(new FruitTree(s.next(), Integer.parseInt(s.next()), TreeType.toType(s.next()), Integer.parseInt(s.next())));
         }
