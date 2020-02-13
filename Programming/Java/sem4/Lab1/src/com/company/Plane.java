@@ -37,6 +37,16 @@ public class Plane {
                     '}';
         }
 
+        public boolean fly() {
+            if ((wingspan > 0) && (wingArea > 0)) {
+                System.out.println("Wing is ready");
+                return true;
+            } else {
+                System.out.println("Oh no, wing is gone!");
+                return false;
+            }
+        }
+
         public double getWingArea() {
             return wingArea;
         }
@@ -80,6 +90,16 @@ public class Plane {
         @Override
         public int hashCode() {
             return Objects.hash(getModel(), getFuelCapacity());
+        }
+
+        public boolean fly() {
+            if ((!model.equals("")) && (fuelCapacity > 0)) {
+                System.out.println("Engine is full and roaring");
+                return true;
+            } else {
+                System.out.println("How you're managed to fly without engine?");
+                return false;
+            }
         }
 
         public String getModel() {
@@ -127,6 +147,16 @@ public class Plane {
                     '}';
         }
 
+        public boolean fly() {
+            if ((this.amount > 0) && (this.wheelRadius > 0)) {
+                System.out.println("Chassis removed");
+                return true;
+            } else {
+                System.out.println("Oh no, there is no chassis");
+                return false;
+            }
+        }
+
         public int getAmount() {
             return amount;
         }
@@ -153,6 +183,7 @@ public class Plane {
         this.engine = new Engine(model, fuelCapacity);
         this.chassis = new Chassis(amount, wheelRadius);
         this.chassisAmount = chassisAmount;
+        this.destination = "";
     }
 
     public Plane() {
@@ -161,6 +192,7 @@ public class Plane {
         this.engine = new Engine();
         this.chassis = new Chassis();
         this.chassisAmount = 0;
+        this.destination = "";
     }
 
     @Override
@@ -191,6 +223,31 @@ public class Plane {
                 '}';
     }
 
+    public void toFly() {
+        boolean flag = true;
+        flag &= chassis.fly();
+        flag &= leftWing.fly();
+        flag &= rightWing.fly();
+        flag &= engine.fly();
+        if (flag) {
+            if (destination.equals("")) {
+                System.out.println("Destination isn't chosen!");
+            } else {
+                System.out.println("Plane is perfectly flying!");
+            }
+        } else {
+            System.out.println("Plane is falling down");
+        }
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public void printDestination() {
+        System.out.println("Plane destination is " + this.destination);
+    }
+
     public Wing getLeftWing() {
         return leftWing;
     }
@@ -216,4 +273,5 @@ public class Plane {
     private Engine engine;
     private Chassis chassis;
     private int chassisAmount;
+    private String destination;
 }
