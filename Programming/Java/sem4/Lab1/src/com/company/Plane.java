@@ -179,7 +179,7 @@ public class Plane {
 
     public Plane(double leftWingArea, double leftWingspan, double rightWingArea, double rightWingspan, String model, int fuelCapacity, int amount, int wheelRadius, int chassisAmount) {
         this.leftWing = new Wing(leftWingArea, leftWingspan);
-        this.rightWing = new Wing(leftWingArea, leftWingspan);
+        this.rightWing = new Wing(rightWingArea, rightWingspan);
         this.engine = new Engine(model, fuelCapacity);
         this.chassis = new Chassis(amount, wheelRadius);
         this.chassisAmount = chassisAmount;
