@@ -53,8 +53,12 @@ void nlr(Node *pos1, Node *pos2) {
         int cnt2 = child_counter(pos2);
         if (cnt1 != cnt2) {
             if ((cnt1 == 0) || (cnt2 == 3)) {
-                nlr(pos1->left, pos2->left);
-                nlr(pos1->right, pos2->right);
+                if (pos1 == nullptr) {
+                    flag = true;
+                } else {
+                    nlr(pos1->left, pos2->left);
+                    nlr(pos1->right, pos2->right);
+                }
             } else {
                 if (to_remove != nullptr) {
                     flag = true;
@@ -118,7 +122,7 @@ int main() {
     }
     if ((to_remove != root2) && (to_remove->anc->left == to_remove)) {
         while ((to_remove != root2) && (to_remove->anc->left == to_remove) &&
-               (child_counter(to_remove) != 3)) {
+               (child_counter(to_remove) <= 1)) {
             to_remove = to_remove->anc;
         }
     } else {
@@ -128,7 +132,12 @@ int main() {
                 buf = buf->anc;
             }
             if ((buf->anc != nullptr) && (buf->anc->left == buf)) {
-                to_remove = buf;
+                buf = buf->anc;
+                if (buf->right != nullptr) {
+                    to_remove = buf;
+                } else {
+                    break;
+                }
             } else {
                 break;
             }
