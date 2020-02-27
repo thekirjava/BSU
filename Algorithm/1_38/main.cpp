@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdlib>
+#include <algorithm>
 
 struct Node {
     long long key;
@@ -65,7 +67,7 @@ void nlr(Node *pos1, Node *pos2) {
                 }
                 to_remove = pos2;
                 if ((pos1 != nullptr) && (pos2 != nullptr)) {
-                    if (pos1->anc->left == pos1) {
+                    if (pos2->left != nullptr) {
                         nlr(pos1, pos2->left);
                     } else {
                         nlr(pos1, pos2->right);
@@ -120,29 +122,35 @@ int main() {
         out << to_remove->key << '\n';
         return 0;
     }
+    int counter = 0;
+    bool ch = (to_remove->right != nullptr);
     if ((to_remove != root2) && (to_remove->anc->left == to_remove)) {
         while ((to_remove != root2) && (to_remove->anc->left == to_remove) &&
-               (child_counter(to_remove) <= 1)) {
+               (child_counter(to_remove) != 3)) {
             to_remove = to_remove->anc;
+            counter++;
         }
-    } else {
-        while (to_remove->right == nullptr) {
-            Node *buf = to_remove;
-            while ((buf != root2) && (buf->anc->right == buf)) {
-                buf = buf->anc;
-            }
-            if ((buf->anc != nullptr) && (buf->anc->left == buf)) {
-                buf = buf->anc;
-                if (buf->right != nullptr) {
-                    to_remove = buf;
-                } else {
-                    break;
-                }
+    }
+    if (((child_counter(to_remove) == 3) && (to_remove->left->right != nullptr)) || ((counter == 1) && (ch))) {
+        to_remove = to_remove->left;
+    }
+    while (to_remove->right == nullptr) {
+        Node *buf = to_remove;
+        while ((buf != root2) && (buf->anc->right == buf)) {
+            buf = buf->anc;
+        }
+        if ((buf->anc != nullptr) && (buf->anc->left == buf)) {
+            buf = buf->anc;
+            if (buf->right != nullptr) {
+                to_remove = buf;
             } else {
                 break;
             }
+        } else {
+            break;
         }
     }
+
     out << to_remove->key << '\n';
     return 0;
 }
