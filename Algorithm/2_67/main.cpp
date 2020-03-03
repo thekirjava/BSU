@@ -2,6 +2,7 @@
 
 using namespace std;
 
+long long 
 int main() {
     long long ans = 0;
     for (int i = 1; i < 8; i++) {

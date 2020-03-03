@@ -1,0 +1,12 @@
+<?xml version="1.0"  encoding="UTF-8" standalone="yes"?>
+<devices>
+    <kettle manufacturer = "Vitesse" powerUsage = "500" turnedOn = "false" volume = "2000" />
+    <fridge manufacturer = "LG" powerUsage = "2000" turnedOn = "true" temperature = "4" />
+    <lamp  manufacturer = "Ikea" powerUsage = "350" turnedOn = "true" brightness = "1000" color = "yellow"/>
+    <kettle manufacturer = "Tefal" powerUsage = "800" turnedOn = "true" volume = "1000" />
+    <lamp  manufacturer = "Ikea" powerUsage = "200" turnedOn = "false" brightness = "800" color = "red"/>
+    <lamp  manufacturer = "Ikea" powerUsage = "300" turnedOn = "false" brightness = "1200" color = "blue"/>
+    <kettle manufacturer = "Tefal" powerUsage = "400" turnedOn = "false" volume = "2500" />
+    <fridge manufacturer = "Atlant" powerUsage = "4000" turnedOn = "false" temperature = "2" />
+    <lamp  manufacturer = "Bellampprom" powerUsage = "400" turnedOn = "true" brightness = "1500" color = "while"/>
+</devices>
