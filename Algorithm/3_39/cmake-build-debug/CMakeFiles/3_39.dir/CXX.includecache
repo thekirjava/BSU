@@ -6,11 +6,15 @@
 
 #IncludeRegexTransform: 
 
-D:/Coding/BSU/Algorithm/2_67/main.cpp
+D:/Coding/BSU/Algorithm/3_39/main.cpp
 iostream
 -
 fstream
 -
 vector
+-
+queue
+-
+map
 -
 
