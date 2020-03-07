@@ -3,8 +3,8 @@
   <ID>JAVA</ID>
   <OriginalElement>bsu.fpmi.artsiushkevich.demo.Main</OriginalElement>
   <nodes>
-    <node x="147.0" y="612.0">bsu.fpmi.artsiushkevich.XML.XMLReader</node>
     <node x="464.0" y="337.0">bsu.fpmi.artsiushkevich.devices.Lamp</node>
+    <node x="147.0" y="612.0">bsu.fpmi.artsiushkevich.XML.XMLReader</node>
     <node x="234.0" y="348.0">bsu.fpmi.artsiushkevich.devices.Kettle</node>
     <node x="245.875" y="0.0">bsu.fpmi.artsiushkevich.devices.Device</node>
     <node x="309.5" y="715.0">bsu.fpmi.artsiushkevich.demo.Main</node>
@@ -12,11 +12,11 @@
   </nodes>
   <notes />
   <edges>
-    <edge source="bsu.fpmi.artsiushkevich.XML.XMLReader" target="bsu.fpmi.artsiushkevich.devices.Kettle">
-      <point x="25.5" y="-26.5" />
-      <point x="274.5" y="587.0" />
-      <point x="286.5" y="587.0" />
-      <point x="-52.5" y="101.5" />
+    <edge source="bsu.fpmi.artsiushkevich.devices.Lamp" target="bsu.fpmi.artsiushkevich.devices.Device">
+      <point x="61.75" y="-112.5" />
+      <point x="649.25" y="297.0" />
+      <point x="404.3125" y="297.0" />
+      <point x="60.9375" y="133.5" />
     </edge>
     <edge source="bsu.fpmi.artsiushkevich.devices.Kettle" target="bsu.fpmi.artsiushkevich.devices.Device">
       <point x="52.5" y="-101.5" />
@@ -24,68 +24,14 @@
       <point x="355.5625" y="317.0" />
       <point x="12.1875" y="133.5" />
     </edge>
-    <edge source="bsu.fpmi.artsiushkevich.demo.Main" target="bsu.fpmi.artsiushkevich.devices.Lamp">
-      <point x="32.80000000000001" y="-48.5" />
-      <point x="424.3" y="685.0" />
-      <point x="649.25" y="685.0" />
-      <point x="61.75" y="112.5" />
-    </edge>
-    <edge source="bsu.fpmi.artsiushkevich.demo.Main" target="bsu.fpmi.artsiushkevich.XML.XMLReader">
-      <point x="-32.80000000000001" y="-48.5" />
-      <point x="358.7" y="685.0" />
-      <point x="249.0" y="685.0" />
-      <point x="0.0" y="26.5" />
-    </edge>
-    <edge source="bsu.fpmi.artsiushkevich.XML.XMLReader" target="bsu.fpmi.artsiushkevich.devices.Fridge">
-      <point x="-76.5" y="-26.5" />
-      <point x="172.5" y="587.0" />
-      <point x="159.75" y="587.0" />
-      <point x="53.25" y="101.5" />
-    </edge>
-    <edge source="bsu.fpmi.artsiushkevich.demo.Main" target="bsu.fpmi.artsiushkevich.devices.Kettle">
-      <point x="0.0" y="-48.5" />
-      <point x="52.5" y="101.5" />
-    </edge>
-    <edge source="bsu.fpmi.artsiushkevich.demo.Main" target="bsu.fpmi.artsiushkevich.devices.Fridge">
-      <point x="-65.60000000000002" y="-48.5" />
-      <point x="325.9" y="695.0" />
-      <point x="53.25" y="695.0" />
-      <point x="-53.25" y="101.5" />
-    </edge>
-    <edge source="bsu.fpmi.artsiushkevich.XML.XMLReader" target="bsu.fpmi.artsiushkevich.devices.Device">
-      <point x="-25.5" y="-26.5" />
-      <point x="223.5" y="307.0" />
-      <point x="306.8125" y="307.0" />
-      <point x="-36.5625" y="133.5" />
-    </edge>
-    <edge source="bsu.fpmi.artsiushkevich.devices.Lamp" target="bsu.fpmi.artsiushkevich.devices.Device">
-      <point x="61.75" y="-112.5" />
-      <point x="649.25" y="297.0" />
-      <point x="404.3125" y="297.0" />
-      <point x="60.9375" y="133.5" />
-    </edge>
     <edge source="bsu.fpmi.artsiushkevich.devices.Fridge" target="bsu.fpmi.artsiushkevich.devices.Device">
       <point x="-53.25" y="-101.5" />
       <point x="53.25" y="287.0" />
       <point x="258.0625" y="287.0" />
       <point x="-85.3125" y="133.5" />
     </edge>
-    <edge source="bsu.fpmi.artsiushkevich.XML.XMLReader" target="bsu.fpmi.artsiushkevich.devices.Lamp">
-      <point x="76.5" y="-26.5" />
-      <point x="325.5" y="587.0" />
-      <point x="525.75" y="587.0" />
-      <point x="-61.75" y="112.5" />
-    </edge>
-    <edge source="bsu.fpmi.artsiushkevich.demo.Main" target="bsu.fpmi.artsiushkevich.devices.Device">
-      <point x="65.60000000000002" y="-48.5" />
-      <point x="457.1" y="695.0" />
-      <point x="721.5" y="695.0" />
-      <point x="721.5" y="287.0" />
-      <point x="428.6875" y="287.0" />
-      <point x="85.3125" y="133.5" />
-    </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.5360576923076923" x="355.5" y="443.0" />
+  <settings layout="Hierarchic Group" zoom="0.5769230769230769" x="355.5" y="406.00000000000006" />
   <SelectedNodes>
     <node>bsu.fpmi.artsiushkevich.demo.Main</node>
   </SelectedNodes>
