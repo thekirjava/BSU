@@ -17,26 +17,23 @@ def g_counter(size):
 
 def jacobian(v, size):
     ans = np.array([[float(0) for i in range(2 * size + 2)] for i in range(2 * size + 2)])
-    ans[0][0] = 1
-    ans[0][2] = 1
+    for i in range(0, 2 * size + 2, 2):
+        ans[0][i] = 1
     for i in range(1, 2 * size + 2):
         for j in range(2 * size + 2):
-            if j == 0:
-                ans[i][j] = ans[i - 1][j] * v[1]
-            elif j == 1:
-                ans[i][j] = v[0] * i * ans[i - 1][j - 1]
-            elif j == 2:
-                ans[i][j] = ans[i - 1][j] * v[3]
+            if j % 2 == 0:
+                ans[i][j] = ans[i - 1][j] * v[j + 1]
             else:
-                ans[i][j] = v[2] * i * ans[i - 1][j - 1]
+                ans[i][j] = v[j - 1] * i * ans[i - 1][j - 1]
     return ans
 
 
 def f(x, b, size):
     ans = np.array([float(0) for i in range(2 * size + 2)])
     for i in range(len(ans)):
+
         for j in range(0, len(x), 2):
-            ans[i] += x[j] * pow(x[j + 1], i)
+            ans[i] += x[j] * (x[j + 1] ** i)
         ans[i] -= b[i]
     return ans
 
@@ -46,7 +43,7 @@ g = np.array(g_counter(m))
 Ax = np.array([random.uniform(-1, 1) for i in range(len(g))])
 print(Ax)
 S = np.inf
-eps = pow(10, -10)
+eps = 10 ** -10
 k = 0
 conv = []
 while S > eps:
@@ -57,9 +54,8 @@ while S > eps:
     k += 1
     conv.append(S)
 print(Ax)
-plt.plot([int(i) for i in range(1, k+1)], conv)
+plt.plot([int(i) for i in range(1, k + 1)], conv)
 plt.xlabel("Итерационные шаги")
 plt.ylabel("Норма приближения")
 plt.yscale("log")
 plt.show()
-
