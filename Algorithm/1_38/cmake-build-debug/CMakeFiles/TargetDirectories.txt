@@ -1,3 +1,0 @@
-D:/Coding/BSU/Algorithm/1_38/cmake-build-debug/CMakeFiles/1_38.dir
-D:/Coding/BSU/Algorithm/1_38/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Coding/BSU/Algorithm/1_38/cmake-build-debug/CMakeFiles/rebuild_cache.dir

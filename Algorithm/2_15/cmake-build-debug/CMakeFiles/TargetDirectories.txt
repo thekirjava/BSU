@@ -1,3 +1,0 @@
-D:/Coding/BSU/Algorithm/2_15/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Coding/BSU/Algorithm/2_15/cmake-build-debug/CMakeFiles/2_15.dir
-D:/Coding/BSU/Algorithm/2_15/cmake-build-debug/CMakeFiles/rebuild_cache.dir
