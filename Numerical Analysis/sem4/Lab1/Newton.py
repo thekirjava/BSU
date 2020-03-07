@@ -1,6 +1,7 @@
 import scipy.integrate
 import random
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def function(x, i):
@@ -47,11 +48,18 @@ print(Ax)
 S = np.inf
 eps = pow(10, -10)
 k = 0
+conv = []
 while S > eps:
     omega = jacobian(Ax, m)
     delta_x = np.linalg.solve(omega, f(Ax, g, m))
     S = np.linalg.norm(delta_x)
     Ax -= delta_x
     k += 1
-    print(S)
+    conv.append(S)
 print(Ax)
+plt.plot([int(i) for i in range(1, k+1)], conv)
+plt.xlabel("Итерационные шаги")
+plt.ylabel("Норма приближения")
+plt.yscale("log")
+plt.show()
+
