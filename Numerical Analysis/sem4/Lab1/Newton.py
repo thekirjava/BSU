@@ -15,7 +15,7 @@ def g_counter(size):
     return ans
 
 
-def jacobian(v, size):
+def jacobi_matrix(v, size):
     ans = np.array([[float(0) for i in range(2 * size + 2)] for i in range(2 * size + 2)])
     for i in range(0, 2 * size + 2, 2):
         ans[0][i] = 1
@@ -31,7 +31,6 @@ def jacobian(v, size):
 def f(x, b, size):
     ans = np.array([float(0) for i in range(2 * size + 2)])
     for i in range(len(ans)):
-
         for j in range(0, len(x), 2):
             ans[i] += x[j] * (x[j + 1] ** i)
         ans[i] -= b[i]
@@ -45,16 +44,16 @@ print(Ax)
 S = np.inf
 eps = 10 ** -10
 k = 0
-conv = []
+convergence = []
 while S > eps:
-    omega = jacobian(Ax, m)
+    omega = jacobi_matrix(Ax, m)
     delta_x = np.linalg.solve(omega, f(Ax, g, m))
     S = np.linalg.norm(delta_x)
     Ax -= delta_x
     k += 1
-    conv.append(S)
+    convergence.append(S)
 print(Ax)
-plt.plot([int(i) for i in range(1, k + 1)], conv)
+plt.plot([int(i) for i in range(1, k + 1)], convergence)
 plt.xlabel("Итерационные шаги")
 plt.ylabel("Норма приближения")
 plt.yscale("log")
