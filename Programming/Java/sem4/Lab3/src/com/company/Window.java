@@ -94,9 +94,9 @@ public class Window extends JFrame {
             name.setCharAt(0, Character.toUpperCase(name.charAt(0)));
             flagMap.put(name.toString(), new ImageIcon(flag.getAbsolutePath()));
         }
-        JCheckBox checkBox1 = new JCheckBox();
         String[] columns = {"Flag", "Picture", "Info", "Price", "Pick"};
-        Object[][] rows = {{flagMap.get("Italy"), new ImageIcon("trevi.jpg"), "Rome tour", "800$", false}};
+        Object[][] rows = {{flagMap.get("Italy"), new ImageIcon("trevi.jpg"), "Rome tour", "800$", false},
+                {flagMap.get("Japan"), }};
         DefaultTableModel tourModel = new DefaultTableModel(rows, columns) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
@@ -115,7 +115,10 @@ public class Window extends JFrame {
             }
         };
         JTable tourTable = new JTable(tourModel);
-        panel2.add(tourTable, BorderLayout.WEST);
+        tourTable.setRowHeight(150);
+
+        JScrollPane scrollPane = new JScrollPane(tourTable);
+        panel2.add(scrollPane, BorderLayout.WEST);
         Container container = this.getContentPane();
         tabbedPane.add(panel1, "Task 1");
         tabbedPane.add(panel2, "Task 2");
