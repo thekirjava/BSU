@@ -3,8 +3,8 @@
   <ID>JAVA</ID>
   <OriginalElement>bsu.fpmi.artsiushkevich.demo.Main</OriginalElement>
   <nodes>
-    <node x="464.0" y="337.0">bsu.fpmi.artsiushkevich.devices.Lamp</node>
     <node x="147.0" y="612.0">bsu.fpmi.artsiushkevich.XML.XMLReader</node>
+    <node x="464.0" y="337.0">bsu.fpmi.artsiushkevich.devices.Lamp</node>
     <node x="234.0" y="348.0">bsu.fpmi.artsiushkevich.devices.Kettle</node>
     <node x="245.875" y="0.0">bsu.fpmi.artsiushkevich.devices.Device</node>
     <node x="309.5" y="715.0">bsu.fpmi.artsiushkevich.demo.Main</node>

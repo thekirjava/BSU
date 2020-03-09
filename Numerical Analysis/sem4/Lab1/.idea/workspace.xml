@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010b450f-c332-49e6-80f1-96377543048f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Newton.py" beforeDir="false" afterPath="$PROJECT_DIR$/Newton.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/description.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/project-template.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/Lab3.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/src/com/company/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab2/Lab2.uml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab2/Lab2.uml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,7 +39,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Newton.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
+            <state relative-caret-position="17">
               <caret line="4" selection-start-line="4" selection-end-line="4" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
@@ -158,11 +168,13 @@
       <workItem from="1583606507161" duration="921000" />
       <workItem from="1583607605395" duration="492000" />
       <workItem from="1583658183459" duration="2224000" />
+      <workItem from="1583666377018" duration="40000" />
+      <workItem from="1583666474521" duration="45000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15962000" />
+    <option name="totallyTimeSpent" value="16047000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -186,9 +198,9 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="SciView" order="3" sideWeight="0.49818182" visible="true" weight="0.41580978" />
+      <window_info active="true" anchor="right" id="SciView" order="3" sideWeight="0.49596775" visible="true" weight="0.41580978" />
       <window_info anchor="right" id="Database" order="4" weight="0.32969153" />
-      <window_info anchor="right" x="0" y="0" width="354" height="676" id="Documentation" order="5" sideWeight="0.5018182" side_tool="true" weight="0.32904884" />
+      <window_info anchor="right" x="0" y="0" width="354" height="676" id="Documentation" order="5" sideWeight="0.50403225" side_tool="true" visible="true" weight="0.41580978" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,7 +212,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Newton.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
+        <state relative-caret-position="17">
           <caret line="4" selection-start-line="4" selection-end-line="4" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
