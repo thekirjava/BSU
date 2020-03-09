@@ -1,13 +1,14 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.io.File;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 public class Window extends JFrame {
-    class Country{
+    static class Country {
         public Country(String name, ImageIcon flag) {
             this.name = name;
             this.flag = flag;
@@ -25,8 +26,8 @@ public class Window extends JFrame {
         public String name;
         public ImageIcon flag;
     }
-    class ListCountryRenderer extends JLabel implements ListCellRenderer
-    {
+
+    class ListCountryRenderer extends JLabel implements ListCellRenderer {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             Country entry = (Country) value;
             setText(value.toString());
@@ -34,8 +35,7 @@ public class Window extends JFrame {
             if (isSelected) {
                 setBackground(list.getSelectionBackground());
                 setForeground(list.getSelectionForeground());
-            }
-            else {
+            } else {
                 setBackground(list.getBackground());
                 setForeground(list.getForeground());
             }
@@ -45,6 +45,7 @@ public class Window extends JFrame {
             return this;
         }
     }
+
     Window() {
         this.setBounds(300, 100, 900, 600);
         this.setResizable(false);
@@ -52,37 +53,69 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        JPanel panel1= new JPanel();
+        JPanel panel1 = new JPanel();
         panel1.setLayout(new BorderLayout());
-        DefaultListModel<Country> listModel = new DefaultListModel<>();
-        listModel.add(0, new Country("Bhutan", new ImageIcon(Toolkit.getDefaultToolkit().getImage("flag_bhutan.png"))));
-        listModel.add(1, new Country("Canada", new ImageIcon(Toolkit.getDefaultToolkit().getImage("flag_canada.png"))));
-        listModel.add(2, new Country("Iceland", new ImageIcon(Toolkit.getDefaultToolkit().getImage("flag_iceland.png"))));
-        listModel.add(3, new Country("Monaco", new ImageIcon(Toolkit.getDefaultToolkit().getImage("flag_monaco.png"))));
-        listModel.add(4, new Country("Switzerland", new ImageIcon(Toolkit.getDefaultToolkit().getImage("flag_switzerland.png"))));
-        listModel.add(5, new Country("Tuvalu", new ImageIcon(Toolkit.getDefaultToolkit().getImage("flag_tuvalu.png"))));
-        JList<Country> jList = new JList<>(listModel);
-        jList.setCellRenderer(new ListCountryRenderer());
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("Bhutan", "Thimphu");
-        hashMap.put("Canada", "Ottawa");
-        hashMap.put("Iceland", "Reykjavik");
-        hashMap.put("Monaco", "Monaco-Ville");
-        hashMap.put("Switzerland", "Bern");
-        hashMap.put("Tuvalu", "Funafuti");
+        DefaultListModel<Country> countriesModel = new DefaultListModel<>();
+        countriesModel.add(0, new Country("Bhutan", new ImageIcon(Toolkit.getDefaultToolkit().getImage("Flags/flag_bhutan.png"))));
+        countriesModel.add(1, new Country("Canada", new ImageIcon(Toolkit.getDefaultToolkit().getImage("Flags/flag_canada.png"))));
+        countriesModel.add(2, new Country("Iceland", new ImageIcon(Toolkit.getDefaultToolkit().getImage("Flags/flag_iceland.png"))));
+        countriesModel.add(3, new Country("Monaco", new ImageIcon(Toolkit.getDefaultToolkit().getImage("Flags/flag_monaco.png"))));
+        countriesModel.add(4, new Country("Switzerland", new ImageIcon(Toolkit.getDefaultToolkit().getImage("Flags/flag_switzerland.png"))));
+        countriesModel.add(5, new Country("Tuvalu", new ImageIcon(Toolkit.getDefaultToolkit().getImage("Flags/flag_tuvalu.png"))));
+        JList<Country> countries = new JList<>(countriesModel);
+        countries.setCellRenderer(new ListCountryRenderer());
+        HashMap<String, String> capitalMap = new HashMap<>();
+        capitalMap.put("Bhutan", "Thimphu");
+        capitalMap.put("Canada", "Ottawa");
+        capitalMap.put("Iceland", "Reykjavik");
+        capitalMap.put("Monaco", "Monaco-Ville");
+        capitalMap.put("Switzerland", "Bern");
+        capitalMap.put("Tuvalu", "Funafuti");
         JLabel chosen = new JLabel("");
-        jList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                chosen.setIcon(listModel.get(e.getFirstIndex()).getFlag());
-                chosen.setText(listModel.get(e.getFirstIndex()).toString() +" "+ hashMap.get(listModel.get(e.getFirstIndex()).toString()));
-            }
+        countries.addListSelectionListener(e -> {
+            chosen.setIcon(countries.getSelectedValue().getFlag());
+            chosen.setText(countries.getSelectedValue().toString() + " " + capitalMap.get(countries.getSelectedValue().toString()));
         });
         panel1.add(chosen, BorderLayout.EAST);
-        panel1.add(jList, BorderLayout.CENTER);
+        panel1.add(countries, BorderLayout.CENTER);
 
         JPanel panel2 = new JPanel();
-        
+        panel2.setLayout(new BorderLayout());
+        HashMap<String, ImageIcon> flagMap = new HashMap<>();
+        File flagFolder = new File("Flags");
+        File[] flags = flagFolder.listFiles();
+        for (File flag : flags) {
+            StringTokenizer nameTokens = new StringTokenizer(flag.getName(), "_.");
+            StringBuilder name = new StringBuilder();
+            nameTokens.nextToken();
+            while (nameTokens.countTokens() != 1) {
+                name.append(nameTokens.nextToken());
+            }
+            name.setCharAt(0, Character.toUpperCase(name.charAt(0)));
+            flagMap.put(name.toString(), new ImageIcon(flag.getAbsolutePath()));
+        }
+        JCheckBox checkBox1 = new JCheckBox();
+        String[] columns = {"Flag", "Picture", "Info", "Price", "Pick"};
+        Object[][] rows = {{flagMap.get("Italy"), new ImageIcon("trevi.jpg"), "Rome tour", "800$", false}};
+        DefaultTableModel tourModel = new DefaultTableModel(rows, columns) {
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                switch (columnIndex) {
+                    case 0:
+                    case 1:
+                        return  ImageIcon.class;
+                    case 2:
+                    case 3:
+                        return String.class;
+                    case 4:
+                        return Boolean.class;
+                    default:
+                        return Object.class;
+                }
+            }
+        };
+        JTable tourTable = new JTable(tourModel);
+        panel2.add(tourTable, BorderLayout.WEST);
         Container container = this.getContentPane();
         tabbedPane.add(panel1, "Task 1");
         tabbedPane.add(panel2, "Task 2");

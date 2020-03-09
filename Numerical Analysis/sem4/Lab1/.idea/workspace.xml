@@ -2,19 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010b450f-c332-49e6-80f1-96377543048f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/description.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/project-template.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/Lab3.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/src/com/company/Window.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab2/Lab2.uml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab2/Lab2.uml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/out/production/Lab3/com/company/Window$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/out/production/Lab3/com/company/Window$Country.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/out/production/Lab3/com/company/Window$Country.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/out/production/Lab3/com/company/Window$ListCountryRenderer.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/out/production/Lab3/com/company/Window$ListCountryRenderer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/out/production/Lab3/com/company/Window.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/out/production/Lab3/com/company/Window.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/src/com/company/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab3/src/com/company/Window.java" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,22 +27,6 @@
     </option>
     <expand />
     <select />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Newton.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
-              <folding>
-                <element signature="e#0#22#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -69,17 +47,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/Newton.py" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="800" />
-    <option name="height" value="860" />
-  </component>
+  <component name="ProjectId" id="1YtwsRNQrKZfagkD0aiF4Ob05By" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -93,18 +61,6 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="Newton" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -170,55 +126,23 @@
       <workItem from="1583658183459" duration="2224000" />
       <workItem from="1583666377018" duration="40000" />
       <workItem from="1583666474521" duration="45000" />
+      <workItem from="1583771940498" duration="688000" />
+      <workItem from="1583775438879" duration="475000" />
+      <workItem from="1583776041287" duration="12000" />
+      <workItem from="1583777803714" duration="15000" />
     </task>
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16047000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.22043702" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4993573" weight="0.26075268" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3548387" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50064266" side_tool="true" weight="0.3293011" />
-      <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.3293011" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="SciView" order="3" sideWeight="0.49596775" visible="true" weight="0.41580978" />
-      <window_info anchor="right" id="Database" order="4" weight="0.32969153" />
-      <window_info anchor="right" x="0" y="0" width="354" height="676" id="Documentation" order="5" sideWeight="0.50403225" side_tool="true" visible="true" weight="0.41580978" />
-    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="WindowStateProjectService">
+    <state x="495" y="252" key="com.intellij.ide.util.TipDialog" timestamp="1583777814993">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="495" y="252" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1583777814993" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Lab1$Newton.coverage" NAME="Newton Coverage Results" MODIFIED="1583661721668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Newton.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>
