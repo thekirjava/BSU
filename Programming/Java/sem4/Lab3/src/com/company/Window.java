@@ -1,9 +1,6 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -52,7 +49,6 @@ public class Window extends JFrame {
 
     Window() {
         this.setBounds(300, 100, 900, 600);
-        // this.setResizable(false);
         this.setTitle("Lab3");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -98,24 +94,23 @@ public class Window extends JFrame {
             name.setCharAt(0, Character.toUpperCase(name.charAt(0)));
             flagMap.put(name.toString(), new ImageIcon(flag.getAbsolutePath()));
         }
-        String[] columns = {"Flag", "Picture", "Info", "Price", "Pick", "Final cost"};
-        Object[][] rows = {{flagMap.get("Italy"), new ImageIcon("trevi.jpg"), "Great fountains of Rome tour", 800, false},
-                {flagMap.get("Japan"), new ImageIcon("fuji.jpg"), "Journey through Hokusai works", 950, false},
-                {flagMap.get("Australia"), new ImageIcon("uluru.jpg"), "Australian deserts", 700, false},
-                {null, null, null, null, true, 0}};
+        String[] columns = {"Flag", "Info", "Price", "Pick", "Final cost"};
+        Object[][] rows = {{flagMap.get("Italy"), "Great fountains of Rome tour", 800, false},
+                {flagMap.get("Japan"), "Journey through Hokusai works", 950, false},
+                {flagMap.get("Australia"), "Australian deserts", 700, false},
+                {null, null, null, true, 0}};
         DefaultTableModel tourModel = new DefaultTableModel(rows, columns) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 switch (columnIndex) {
                     case 0:
-                    case 1:
                         return ImageIcon.class;
-                    case 2:
+                    case 1:
                         return String.class;
-                    case 3:
-                    case 5:
-                        return Integer.class;
+                    case 2:
                     case 4:
+                        return Integer.class;
+                    case 3:
                         return Boolean.class;
                     default:
                         return Object.class;
@@ -128,9 +123,9 @@ public class Window extends JFrame {
                     return false;
                 }
                 switch (column) {
+                    case 1:
                     case 2:
                     case 3:
-                    case 4:
                         return true;
                     default:
                         return false;
@@ -141,44 +136,36 @@ public class Window extends JFrame {
         tourTable.setRowHeight(150);
         tourTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         tourModel.addTableModelListener(e -> {
-            if ((e.getColumn() == 4) || (e.getColumn() == 3)) {
+            if ((e.getColumn() == 3) || (e.getColumn() == 2)) {
                 int ans = 0;
                 for (int i = 0; i < tourModel.getRowCount() - 1; i++) {
-                    if ((boolean) tourModel.getValueAt(i, 4)) {
-                        ans += (int) tourModel.getValueAt(i, 3);
+                    if ((boolean) tourModel.getValueAt(i, 3)) {
+                        ans += (int) tourModel.getValueAt(i, 2);
                     }
                 }
-                tourModel.setValueAt(ans, tourModel.getRowCount() - 1, 5);
+                tourModel.setValueAt(ans, tourModel.getRowCount() - 1, 4);
             }
         });
         JButton add = new JButton("Add new tour");
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane tourInput = new JOptionPane();
-                String country = tourInput.showInputDialog(Window.this, "Choose country", "Tour input", JOptionPane.QUESTION_MESSAGE, new ImageIcon(), flagMap.keySet().toArray(), flagMap.keySet().toArray()[0]).toString();
+                Object country = JOptionPane.showInputDialog(Window.this, "Choose country", "Tour input", JOptionPane.QUESTION_MESSAGE, new ImageIcon(), flagMap.keySet().toArray(), flagMap.keySet().toArray()[0]);
                 if (country != null) {
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setCurrentDirectory(new File("."));
-                    fileChooser.setFileFilter(new FileNameExtensionFilter("Pictures", "png", "bmp", "jpg", "jpeg"));
-                    if (fileChooser.showDialog(Window.this, "Open") == JFileChooser.APPROVE_OPTION) {
-                        ImageIcon pic = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
-                        String description = tourInput.showInputDialog(Window.this, "Input tour description");
-                        int cost = Integer.parseInt(tourInput.showInputDialog(Window.this, "Input tour cost"));
-                        int saved = (int) tourModel.getValueAt(tourModel.getRowCount() - 1, 5);
-                        tourModel.removeRow(tourModel.getRowCount() - 1);
-                        Object [] newRow = {flagMap.get(country), pic, description, cost, false};
-                        tourModel.addRow(newRow);
-                        newRow = new Object[]{null, null, null, null, null, saved};
-                        tourModel.addRow(newRow);
-                    }
+                    String description = JOptionPane.showInputDialog(Window.this, "Input tour description");
+                    int cost = Integer.parseInt(JOptionPane.showInputDialog(Window.this, "Input tour cost"));
+                    int saved = (int) tourModel.getValueAt(tourModel.getRowCount() - 1, 4);
+                    tourModel.removeRow(tourModel.getRowCount() - 1);
+                    Object[] newRow = {flagMap.get(country.toString()), description, cost, false};
+                    tourModel.addRow(newRow);
+                    newRow = new Object[]{null, null, null, null, saved};
+                    tourModel.addRow(newRow);
                 }
-
             }
         });
         JScrollPane scrollPane = new JScrollPane(tourTable);
         panel2.add(scrollPane, BorderLayout.WEST);
-        panel2.add(add, BorderLayout.EAST);
+        panel2.add(add, BorderLayout.SOUTH);
         Container container = this.getContentPane();
         tabbedPane.add(panel1, "Task 1");
         tabbedPane.add(panel2, "Task 2");
