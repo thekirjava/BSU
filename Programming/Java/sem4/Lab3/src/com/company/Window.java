@@ -3,11 +3,13 @@ package com.company;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Window extends JFrame {
     static class Country {
@@ -83,7 +85,7 @@ public class Window extends JFrame {
 
         JPanel panel2 = new JPanel();
         panel2.setLayout(new BorderLayout());
-        HashMap<String, ImageIcon> flagMap = new HashMap<>();
+        TreeMap<String, ImageIcon> flagMap = new TreeMap<>();
         File flagFolder = new File("Flags");
         File[] flags = flagFolder.listFiles();
         for (File flag : flags) {
@@ -138,22 +140,45 @@ public class Window extends JFrame {
         JTable tourTable = new JTable(tourModel);
         tourTable.setRowHeight(150);
         tourTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tourModel.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if ((e.getColumn() == 4) || (e.getColumn() == 3)) {
-                    int ans = 0;
-                    for (int i = 0; i < tourModel.getRowCount() - 1; i++) {
-                        if ((boolean) tourModel.getValueAt(i, 4)) {
-                            ans += (int) tourModel.getValueAt(i, 3);
-                        }
+        tourModel.addTableModelListener(e -> {
+            if ((e.getColumn() == 4) || (e.getColumn() == 3)) {
+                int ans = 0;
+                for (int i = 0; i < tourModel.getRowCount() - 1; i++) {
+                    if ((boolean) tourModel.getValueAt(i, 4)) {
+                        ans += (int) tourModel.getValueAt(i, 3);
                     }
-                    tourModel.setValueAt(ans, tourModel.getRowCount() - 1, 5);
                 }
+                tourModel.setValueAt(ans, tourModel.getRowCount() - 1, 5);
+            }
+        });
+        JButton add = new JButton("Add new tour");
+        add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane tourInput = new JOptionPane();
+                String country = tourInput.showInputDialog(Window.this, "Choose country", "Tour input", JOptionPane.QUESTION_MESSAGE, new ImageIcon(), flagMap.keySet().toArray(), flagMap.keySet().toArray()[0]).toString();
+                if (country != null) {
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setCurrentDirectory(new File("."));
+                    fileChooser.setFileFilter(new FileNameExtensionFilter("Pictures", "png", "bmp", "jpg", "jpeg"));
+                    if (fileChooser.showDialog(Window.this, "Open") == JFileChooser.APPROVE_OPTION) {
+                        ImageIcon pic = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
+                        String description = tourInput.showInputDialog(Window.this, "Input tour description");
+                        int cost = Integer.parseInt(tourInput.showInputDialog(Window.this, "Input tour cost"));
+                        int saved = (int) tourModel.getValueAt(tourModel.getRowCount() - 1, 5);
+                        tourModel.removeRow(tourModel.getRowCount() - 1);
+                        Object [] newRow = {flagMap.get(country), pic, description, cost, false};
+                        tourModel.addRow(newRow);
+                        newRow = new Object[]{null, null, null, null, null, saved};
+                        tourModel.addRow(newRow);
+                    }
+                }
+
             }
         });
         JScrollPane scrollPane = new JScrollPane(tourTable);
         panel2.add(scrollPane, BorderLayout.WEST);
+        panel2.add(add, BorderLayout.EAST);
         Container container = this.getContentPane();
         tabbedPane.add(panel1, "Task 1");
         tabbedPane.add(panel2, "Task 2");
