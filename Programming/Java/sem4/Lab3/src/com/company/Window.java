@@ -76,7 +76,7 @@ public class Window extends JFrame {
             chosen.setIcon(countries.getSelectedValue().getFlag());
             chosen.setText(countries.getSelectedValue().toString() + " " + capitalMap.get(countries.getSelectedValue().toString()));
         });
-        panel1.add(chosen, BorderLayout.EAST);
+        panel1.add(chosen, BorderLayout.SOUTH);
         panel1.add(countries, BorderLayout.CENTER);
 
         JPanel panel2 = new JPanel();
@@ -96,7 +96,7 @@ public class Window extends JFrame {
         }
         String[] columns = {"Flag", "Info", "Price", "Pick", "Final cost"};
         Object[][] rows = {{flagMap.get("Italy"), "Great fountains of Rome tour", 800, false},
-                {flagMap.get("Japan"), "Journey through Hokusai works", 950, false},
+                {flagMap.get("Japan"), "100 views of Fuiji", 950, false},
                 {flagMap.get("Australia"), "Australian deserts", 700, false},
                 {null, null, null, true, 0}};
         DefaultTableModel tourModel = new DefaultTableModel(rows, columns) {
@@ -150,21 +150,25 @@ public class Window extends JFrame {
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object country = JOptionPane.showInputDialog(Window.this, "Choose country", "Tour input", JOptionPane.QUESTION_MESSAGE, new ImageIcon(), flagMap.keySet().toArray(), flagMap.keySet().toArray()[0]);
-                if (country != null) {
-                    String description = JOptionPane.showInputDialog(Window.this, "Input tour description");
-                    int cost = Integer.parseInt(JOptionPane.showInputDialog(Window.this, "Input tour cost"));
-                    int saved = (int) tourModel.getValueAt(tourModel.getRowCount() - 1, 4);
-                    tourModel.removeRow(tourModel.getRowCount() - 1);
-                    Object[] newRow = {flagMap.get(country.toString()), description, cost, false};
-                    tourModel.addRow(newRow);
-                    newRow = new Object[]{null, null, null, null, saved};
-                    tourModel.addRow(newRow);
+                try {
+                    Object country = JOptionPane.showInputDialog(Window.this, "Choose country", "Tour input", JOptionPane.QUESTION_MESSAGE, new ImageIcon(), flagMap.keySet().toArray(), flagMap.keySet().toArray()[0]);
+                    if (country != null) {
+                        String description = JOptionPane.showInputDialog(Window.this, "Input tour description");
+                        int cost = Integer.parseInt(JOptionPane.showInputDialog(Window.this, "Input tour cost"));
+                        int saved = (int) tourModel.getValueAt(tourModel.getRowCount() - 1, 4);
+                        tourModel.removeRow(tourModel.getRowCount() - 1);
+                        Object[] newRow = {flagMap.get(country.toString()), description, cost, false};
+                        tourModel.addRow(newRow);
+                        newRow = new Object[]{null, null, null, null, saved};
+                        tourModel.addRow(newRow);
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(Window.this, "Cost must be integer", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
         JScrollPane scrollPane = new JScrollPane(tourTable);
-        panel2.add(scrollPane, BorderLayout.WEST);
+        panel2.add(scrollPane, BorderLayout.CENTER);
         panel2.add(add, BorderLayout.SOUTH);
         Container container = this.getContentPane();
         tabbedPane.add(panel1, "Task 1");
