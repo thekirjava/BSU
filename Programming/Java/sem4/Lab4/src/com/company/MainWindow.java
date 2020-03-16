@@ -1,22 +1,36 @@
 package com.company;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.List;
 import java.util.Timer;
 
 public class MainWindow extends JFrame {
 
+    static class ParsedData {
+        String name;
+        double value;
+    }
+
     MainWindow() {
         this.setBounds(100, 100, 1100, 700);
         this.setTitle("Lab4");
-        //this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel task1 = new JPanel();
         JPanel task2 = new JPanel();
@@ -26,10 +40,8 @@ public class MainWindow extends JFrame {
         task3.setLayout(new BorderLayout());
         DrawingPanel draw1 = new DrawingPanel(310, 310);
         DrawingPanel draw2 = new DrawingPanel(510, 510);
-        DrawingPanel draw3 = new DrawingPanel(310, 310);
         task1.add(draw1, BorderLayout.CENTER);
         task2.add(draw2, BorderLayout.CENTER);
-        task3.add(draw3, BorderLayout.CENTER);
 
         JTabbedPane tabbedPane = new JTabbedPane();
         Timer timer = new Timer();
@@ -90,17 +102,14 @@ public class MainWindow extends JFrame {
         directions.add(clockwise);
         directions.add(counterClockwise);
         JButton load = new JButton("Load picture");
-        load.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser(".");
-                fileChooser.setFileFilter(new FileNameExtensionFilter("Images", "jpg", "jpeg", "png", "bmp"));
-                if (fileChooser.showDialog(MainWindow.this, "Load") == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        draw2.loadImage(ImageIO.read(fileChooser.getSelectedFile()));
-                    } catch (IOException exc) {
-                        JOptionPane.showMessageDialog(MainWindow.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+        load.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser(".");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Images", "jpg", "jpeg", "png", "bmp"));
+            if (fileChooser.showDialog(MainWindow.this, "Load") == JFileChooser.APPROVE_OPTION) {
+                try {
+                    draw2.loadImage(ImageIO.read(fileChooser.getSelectedFile()));
+                } catch (IOException exc) {
+                    JOptionPane.showMessageDialog(MainWindow.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -132,7 +141,7 @@ public class MainWindow extends JFrame {
                 }
             }
         };
-        timer.schedule(runningPicture, 750, period);
+        timer.schedule(runningPicture, 750, 1000);
         task2.add(speed, BorderLayout.SOUTH);
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new GridLayout(3, 1));
@@ -140,7 +149,38 @@ public class MainWindow extends JFrame {
         buttonPane.add(counterClockwise);
         buttonPane.add(load);
         task2.add(buttonPane, BorderLayout.EAST);
+        JButton jsonOpen = new JButton("Open");
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        jsonOpen.addActionListener(e -> {
+            try {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setCurrentDirectory(new File("."));
+                fileChooser.setFileFilter(new FileNameExtensionFilter("JSON files", "json"));
+                if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
 
+                    GsonBuilder builder = new GsonBuilder();
+                    Gson gson = builder.create();
+                    JsonReader reader = new JsonReader(new FileReader(fileChooser.getSelectedFile()));
+                    ArrayList<ParsedData> jsonParsed;
+                    jsonParsed = gson.fromJson(reader, new TypeToken<List<ParsedData>>() {
+                    }.getType());
+                    pieDataset.clear();
+                    for (ParsedData parsedData : jsonParsed) {
+                        pieDataset.setValue(parsedData.name, parsedData.value);
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(MainWindow.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch (JsonSyntaxException ex) {
+                JOptionPane.showMessageDialog(MainWindow.this, "Incorrect JSON file", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        });
+        JFreeChart chart = ChartFactory.createPieChart("Chart", pieDataset, true, true, false);
+        ChartPanel pane = new ChartPanel(chart);
+        task3.add(pane, BorderLayout.CENTER);
+        task3.add(jsonOpen, BorderLayout.SOUTH);
         tabbedPane.add("Task 1", task1);
         tabbedPane.add("Task 2", task2);
         tabbedPane.add("Task 3", task3);
@@ -153,5 +193,4 @@ public class MainWindow extends JFrame {
     double angle1 = 3 * Math.PI / 2;
     double angle2 = 3 * Math.PI / 2;
     double angle3 = 3 * Math.PI / 2;
-    int period = 1000;
 }
