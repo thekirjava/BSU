@@ -9,10 +9,12 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -28,6 +30,48 @@ public class MainWindow extends JFrame {
         double value;
     }
 
+    static class LegendCell {
+        public LegendCell(Color chartColor, String name) {
+            this.chartColor = chartColor;
+            this.name = name;
+        }
+
+        Color chartColor;
+        String name;
+
+        public Color getChartColor() {
+            return chartColor;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    class ChartLegendRenderer extends JLabel implements ListCellRenderer {
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            LegendCell entry = (LegendCell) value;
+            setText(entry.getName());
+            BufferedImage image = new BufferedImage(50, 50, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphics2D = image.createGraphics();
+            graphics2D.setPaint(entry.getChartColor());
+            graphics2D.fillRect(0, 0, 50, 50);
+            ImageIcon icon = new ImageIcon(image);
+            setIcon(icon);
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+            setEnabled(list.isEnabled());
+            setFont(list.getFont());
+            setOpaque(true);
+            return this;
+        }
+    }
+
     MainWindow() {
         this.setBounds(100, 100, 1100, 700);
         this.setTitle("Lab4");
@@ -35,41 +79,44 @@ public class MainWindow extends JFrame {
         JPanel task1 = new JPanel();
         JPanel task2 = new JPanel();
         JPanel task3 = new JPanel();
+        JPanel task4 = new JPanel();
         task1.setLayout(new BorderLayout());
         task2.setLayout(new BorderLayout());
         task3.setLayout(new BorderLayout());
+        task4.setLayout(new BorderLayout());
         DrawingPanel draw1 = new DrawingPanel(310, 310);
         DrawingPanel draw2 = new DrawingPanel(510, 510);
+        DrawingPanel draw3 = new DrawingPanel(310, 310);
         task1.add(draw1, BorderLayout.CENTER);
         task2.add(draw2, BorderLayout.CENTER);
 
         JTabbedPane tabbedPane = new JTabbedPane();
         Timer timer = new Timer();
         TimerTask clock = new TimerTask() {
-            private void draw(Graphics g, Graphics gbuf) {
+            private void draw(Graphics graphics, Graphics graphicsBuffer) {
                 double x = 150 + 150 * Math.cos(angle1);
                 double y = 150 + 150 * Math.sin(angle1);
-                g.drawLine(150, 150, (int) x, (int) y);
-                gbuf.drawLine(150, 150, (int) x, (int) y);
+                graphics.drawLine(150, 150, (int) x, (int) y);
+                graphicsBuffer.drawLine(150, 150, (int) x, (int) y);
             }
 
             @Override
             public void run() {
                 if (tabbedPane.getSelectedIndex() == 0) {
-                    Graphics g = draw1.getGraphics();
-                    Graphics gbuf = draw1.getBuffer().getGraphics();
+                    Graphics graphics = draw1.getGraphics();
+                    Graphics graphicsBuffer = draw1.getBuffer().getGraphics();
                     penColor = Color.WHITE;
-                    draw(g, gbuf);
-                    g.setColor(penColor);
-                    gbuf.setColor(penColor);
+                    graphics.setColor(penColor);
+                    graphicsBuffer.setColor(penColor);
+                    draw(graphics, graphicsBuffer);
                     angle1 += Math.PI / 30;
                     if (angle1 >= 2 * Math.PI) {
                         angle1 = 0;
                     }
                     penColor = Color.BLACK;
-                    g.setColor(penColor);
-                    gbuf.setColor(penColor);
-                    draw(g, gbuf);
+                    graphics.setColor(penColor);
+                    graphicsBuffer.setColor(penColor);
+                    draw(graphics, graphicsBuffer);
                     draw1.repaint();
                 }
             }
@@ -77,18 +124,18 @@ public class MainWindow extends JFrame {
         TimerTask init = new TimerTask() {
             @Override
             public void run() {
-                Graphics g = draw1.getGraphics();
-                Graphics gbuf = draw1.getBuffer().getGraphics();
+                Graphics graphics = draw1.getGraphics();
+                Graphics graphicsBuffer = draw1.getBuffer().getGraphics();
                 penColor = Color.WHITE;
-                g.setColor(penColor);
-                gbuf.setColor(penColor);
-                g.fillRect(0, 0, 300, 300);
-                gbuf.fillRect(0, 0, 300, 300);
+                graphics.setColor(penColor);
+                graphicsBuffer.setColor(penColor);
+                graphics.fillRect(0, 0, 300, 300);
+                graphicsBuffer.fillRect(0, 0, 300, 300);
                 penColor = Color.BLACK;
-                g.setColor(penColor);
-                gbuf.setColor(penColor);
-                g.drawOval(0, 0, 300, 300);
-                gbuf.drawOval(0, 0, 300, 300);
+                graphics.setColor(penColor);
+                graphicsBuffer.setColor(penColor);
+                graphics.drawOval(0, 0, 300, 300);
+                graphicsBuffer.drawOval(0, 0, 300, 300);
             }
         };
         timer.schedule(init, 700);
@@ -117,21 +164,21 @@ public class MainWindow extends JFrame {
             @Override
             public void run() {
                 if ((draw2.getMovingPicture() != null) && (tabbedPane.getSelectedIndex() == 1)) {
-                    Graphics g = draw2.getGraphics();
-                    Graphics gbuf = draw2.getBuffer().getGraphics();
+                    Graphics graphics = draw2.getGraphics();
+                    Graphics graphicsBuffer = draw2.getBuffer().getGraphics();
                     penColor = Color.WHITE;
-                    g.setColor(penColor);
-                    gbuf.setColor(penColor);
-                    g.fillRect(0, 0, 500, 500);
-                    gbuf.fillRect(0, 0, 500, 500);
+                    graphics.setColor(penColor);
+                    graphicsBuffer.setColor(penColor);
+                    graphics.fillRect(0, 0, 500, 500);
+                    graphicsBuffer.fillRect(0, 0, 500, 500);
                     penColor = Color.BLACK;
-                    g.setColor(penColor);
-                    gbuf.setColor(penColor);
+                    graphics.setColor(penColor);
+                    graphicsBuffer.setColor(penColor);
                     double x = 150 + 150 * Math.cos(angle2);
                     double y = 150 + 150 * Math.sin(angle2);
 
-                    g.drawImage(draw2.getMovingPicture(), (int) x, (int) y, null);
-                    gbuf.drawImage(draw2.getMovingPicture(), (int) x, (int) y, null);
+                    graphics.drawImage(draw2.getMovingPicture(), (int) x, (int) y, null);
+                    graphicsBuffer.drawImage(draw2.getMovingPicture(), (int) x, (int) y, null);
                     double delta = Math.PI / 180 * speed.getValue();
                     if (counterClockwise.isSelected()) {
                         delta *= -1;
@@ -149,15 +196,14 @@ public class MainWindow extends JFrame {
         buttonPane.add(counterClockwise);
         buttonPane.add(load);
         task2.add(buttonPane, BorderLayout.EAST);
-        JButton jsonOpen = new JButton("Open");
+        JButton jsonOpen1 = new JButton("Open");
         DefaultPieDataset pieDataset = new DefaultPieDataset();
-        jsonOpen.addActionListener(e -> {
+        jsonOpen1.addActionListener(e -> {
             try {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setCurrentDirectory(new File("."));
                 fileChooser.setFileFilter(new FileNameExtensionFilter("JSON files", "json"));
                 if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
-
                     GsonBuilder builder = new GsonBuilder();
                     Gson gson = builder.create();
                     JsonReader reader = new JsonReader(new FileReader(fileChooser.getSelectedFile()));
@@ -171,8 +217,60 @@ public class MainWindow extends JFrame {
                 }
             } catch (FileNotFoundException ex) {
                 JOptionPane.showMessageDialog(MainWindow.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (JsonSyntaxException ex) {
+                JOptionPane.showMessageDialog(MainWindow.this, "Incorrect JSON file", "Error", JOptionPane.ERROR_MESSAGE);
+
             }
-            catch (JsonSyntaxException ex) {
+        });
+        DefaultListModel<LegendCell> listModel = new DefaultListModel<>();
+        JList<LegendCell> chartLegend = new JList<>(listModel);
+        chartLegend.setCellRenderer(new ChartLegendRenderer());
+        JButton jsonOpen2 = new JButton("Open");
+        jsonOpen2.addActionListener(e -> {
+            try {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setCurrentDirectory(new File("."));
+                fileChooser.setFileFilter(new FileNameExtensionFilter("JSON files", "json"));
+                if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
+                    GsonBuilder builder = new GsonBuilder();
+                    Gson gson = builder.create();
+                    JsonReader reader = new JsonReader(new FileReader(fileChooser.getSelectedFile()));
+                    ArrayList<ParsedData> jsonParsed;
+                    jsonParsed = gson.fromJson(reader, new TypeToken<List<ParsedData>>() {
+                    }.getType());
+                    double allData = 0;
+                    for (ParsedData parsedData : jsonParsed) {
+                        allData += parsedData.value;
+                    }
+                    Graphics graphics = draw3.getGraphics();
+                    Graphics graphicsBuffer = draw3.getBuffer().getGraphics();
+                    penColor = Color.WHITE;
+                    graphics.setColor(penColor);
+                    graphicsBuffer.setColor(penColor);
+                    graphics.fillRect(0, 0, 300, 300);
+                    graphicsBuffer.fillRect(0, 0, 300, 300);
+                    penColor = Color.BLACK;
+                    graphics.setColor(penColor);
+                    graphicsBuffer.setColor(penColor);
+                    graphics.drawOval(0, 0, 300, 300);
+                    graphicsBuffer.drawOval(0, 0, 300, 300);
+                    graphics.drawLine(150, 150, 0, 150);
+                    graphicsBuffer.drawLine(150, 150, 0, 150);
+                    Random random = new Random(42);
+                    listModel.clear();
+                    for (ParsedData parsedData : jsonParsed) {
+                        penColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                        graphics.setColor(penColor);
+                        graphicsBuffer.setColor(penColor);
+                        graphics.fillArc(0, 0, 300, 300, (int) angle3, (int) (parsedData.value / allData * 360));
+                        angle3 += parsedData.value / allData * 360;
+                        listModel.addElement(new LegendCell(penColor, parsedData.name));
+                    }
+
+                }
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(MainWindow.this, "File doesn't exist", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (JsonSyntaxException ex) {
                 JOptionPane.showMessageDialog(MainWindow.this, "Incorrect JSON file", "Error", JOptionPane.ERROR_MESSAGE);
 
             }
@@ -180,10 +278,14 @@ public class MainWindow extends JFrame {
         JFreeChart chart = ChartFactory.createPieChart("Chart", pieDataset, true, true, false);
         ChartPanel pane = new ChartPanel(chart);
         task3.add(pane, BorderLayout.CENTER);
-        task3.add(jsonOpen, BorderLayout.SOUTH);
+        task4.add(draw3, BorderLayout.WEST);
+        task4.add(jsonOpen2, BorderLayout.SOUTH);
+        task4.add(chartLegend, BorderLayout.EAST);
+        task3.add(jsonOpen1, BorderLayout.SOUTH);
         tabbedPane.add("Task 1", task1);
         tabbedPane.add("Task 2", task2);
-        tabbedPane.add("Task 3", task3);
+        tabbedPane.add("Task 3_1", task3);
+        tabbedPane.add("Task 3_2", task4);
         Container container = this.getContentPane();
         container.setLayout(new BorderLayout());
         container.add(tabbedPane, BorderLayout.CENTER);
@@ -192,5 +294,5 @@ public class MainWindow extends JFrame {
     Color penColor = Color.BLACK;
     double angle1 = 3 * Math.PI / 2;
     double angle2 = 3 * Math.PI / 2;
-    double angle3 = 3 * Math.PI / 2;
+    double angle3 = 0;
 }
