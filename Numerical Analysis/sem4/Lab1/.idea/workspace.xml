@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010b450f-c332-49e6-80f1-96377543048f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab4/src/com/company/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Programming/Java/sem4/Lab4/src/com/company/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Artsiushkevich_Lab1_Report.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Artsiushkevich_Lab1_Report.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,6 +134,12 @@
       <workItem from="1584299039804" duration="26000" />
       <workItem from="1584392154117" duration="164000" />
       <workItem from="1584434833269" duration="6000" />
+      <workItem from="1584459927307" duration="715000" />
+      <workItem from="1584475346881" duration="4000" />
+      <workItem from="1584612362794" duration="91000" />
+      <workItem from="1584613525652" duration="7000" />
+      <workItem from="1584704498835" duration="116000" />
+      <workItem from="1584706166327" duration="18000" />
     </task>
     <servers />
   </component>
@@ -140,10 +147,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="495" y="252" key="com.intellij.ide.util.TipDialog" timestamp="1584434839843">
+    <state x="495" y="252" key="com.intellij.ide.util.TipDialog" timestamp="1584706180510">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="495" y="252" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1584434839843" />
+    <state x="495" y="252" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1584706180510" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Lab1$Newton.coverage" NAME="Newton Coverage Results" MODIFIED="1583661721668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
