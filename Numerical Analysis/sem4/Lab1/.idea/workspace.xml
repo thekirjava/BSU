@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="010b450f-c332-49e6-80f1-96377543048f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Artsiushkevich_Lab1_Report.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Artsiushkevich_Lab1_Report.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +139,11 @@
       <workItem from="1584613525652" duration="7000" />
       <workItem from="1584704498835" duration="116000" />
       <workItem from="1584706166327" duration="18000" />
+      <workItem from="1584713563073" duration="39000" />
+      <workItem from="1584714165192" duration="43000" />
+      <workItem from="1584723930424" duration="19000" />
+      <workItem from="1584727406043" duration="114000" />
+      <workItem from="1584728409234" duration="138000" />
     </task>
     <servers />
   </component>
@@ -147,10 +151,14 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="495" y="252" key="com.intellij.ide.util.TipDialog" timestamp="1584706180510">
+    <state x="579" y="171" key="FileChooserDialogImpl" timestamp="1584728550417">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="495" y="252" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1584706180510" />
+    <state x="579" y="171" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1584728550417" />
+    <state x="495" y="252" key="com.intellij.ide.util.TipDialog" timestamp="1584728477839">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="495" y="252" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1584728477839" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Lab1$Newton.coverage" NAME="Newton Coverage Results" MODIFIED="1583661721668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
