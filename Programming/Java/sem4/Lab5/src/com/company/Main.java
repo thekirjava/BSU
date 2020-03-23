@@ -7,17 +7,15 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,55 +25,32 @@ public class Main extends Application {
 
         @Override
         public void handle(Event event) {
+            Pattern pattern = null;
             switch (comboBox.getValue()) {
                 case "int":
-                    try {
-                        Integer.parseInt(field.getText());
-                        circle.setFill(Color.GREEN);
-                    }
-                    catch (NumberFormatException e) {
-                        circle.setFill(Color.RED);
-                    }
+                    pattern = Pattern.compile("[+-]?[0-9]+");
                     break;
                 case "double":
-                    try {
-                        Double.parseDouble(field.getText());
-                        circle.setFill(Color.GREEN);
-                    }
-                    catch (NumberFormatException e) {
-                        circle.setFill(Color.RED);
-                    }
+                    pattern = Pattern.compile("[+-]?[0-9]+(([.,]?[0-9]+)|(e[-]?[0-9]+))");
                     break;
-                case"date":
-                    try {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-                        dateFormat.parse(field.getText());
-                        circle.setFill(Color.GREEN);
-                    }
-                    catch (ParseException e) {
-                        circle.setFill(Color.RED);
-                    }
+                case "date":
+                    pattern = Pattern.compile("((([0-2][0-9]|3[0-1])[/.](1|3|5|7|8|10|12|01|03|05|07|08)|" +
+                            "([0-2][0-9]|30)[/.](4|6|9|11|04|06|09))|" +
+                            "([0-1][0-8]|2[0-8])[/.](2|02))" +
+                            "[/.][0-9]+");
                     break;
                 case "time":
-                    try {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
-                        dateFormat.parse(field.getText());
-                        circle.setFill(Color.GREEN);
-                    }
-                    catch (ParseException e) {
-                        circle.setFill(Color.RED);
-                    }
+                    pattern = Pattern.compile("(([01][0-9])|(2[0-3])):[0-5][0-9]");
                     break;
-                case"email":
-                    Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
-                    Matcher mat = pattern.matcher(field.getText());
-                    if(mat.matches()){
-                        circle.setFill(Color.GREEN);
-                    }
-                    else{
-                        circle.setFill(Color.RED);
-                    }
+                case "email":
+                    pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
                     break;
+            }
+            Matcher matcher = pattern.matcher(field.getText());
+            if (matcher.matches()) {
+                circle.setFill(Color.GREEN);
+            } else {
+                circle.setFill(Color.RED);
             }
         }
 
@@ -89,12 +64,13 @@ public class Main extends Application {
         TextField field;
         ComboBox<String> comboBox;
     }
+
     @Override
     public void start(Stage stage) {
+        TabPane tabPane = new TabPane();
         ObservableList<String> options = FXCollections.observableArrayList("int", "double", "date", "time", "email");
         ComboBox<String> comboBox = new ComboBox<>(options);
         comboBox.setValue("int");
-
         TextField field = new TextField();
         Circle circle = new Circle();
         circle.setRadius(10);
@@ -104,10 +80,44 @@ public class Main extends Application {
         BorderPane.setAlignment(comboBox, Pos.CENTER_LEFT);
         FlowPane flow = new FlowPane(10, 10, circle, field);
         BorderPane.setAlignment(flow, Pos.CENTER_RIGHT);
-        BorderPane root = new BorderPane();
-        root.setLeft(comboBox);
-        root.setBottom(flow);
-        Scene scene = new Scene(root, 900, 500);
+        GridPane gridPane = new GridPane();
+        gridPane.add(comboBox, 0, 0);
+        gridPane.add(flow, 1, 0);
+        gridPane.setAlignment(Pos.CENTER);
+        BorderPane root1 = new BorderPane();
+        root1.setCenter(gridPane);
+        GridPane root2 = new GridPane();
+        Button button = new Button("->");
+        TextArea textArea = new TextArea();
+        ObservableList<String> model = FXCollections.observableArrayList();
+        button.setOnAction(event -> {
+            model.clear();
+            StringTokenizer textAreaTokenizer = new StringTokenizer(textArea.getText());
+            Pattern pattern = Pattern.compile("((([0-2][0-9]|3[0-1])[/.](1|3|5|7|8|10|12|01|03|05|07|08)|" +
+                    "([0-2][0-9]|30)[/.](4|6|9|11|04|06|09))|" +
+                    "([0-1][0-8]|2[0-8])[/.](2|02))" +
+                    "[/.][0-9]+");
+            while (textAreaTokenizer.hasMoreTokens()) {
+                String s = textAreaTokenizer.nextToken();
+                Matcher matcher = pattern.matcher(s);
+                if (matcher.matches()) {
+                    model.add(s);
+                }
+            }
+        });
+        ListView<String> listView = new ListView<>(model);
+        root2.add(textArea, 0, 0);
+        root2.add(button, 1, 0);
+        root2.add(listView, 2, 0);
+        Tab tab1 = new Tab("Task 1");
+        Tab tab2 = new Tab("Task 2");
+        tab1.setContent(root1);
+        tab2.setContent(root2);
+        tab1.setClosable(false);
+        tab2.setClosable(false);
+        tabPane.getTabs().add(tab1);
+        tabPane.getTabs().add(tab2);
+        Scene scene = new Scene(tabPane, 900, 500);
         stage.setScene(scene);
         stage.setHeight(500);
         stage.setWidth(900);
