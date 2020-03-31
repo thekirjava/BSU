@@ -31,19 +31,19 @@ public class Main extends Application {
                     pattern = Pattern.compile("[+-]?[0-9]+");
                     break;
                 case "double":
-                    pattern = Pattern.compile("[+-]?[0-9]+(([.,]?[0-9]+)|(e[-]?[0-9]+))");
+                    pattern = Pattern.compile("[+-]?(([0-9]+[.,]?[0-9]*)|([0-9]*[.,]?[0-9]+))(e[+-]?[0-9]+)?");
                     break;
                 case "date":
-                    pattern = Pattern.compile("((([0-2][0-9]|3[0-1])[/.](1|3|5|7|8|10|12|01|03|05|07|08)|" +
-                            "([0-2][0-9]|30)[/.](4|6|9|11|04|06|09))|" +
-                            "([0-1][0-8]|2[0-8])[/.](2|02))" +
+                    pattern = Pattern.compile("(((0[1-9]|[1-2][0-9]|3[0-1])[/.](1|3|5|7|8|10|12|01|03|05|07|08)|" +
+                            "(0[1-9]|[1-2][0-9]|30)[/.](4|6|9|11|04|06|09))|" +
+                            "(0[1-9]|1[0-9]|2[0-8])[/.](2|02))" +
                             "[/.][0-9]+");
                     break;
                 case "time":
                     pattern = Pattern.compile("(([01][0-9])|(2[0-3])):[0-5][0-9]");
                     break;
                 case "email":
-                    pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+                    pattern = Pattern.compile("[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
                     break;
             }
             Matcher matcher = pattern.matcher(field.getText());
@@ -93,9 +93,9 @@ public class Main extends Application {
         button.setOnAction(event -> {
             model.clear();
             StringTokenizer textAreaTokenizer = new StringTokenizer(textArea.getText());
-            Pattern pattern = Pattern.compile("((([0-2][0-9]|3[0-1])[/.](1|3|5|7|8|10|12|01|03|05|07|08)|" +
-                    "([0-2][0-9]|30)[/.](4|6|9|11|04|06|09))|" +
-                    "([0-1][0-8]|2[0-8])[/.](2|02))" +
+            Pattern pattern = Pattern.compile("(((0[1-9]|[1-2][0-9]|3[0-1])[/.](1|3|5|7|8|10|12|01|03|05|07|08)|" +
+                    "(0[1-9]|[1-2][0-9]|30)[/.](4|6|9|11|04|06|09))|" +
+                    "(0[1-9]|1[0-9]|2[0-8])[/.](2|02))" +
                     "[/.][0-9]+");
             while (textAreaTokenizer.hasMoreTokens()) {
                 String s = textAreaTokenizer.nextToken();
