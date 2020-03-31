@@ -27,6 +27,9 @@ public class Main extends Application {
         public void handle(Event event) {
             Pattern pattern = null;
             switch (comboBox.getValue()) {
+                case "natural":
+                    pattern = Pattern.compile("[1-9]+[0-9]*");
+                    break;
                 case "int":
                     pattern = Pattern.compile("[+-]?[0-9]+");
                     break;
@@ -68,7 +71,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         TabPane tabPane = new TabPane();
-        ObservableList<String> options = FXCollections.observableArrayList("int", "double", "date", "time", "email");
+        ObservableList<String> options = FXCollections.observableArrayList("natural", "int", "double", "date", "time", "email");
         ComboBox<String> comboBox = new ComboBox<>(options);
         comboBox.setValue("int");
         TextField field = new TextField();
@@ -92,17 +95,15 @@ public class Main extends Application {
         ObservableList<String> model = FXCollections.observableArrayList();
         button.setOnAction(event -> {
             model.clear();
-            StringTokenizer textAreaTokenizer = new StringTokenizer(textArea.getText());
             Pattern pattern = Pattern.compile("(((0?[1-9]|[1-2][0-9]|3[0-1])[/.](1|3|5|7|8|10|12|01|03|05|07|08)|" +
                     "(0?[1-9]|[1-2][0-9]|30)[/.](4|6|9|11|04|06|09))|" +
                     "(0?[1-9]|1[0-9]|2[0-8])[/.](2|02))" +
                     "[/.][0-9]+");
-            while (textAreaTokenizer.hasMoreTokens()) {
-                String s = textAreaTokenizer.nextToken();
-                Matcher matcher = pattern.matcher(s);
-                if (matcher.matches()) {
-                    model.add(s);
-                }
+            int start = 0;
+            Matcher matcher = pattern.matcher(textArea.getText());
+            while (matcher.find(start)) {
+                model.add(textArea.getText().substring(matcher.start(), matcher.end()));
+                start = matcher.end();
             }
         });
         ListView<String> listView = new ListView<>(model);
