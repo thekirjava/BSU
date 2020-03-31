@@ -43,7 +43,7 @@ public class Main extends Application {
                     pattern = Pattern.compile("(([01][0-9])|(2[0-3])):[0-5][0-9]");
                     break;
                 case "email":
-                    pattern = Pattern.compile("[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+                    pattern = Pattern.compile("[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+");
                     break;
             }
             Matcher matcher = pattern.matcher(field.getText());
