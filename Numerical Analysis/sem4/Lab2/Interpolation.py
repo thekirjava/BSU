@@ -21,7 +21,7 @@ def lagrange_polynomial(x, nodes):
 
 a = -2
 b = 2
-N = 60
+N = 100
 equidistant_nodes = np.linspace(a, b, N)
 chebyshev_nodes = []
 for i in range(1, N + 1):
