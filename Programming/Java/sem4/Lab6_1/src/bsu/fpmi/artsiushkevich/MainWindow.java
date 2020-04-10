@@ -5,8 +5,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -19,45 +17,48 @@ import java.io.IOException;
 import java.util.Random;
 
 public class MainWindow extends JFrame {
+    final int FIELD_SIZE = 2;
+    final int SHUFFLE_ITERATIONS = 10000;
     BufferedImage image = null;
     boolean win = false;
-    int[] field = new int[16];
+    int[] field = new int[FIELD_SIZE * FIELD_SIZE];
     DefaultTableModel gameModel;
     Random random = new Random(System.currentTimeMillis());
+    int partSize = 400 / FIELD_SIZE;
 
     private void gameOver() throws InterruptedException {
         PixelGrabber pixelGrabber;
-        int[] pix = new int[10000];
-        pixelGrabber = new PixelGrabber(image, 300, 300, 100, 100, pix, 0, 100);
+        int[] pix = new int[partSize * partSize];
+        pixelGrabber = new PixelGrabber(image, (FIELD_SIZE - 1) * partSize, (FIELD_SIZE - 1) * partSize, partSize, partSize, pix, 0, partSize);
         pixelGrabber.grabPixels();
-        Image part = createImage(new MemoryImageSource(100, 100, pix, 0, 100));
-        gameModel.setValueAt(new ImageIcon(part), 3, 3);
+        Image part = createImage(new MemoryImageSource(partSize, partSize, pix, 0, partSize));
+        gameModel.setValueAt(new ImageIcon(part), FIELD_SIZE - 1, FIELD_SIZE - 1);
         JOptionPane.showMessageDialog(MainWindow.this, "You are won");
     }
 
     private void shuffle() {
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < FIELD_SIZE * FIELD_SIZE - 1; i++) {
             field[i] = i;
         }
-        for (int i = 0; i < 10000; i++) {
-            int a = random.nextInt(14);
-            int b = random.nextInt(14);
+        for (int i = 0; i < SHUFFLE_ITERATIONS; i++) {
+            int a = random.nextInt(FIELD_SIZE * FIELD_SIZE - 2);
+            int b = random.nextInt(FIELD_SIZE * FIELD_SIZE - 2);
             int buf = field[a];
             field[a] = field[b];
             field[b] = buf;
         }
-        field[15] = -1;
+        field[FIELD_SIZE * FIELD_SIZE - 1] = -1;
         int check = 0;
-        for (int i = 0; i < 15; i++) {
-            for (int j = 1; j < 15; j++) {
+        for (int i = 0; i < FIELD_SIZE * FIELD_SIZE - 1; i++) {
+            for (int j = i + 1; j < FIELD_SIZE * FIELD_SIZE - 1; j++) {
                 if (field[j] < field[i]) {
                     check++;
                 }
             }
         }
         if (check % 2 == 1) {
-            for (int i = 0; i < 15; i++) {
-                if ((field[i] == 0) || (field[i] == 14)) {
+            for (int i = 0; i < FIELD_SIZE * FIELD_SIZE - 1; i++) {
+                if ((field[i] == 0) || (field[i] == FIELD_SIZE * FIELD_SIZE - 2)) {
                     int buf = field[i + 1];
                     field[i + 1] = field[i];
                     field[i] = buf;
@@ -70,16 +71,16 @@ public class MainWindow extends JFrame {
 
     private void slice(BufferedImage image) throws InterruptedException {
         PixelGrabber pixelGrabber;
-        int[] pix = new int[10000];
-        for (int i = 0; i < 15; i++) {
-            int row = field[i] / 4;
-            int col = field[i] % 4;
-            pixelGrabber = new PixelGrabber(image, col * 100, row * 100, 100, 100, pix, 0, 100);
+        int[] pix = new int[partSize * partSize];
+        for (int i = 0; i < FIELD_SIZE * FIELD_SIZE - 1; i++) {
+            int row = field[i] / FIELD_SIZE;
+            int col = field[i] % FIELD_SIZE;
+            pixelGrabber = new PixelGrabber(image, col * partSize, row * partSize, partSize, partSize, pix, 0, partSize);
             pixelGrabber.grabPixels();
-            Image part = createImage(new MemoryImageSource(100, 100, pix, 0, 100));
-            gameModel.setValueAt(new ImageIcon(part), i / 4, i % 4);
+            Image part = createImage(new MemoryImageSource(partSize, partSize, pix, 0, partSize));
+            gameModel.setValueAt(new ImageIcon(part), i / FIELD_SIZE, i % FIELD_SIZE);
         }
-        gameModel.setValueAt(null, 3, 3);
+        gameModel.setValueAt(null, FIELD_SIZE - 1, FIELD_SIZE - 1);
     }
 
     private BufferedImage normalize(BufferedImage buf) {
@@ -94,8 +95,9 @@ public class MainWindow extends JFrame {
     }
 
     MainWindow() {
-        this.setSize(900, 500);
+        this.setSize(FIELD_SIZE * (partSize + 5) + 30, FIELD_SIZE * (partSize + 5) + 100);
         this.setTitle("Lab6_1");
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         JMenuBar menuBar = new JMenuBar();
@@ -108,7 +110,7 @@ public class MainWindow extends JFrame {
         restart.setEnabled(false);
         show.setEnabled(false);
 
-        gameModel = new DefaultTableModel(new Object[4][4], new String[4]) {
+        gameModel = new DefaultTableModel(new Object[FIELD_SIZE][FIELD_SIZE], new String[FIELD_SIZE]) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -122,11 +124,10 @@ public class MainWindow extends JFrame {
 
         JTable game = new JTable(gameModel);
         game.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        game.setRowHeight(105);
-        game.getColumnModel().getColumn(0).setPreferredWidth(105);
-        game.getColumnModel().getColumn(1).setPreferredWidth(105);
-        game.getColumnModel().getColumn(2).setPreferredWidth(105);
-        game.getColumnModel().getColumn(3).setPreferredWidth(105);
+        game.setRowHeight(partSize + 5);
+        for (int i = 0; i < FIELD_SIZE; i++) {
+            game.getColumnModel().getColumn(i).setPreferredWidth(partSize + 5);
+        }
         open.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File("."));
@@ -148,23 +149,15 @@ public class MainWindow extends JFrame {
                 show.setEnabled(true);
             }
         });
-        restart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    shuffle();
-                    slice(image);
-                } catch (InterruptedException ex) {
-                    JOptionPane.showMessageDialog(MainWindow.this, ex.getMessage());
-                }
+        restart.addActionListener(e -> {
+            try {
+                shuffle();
+                slice(image);
+            } catch (InterruptedException ex) {
+                JOptionPane.showMessageDialog(MainWindow.this, ex.getMessage());
             }
         });
-        show.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainWindow.this, new ImageIcon(image));
-            }
-        });
+        show.addActionListener(e -> JOptionPane.showMessageDialog(MainWindow.this, new ImageIcon(image)));
         game.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -174,10 +167,10 @@ public class MainWindow extends JFrame {
                     for (int i = 0; i < 4; i++) {
                         int row = game.getSelectedRow() + deltaRow[i];
                         int col = game.getSelectedColumn() + deltaCol[i];
-                        if ((row >= 0) && (row <= 3) && (col >= 0) && (col <= 3)) {
-                            if (field[row * 4 + col] == -1) {
-                                field[row * 4 + col] = field[game.getSelectedRow() * 4 + game.getSelectedColumn()];
-                                field[game.getSelectedRow() * 4 + game.getSelectedColumn()] = -1;
+                        if ((row >= 0) && (row < FIELD_SIZE) && (col >= 0) && (col < FIELD_SIZE)) {
+                            if (field[row * FIELD_SIZE + col] == -1) {
+                                field[row * FIELD_SIZE + col] = field[game.getSelectedRow() * FIELD_SIZE + game.getSelectedColumn()];
+                                field[game.getSelectedRow() * FIELD_SIZE + game.getSelectedColumn()] = -1;
                                 gameModel.setValueAt(gameModel.getValueAt(game.getSelectedRow(), game.getSelectedColumn()), row, col);
                                 gameModel.setValueAt(null, game.getSelectedRow(), game.getSelectedColumn());
                                 break;
@@ -185,7 +178,7 @@ public class MainWindow extends JFrame {
                         }
                     }
                     boolean flag = true;
-                    for (int i = 0; i < 15; i++) {
+                    for (int i = 0; i < FIELD_SIZE * FIELD_SIZE - 1; i++) {
                         if (i != field[i]) {
                             flag = false;
                             break;
@@ -194,8 +187,7 @@ public class MainWindow extends JFrame {
                     if (flag) {
                         try {
                             gameOver();
-                        }
-                        catch (InterruptedException ex) {
+                        } catch (InterruptedException ex) {
                             JOptionPane.showMessageDialog(MainWindow.this, ex.getMessage());
                         }
                     }

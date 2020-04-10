@@ -5,8 +5,6 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import javax.media.j3d.*;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
@@ -26,7 +24,7 @@ public class MainWindow extends JFrame {
 
     MainWindow() {
         this.setTitle("Lab6_2");
-        this.setSize(900, 500);
+        this.setSize(1200, 800);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         Container container = this.getContentPane();
@@ -81,7 +79,7 @@ public class MainWindow extends JFrame {
         sceneTransformGroup.addChild(textTransformGroup);
 
 
-        // Create transformations for the positional lights
+
         transform = new Transform3D();
         downPointPos = new Vector3d(0, 0, -5.5);
         transform.set(downPointPos);
@@ -175,21 +173,15 @@ public class MainWindow extends JFrame {
 
             }
         });
-        downPos.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                double x = downPos.getValue() / 100.0;
-                downPointPos = new Vector3d(x, 0, -3.5);
-                light1.setPosition(new Point3f(downPointPos));
-            }
+        downPos.addChangeListener(e -> {
+            double x = downPos.getValue() / 100.0;
+            downPointPos = new Vector3d(x, 0, -3.5);
+            light1.setPosition(new Point3f(downPointPos));
         });
-        upPos.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                double x = upPos.getValue() / 100.0;
-                upPointPos = new Vector3d(x, 1.5, 2.0);
-                light2.setPosition(new Point3f(upPointPos));
-            }
+        upPos.addChangeListener(e -> {
+            double x = upPos.getValue() / 100.0;
+            upPointPos = new Vector3d(x, 1.5, 2.0);
+            light2.setPosition(new Point3f(upPointPos));
         });
     }
 }
