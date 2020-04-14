@@ -11,13 +11,6 @@ import javafx.scene.input.KeyEvent;
 
 public class Controller {
     @FXML
-    Label keyLabel;
-    @FXML
-    ListView<String> keyList;
-    Publisher publisher;
-    ObservableList<String> listModel;
-
-    @FXML
     public void initialize() {
         publisher = new Publisher();
         listModel = FXCollections.observableArrayList();
@@ -29,8 +22,12 @@ public class Controller {
     @FXML
     public void Pressed(KeyEvent keyEvent) {
         publisher.notifySubs(keyEvent.getCode().getName());
-        int a = 0;
-        a += 2;
-        a += 3;
     }
+
+    @FXML
+    Label keyLabel;
+    @FXML
+    ListView<String> keyList;
+    Publisher publisher;
+    ObservableList<String> listModel;
 }
