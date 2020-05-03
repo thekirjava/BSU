@@ -20,8 +20,8 @@ def spline(alpha, beta, gamma, delta, node, x):
 
 a = -2.0
 b = 2.0
-N = 10
-h = 4.0 / (N - 1)
+N = 100
+h = (b - a) / (N - 1)
 alpha_list = [0.0]
 beta_list = [0.0]
 gamma_list = np.array([0.0])
@@ -58,7 +58,7 @@ for i in plot_x:
     function_y.append(f)
     spline_y.append(s)
     norm = max(norm, abs(f - s))
-print("Time is -", (time.time() - t), ' ')
+print("Time is -", "%.3f" % (time.time() - t), ' ')
 plt.plot(plot_x, function_y, label="Function")
 plt.plot(plot_x, spline_y, label="Spline")
 plt.legend()

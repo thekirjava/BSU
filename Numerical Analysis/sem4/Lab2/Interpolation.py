@@ -25,7 +25,7 @@ b = 2
 N = 100
 equidistant_nodes = np.linspace(a, b, N)
 chebyshev_nodes = []
-t =time.time()
+t = time.time()
 for i in range(1, N + 1):
     chebyshev_nodes.append((a + b) / 2 + 0.5 * (b - a) * math.cos((2 * i - 1) / (2 * N) * math.pi))
 chebyshev_nodes.reverse()
@@ -43,6 +43,7 @@ for i in plot_x:
     chebyshev_y.append(chebyshev_P)
     equidistant_norm = max(abs(function(i) - equidistant_P), equidistant_norm)
     chebyshev_norm = max(abs(function(i) - chebyshev_P), chebyshev_norm)
+print("Time is " + str("%.3f" %(time.time() - t)))
 plt.plot(plot_x, function_y, label="Function")
 plt.plot(plot_x, equidistant_y, label="Equidistant nodes")
 plt.plot(plot_x, chebyshev_y, label="Chebyshev nodes")
@@ -51,6 +52,5 @@ plt.xlabel("x")
 plt.ylabel("y")
 plt.ylim(-5, 10)
 plt.show()
-print ("Time is " + str(time.time()-t))
 print("Norm for equidistant nodes is " + str(equidistant_norm))
-print("Norm for Chebyshev nodes is " + str(chebyshev_norm))
+print("Norm for Chebyshev nodes is " + str("%.27f" % chebyshev_norm))
