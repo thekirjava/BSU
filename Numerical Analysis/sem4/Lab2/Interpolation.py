@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 from decimal import *
+import time
 
 
 def function(x):
@@ -24,6 +25,7 @@ b = 2
 N = 100
 equidistant_nodes = np.linspace(a, b, N)
 chebyshev_nodes = []
+t =time.time()
 for i in range(1, N + 1):
     chebyshev_nodes.append((a + b) / 2 + 0.5 * (b - a) * math.cos((2 * i - 1) / (2 * N) * math.pi))
 chebyshev_nodes.reverse()
@@ -49,5 +51,6 @@ plt.xlabel("x")
 plt.ylabel("y")
 plt.ylim(-5, 10)
 plt.show()
+print ("Time is " + str(time.time()-t))
 print("Norm for equidistant nodes is " + str(equidistant_norm))
 print("Norm for Chebyshev nodes is " + str(chebyshev_norm))
