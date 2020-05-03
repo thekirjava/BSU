@@ -41,8 +41,8 @@ t = time.time()
 gamma_list = np.append(gamma_list, np.linalg.solve(A, B))
 gamma_list = np.append(gamma_list, 0.0)
 for i in range(1, N):
-    beta_list.append(((function(nodes[i]) - function(nodes[i - 1])) / h) + ((2 * gamma_list[i] + gamma_list[i - 1]) * h / 6))
-    # beta_list[i] +=
+    beta_list.append(((function(nodes[i]) - function(nodes[i - 1])) / h))
+    beta_list[i] += + (2 * gamma_list[i] + gamma_list[i - 1]) * h / 6
     delta_list.append((gamma_list[i] - gamma_list[i - 1]) / h)
     alpha_list.append(function(nodes[i]))
 plot_x = np.linspace(a, b, 1000)
@@ -58,7 +58,7 @@ for i in plot_x:
     function_y.append(f)
     spline_y.append(s)
     norm = max(norm, abs(f - s))
-print("Time is -", time.time() - t, ' ')
+print("Time is -", (time.time() - t), ' ')
 plt.plot(plot_x, function_y, label="Function")
 plt.plot(plot_x, spline_y, label="Spline")
 plt.legend()
@@ -67,5 +67,3 @@ plt.ylabel("y")
 plt.ylim(-5, 10)
 plt.show()
 print("Norm is -", norm, ' ')
-
-
