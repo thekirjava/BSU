@@ -2,6 +2,7 @@ package bsu.fpmi.artsiushkevich.controller;
 
 import bsu.fpmi.artsiushkevich.exception.CyclicLinkException;
 import bsu.fpmi.artsiushkevich.exception.DateFormatException;
+import bsu.fpmi.artsiushkevich.exception.EmptyCellException;
 import bsu.fpmi.artsiushkevich.exception.SheetLinkException;
 
 import javax.swing.*;
@@ -18,12 +19,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WindowController {
-    public static DefaultTableModel createModel() {
+    public DefaultTableModel createModel() {
         Pair<Integer, Integer> pair = input();
         return createModel(pair.first, pair.second);
     }
 
-    private static DefaultTableModel createModel(int w, int h) {
+    private DefaultTableModel createModel(int w, int h) {
         realValue = new String[w][h];
         String[] names = new String[w + 1];
         names[0] = " ";
@@ -61,7 +62,7 @@ public class WindowController {
         return sheet;
     }
 
-    private static Pair<Integer, Integer> input() {
+    private Pair<Integer, Integer> input() {
         JTextField wField = new JTextField(5);
         JTextField hField = new JTextField(5);
         JPanel inputPanel = new JPanel();
@@ -88,7 +89,7 @@ public class WindowController {
         return new Pair<>(w, h);
     }
 
-    private static final TableModelListener formula = new TableModelListener() {
+    private final TableModelListener formula = new TableModelListener() {
 
         @Override
         public void tableChanged(TableModelEvent e) {
@@ -101,18 +102,16 @@ public class WindowController {
                             if ((sheet.getValueAt(i, j) == null) || (sheet.getValueAt(i, j).toString().equals(""))) {
                                 continue;
                             }
-
                             getDate(i, j);
                         }
                     }
-                } catch (SheetLinkException | DateFormatException | CyclicLinkException exception) {
+                } catch (SheetLinkException | DateFormatException | CyclicLinkException | EmptyCellException exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } finally {
                     visited = null;
                 }
             }
         }
-
 
         private void constSum(int i, int j) {
             StringBuilder builder = new StringBuilder(realValue[i][j - 1]);
@@ -160,7 +159,7 @@ public class WindowController {
             sheet.setValueAt(dateFormat.format(calendar.getTime()), i, j);
         }
 
-        private void fieldSum(int i, int j) throws SheetLinkException, DateFormatException, CyclicLinkException {
+        private void fieldSum(int i, int j) throws SheetLinkException, DateFormatException, CyclicLinkException, EmptyCellException {
             StringBuilder builder = new StringBuilder(realValue[i][j - 1]);
             builder.deleteCharAt(0);
             int sign = 1;
@@ -185,7 +184,7 @@ public class WindowController {
             sheet.setValueAt(dateFormat.format(calendar.getTime()), i, j);
         }
 
-        private void minMax(int i, int j) throws SheetLinkException, DateFormatException, CyclicLinkException {
+        private void minMax(int i, int j) throws SheetLinkException, DateFormatException, CyclicLinkException, EmptyCellException {
             StringBuilder builder = new StringBuilder(realValue[i][j - 1]);
             builder.deleteCharAt(0);
             boolean isMin = builder.charAt(2) == 'N';
@@ -211,13 +210,17 @@ public class WindowController {
 
         }
 
-        private String getDate(int i, int j) throws SheetLinkException, DateFormatException, CyclicLinkException {
+        private String getDate(int i, int j) throws SheetLinkException, DateFormatException, CyclicLinkException, EmptyCellException {
+
             if (visited[i][j]) {
                 sheet.setValueAt("", i, j);
                 throw new CyclicLinkException();
             }
             visited[i][j] = true;
-
+            if ((sheet.getValueAt(i, j) == null) || (sheet.getValueAt(i, j).toString().equals(""))) {
+                visited[i][j] = false;
+                throw new EmptyCellException();
+            }
             if ((i >= sheet.getRowCount()) || (j >= sheet.getRowCount())) {
                 visited[i][j] = false;
                 sheet.setValueAt("", i, j);
@@ -298,11 +301,11 @@ public class WindowController {
         private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     };
 
-    public static void setMouseListener(JTable t) {
+    public void setMouseListener(JTable t) {
         t.addMouseListener(tableMouseListener);
     }
 
-    private static final MouseAdapter tableMouseListener = new MouseAdapter() {
+    private final MouseAdapter tableMouseListener = new MouseAdapter() {
         @Override
         public void mouseReleased(MouseEvent e) {
             JTable table = (JTable) e.getSource();
@@ -317,7 +320,7 @@ public class WindowController {
             visited = null;
         }
     };
-    private static DefaultTableModel sheet;
-    private static String[][] realValue;
-    private static boolean[][] visited;
+    private DefaultTableModel sheet;
+    private String[][] realValue;
+    private boolean[][] visited;
 }
