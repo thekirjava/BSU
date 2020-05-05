@@ -157,9 +157,6 @@ public class WindowController {
 
             GregorianCalendar calendar = new GregorianCalendar(year, month - 1, day);
             calendar.add(Calendar.DAY_OF_MONTH, x);
-            System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
-            System.out.println(calendar.get(Calendar.MONTH));
-            System.out.println(calendar.get(Calendar.YEAR));
             sheet.setValueAt(dateFormat.format(calendar.getTime()), i, j);
         }
 
@@ -302,23 +299,24 @@ public class WindowController {
     };
 
     public static void setMouseListener(JTable t) {
-        table = t;
         t.addMouseListener(tableMouseListener);
     }
 
     private static final MouseAdapter tableMouseListener = new MouseAdapter() {
         @Override
         public void mouseReleased(MouseEvent e) {
+            JTable table = (JTable) e.getSource();
             visited = new boolean[sheet.getRowCount()][sheet.getColumnCount()];
             int i = table.getSelectedRow();
             int j = table.getSelectedColumn();
+            sheet.setValueAt(realValue[i][j - 1], i, j);
+            visited = new boolean[sheet.getRowCount()][sheet.getColumnCount()];
             if (j > 0) {
                 sheet.setValueAt(realValue[i][j - 1], i, j);
             }
             visited = null;
         }
     };
-    private static JTable table;
     private static DefaultTableModel sheet;
     private static String[][] realValue;
     private static boolean[][] visited;

@@ -18,7 +18,6 @@ public class MainWindow extends JFrame {
         TableColumnModel tableColumnModel = table.getColumnModel();
         tableColumnModel.getColumn(0).setPreferredWidth(30);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        System.out.println(tableColumnModel.getColumnCount());
         for (int i = 1; i < tableColumnModel.getColumnCount(); i++) {
             tableColumnModel.getColumn(i).setPreferredWidth(80);
         }
