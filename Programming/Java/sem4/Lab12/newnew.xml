@@ -1,0 +1,14 @@
+<?xml version="1.0"  encoding="UTF-8" standalone="yes"?>
+<data>
+	<level1 attribute1 ="  aaaa" attribute2 ="  12345">
+		Some info 
+		<level2 attr ="  42">
+			Some other info 
+		</level2>
+		<level2>
+			<newsubitem>
+				new subsubitem
+			</newsubitem>
+		</level2>
+	</level1>
+</data>
