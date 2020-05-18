@@ -1,12 +1,16 @@
 <?xml version="1.0"  encoding="UTF-8" standalone="yes"?>
 <data>
 	<level1 attribute1 =" aaaa" attribute2 =" 12345">
-		Some info 
-		<level2 attr =" 42">
+		<Someinfo>
+			aaaaaaaa
+		</Someinfo>
+		<level2>
 			Some other info 
 		</level2>
-		<level2>
-			new subitem
-		</level2>
+	</level1>
+	<level1 attribute =" 85">
+		<Yetanotherinfo>
+			aaaaaaaa
+		</Yetanotherinfo>
 	</level1>
 </data>
