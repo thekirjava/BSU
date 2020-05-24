@@ -6,7 +6,7 @@ def function(x):
 
 
 def weight(x):
-    return math.sqrt(1 - x ** 2);
+    return math.sqrt(1 - x ** 2)
 
 
 def quad_formula(a, b, n):
@@ -19,7 +19,8 @@ def quad_formula(a, b, n):
     return ans
 
 
-precision = 4
+wolfram_precount = 0.235606
+precision = 8
 left = -1
 right = 1
 TETA = 1 / 3
@@ -39,5 +40,7 @@ gauss = 0.0
 for i in range(7):
     gauss += A[i] * function(gauss_roots[i])
 print("Integrate with trapeze =", double, sep=" ")
+print("Reached precision =", math.fabs(wolfram_precount - double), sep=" ")
 print("Iterations =", counts, sep=" ")
 print("Gauss formula =", gauss, sep=" ")
+print("Reached gauss precision =", math.fabs(wolfram_precount - gauss), sep=" ")
