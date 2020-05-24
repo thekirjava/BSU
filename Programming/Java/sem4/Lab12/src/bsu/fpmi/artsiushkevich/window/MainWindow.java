@@ -1,6 +1,9 @@
 package bsu.fpmi.artsiushkevich.window;
 
+import bsu.fpmi.artsiushkevich.parsers.SAXParse;
 import bsu.fpmi.artsiushkevich.parsers.XMLCreater;
+import bsu.fpmi.artsiushkevich.utility.LibraryCard;
+import bsu.fpmi.artsiushkevich.utility.Pair;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -23,18 +26,20 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         this.setTitle("Lab12");
         this.setSize(1000, 600);
-        this.setResizable(false);
+        //this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
         JMenuItem openDOM = new JMenuItem("Open with DOM");
+        JMenuItem openSAX = new JMenuItem("Open with SAX");
         JMenuItem saveXML = new JMenuItem("Save to xml");
         JMenuItem openBinary = new JMenuItem("Open binary");
         JMenuItem saveBinary = new JMenuItem("Save to binary");
         JMenuItem addItem = new JMenuItem("Add item");
         JMenuItem deleteItem = new JMenuItem("Delete item");
         file.add(openDOM);
+        file.add(openSAX);
         file.add(saveXML);
         file.add(openBinary);
         file.add(saveBinary);
@@ -51,6 +56,26 @@ public class MainWindow extends JFrame {
             if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                 try {
                     treeModel.setRoot(parseDOM(fileChooser.getSelectedFile()));
+                } catch (ParserConfigurationException | IOException | SAXException parserConfigurationException) {
+                    parserConfigurationException.printStackTrace();
+                }
+            }
+        });
+        openSAX.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("XML files", "xml"));
+            fileChooser.setCurrentDirectory(new File("."));
+            if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
+                try {
+                    SAXParse parse = new SAXParse();
+                    Pair<LibraryCard, LibraryCard> ans = parse.parseSax(fileChooser.getSelectedFile());
+                    JPanel ansPane = new JPanel();
+                    JLabel taker = new JLabel(ans.first.toString());
+                    JLabel returner = new JLabel(ans.second.toString());
+                    ansPane.setLayout(new GridLayout(2, 1));
+                    ansPane.add(taker);
+                    ansPane.add(returner);
+                    JOptionPane.showMessageDialog(MainWindow.this, ansPane);
                 } catch (ParserConfigurationException | IOException | SAXException parserConfigurationException) {
                     parserConfigurationException.printStackTrace();
                 }
@@ -74,20 +99,60 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath path = tree.getSelectionPath();
-                String s = JOptionPane.showInputDialog(MainWindow.this, "Input value or attribute to be added");
-                DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-                treeNode.add(new DefaultMutableTreeNode(s));
-                tree.updateUI();
+                if ((path.getLastPathComponent().toString().equals("takenBooks")) || (path.getLastPathComponent().toString().equals("returnedBooks"))) {
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new GridLayout(2, 1));
+                    JLabel label = new JLabel("Input book title");
+                    JTextField field = new JTextField();
+                    panel.add(label);
+                    panel.add(field);
+                    if (JOptionPane.showConfirmDialog(MainWindow.this, panel, "Input", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                        String s = field.getText();
+                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+                        treeNode.add(new DefaultMutableTreeNode(s));
+                        tree.updateUI();
+                    }
+                }
+                if (path.getPathComponent(0).equals(path.getLastPathComponent())) {
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new GridLayout(2, 3));
+                    JLabel nameLabel = new JLabel("Input name");
+                    JLabel surnameLabel = new JLabel("Input surname");
+                    JLabel idLabel = new JLabel("Input id");
+                    JTextField nameField = new JTextField("John");
+                    JTextField surnameField = new JTextField("Dow");
+                    JTextField idField = new JTextField("123456");
+                    panel.add(nameLabel);
+                    panel.add(surnameLabel);
+                    panel.add(idLabel);
+                    panel.add(nameField);
+                    panel.add(surnameField);
+                    panel.add(idField);
+                    if (JOptionPane.showConfirmDialog(MainWindow.this, panel, "Input", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+                        DefaultMutableTreeNode card = new DefaultMutableTreeNode("libraryCard");
+                        card.add(new DefaultMutableTreeNode("takenBooks"));
+                        card.add(new DefaultMutableTreeNode("returnedBooks"));
+                        card.add(new DefaultMutableTreeNode("id=" + idField.getText()));
+                        card.add(new DefaultMutableTreeNode("name=" + nameField.getText()));
+                        card.add(new DefaultMutableTreeNode("surname=" + surnameField.getText()));
+                        treeNode.add(card);
+                        tree.updateUI();
+                    }
+                }
             }
         });
         deleteItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath path = tree.getSelectionPath();
-                DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-                DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) path.getParentPath().getLastPathComponent();
-                parentNode.remove(treeNode);
-                tree.updateUI();
+                if ((path.getLastPathComponent().toString().equals("libraryCard")) || (path.getParentPath().getLastPathComponent().toString().equals("takenBooks")) ||
+                        (path.getParentPath().getLastPathComponent().toString().equals("returnedBooks"))) {
+                    DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+                    DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) path.getParentPath().getLastPathComponent();
+                    parentNode.remove(treeNode);
+                    tree.updateUI();
+                }
             }
         });
         saveXML.addActionListener(new ActionListener() {

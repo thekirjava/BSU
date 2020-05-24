@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class DOMParser {
@@ -20,46 +21,54 @@ public class DOMParser {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = builderFactory.newDocumentBuilder();
         Document document = builder.parse(file);
-        NodeList nodeList = document.getDocumentElement().getElementsByTagName("level1");
+        NodeList nodeList = document.getDocumentElement().getElementsByTagName("libraryCard");
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(file.getName());
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node n = nodeList.item(i);
-            DefaultMutableTreeNode treeNode = dfs(n);
+            ArrayList<DefaultMutableTreeNode> treeNode = dfs(n);
             if (treeNode != null) {
-                root.add(treeNode);
+                for (DefaultMutableTreeNode node : treeNode) {
+                    root.add(node);
+                }
             }
         }
         return root;
     }
 
-    private static DefaultMutableTreeNode dfs(Node pos) {
+    private static ArrayList<DefaultMutableTreeNode> dfs(Node pos) {
         DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(pos.getNodeName());
         if (pos.getNodeName().equals("#text")) {
-            StringTokenizer tokenizer = new StringTokenizer(pos.getNodeValue(), " \n\t");
+            StringTokenizer tokenizer = new StringTokenizer(pos.getNodeValue(), "\n\t");
             if (!tokenizer.hasMoreTokens()) {
                 return null;
             }
-            StringBuilder builder = new StringBuilder();
+            ArrayList<DefaultMutableTreeNode> ans = new ArrayList<>();
             while (tokenizer.hasMoreTokens()) {
-                builder.append(tokenizer.nextToken()).append(" ");
+                ans.add(new DefaultMutableTreeNode(tokenizer.nextToken()));
             }
-            treeNode = new DefaultMutableTreeNode(builder.toString());
+            return ans;
+            //StringBuilder builder = new StringBuilder();
+
         }
         NodeList list = pos.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node n = list.item(i);
-            DefaultMutableTreeNode newNode = dfs(n);
+            ArrayList<DefaultMutableTreeNode> newNode = dfs(n);
             if (newNode != null) {
-                treeNode.add(dfs(n));
+                for (DefaultMutableTreeNode node : newNode) {
+                    treeNode.add(node);
+                }
             }
         }
         NamedNodeMap map = pos.getAttributes();
         if (map != null) {
             for (int i = 0; i < map.getLength(); i++) {
                 Node n = map.item(i);
-                treeNode.add(new DefaultMutableTreeNode(n.getNodeName() + " = " + n.getNodeValue()));
+                treeNode.add(new DefaultMutableTreeNode(n.getNodeName() + "=" + n.getNodeValue()));
             }
         }
-        return treeNode;
+        ArrayList<DefaultMutableTreeNode> ans = new ArrayList<>();
+        ans.add(treeNode);
+        return ans;
     }
 }
