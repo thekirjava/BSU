@@ -13,7 +13,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -99,7 +98,7 @@ public class MainWindow extends JFrame {
                     if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                         SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
                         //Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\schema.xsd"));
-                        Schema schema = factory.newSchema(new File("schema.xsd"));
+                        Schema schema = factory.newSchema(Thread.currentThread().getContextClassLoader().getResource("schema.xsd"));
                         Validator validator = schema.newValidator();
                         validator.validate(new StreamSource(fileChooser.getSelectedFile()));
                         JOptionPane.showMessageDialog(MainWindow.this, "Document is valid");

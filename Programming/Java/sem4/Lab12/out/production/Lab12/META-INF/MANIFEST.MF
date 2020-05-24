@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: bsu.fpmi.artsiushkevich.Main
-SplashScreen-Image: images/splash.png
+SplashScreen-Image: resources/images/splash.png
 
