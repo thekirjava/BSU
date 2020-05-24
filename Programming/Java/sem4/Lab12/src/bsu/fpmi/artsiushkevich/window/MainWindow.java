@@ -5,6 +5,7 @@ import bsu.fpmi.artsiushkevich.parsers.XMLCreater;
 import bsu.fpmi.artsiushkevich.utility.LibraryCard;
 import bsu.fpmi.artsiushkevich.utility.Pair;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,7 +13,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +39,7 @@ public class MainWindow extends JFrame {
         JMenu file = new JMenu("File");
         JMenuItem openDOM = new JMenuItem("Open with DOM");
         JMenuItem openSAX = new JMenuItem("Open with SAX");
+        JMenuItem checkXSD = new JMenuItem("Check with XSD");
         JMenuItem saveXML = new JMenuItem("Save to xml");
         JMenuItem openBinary = new JMenuItem("Open binary");
         JMenuItem saveBinary = new JMenuItem("Save to binary");
@@ -40,6 +47,7 @@ public class MainWindow extends JFrame {
         JMenuItem deleteItem = new JMenuItem("Delete item");
         file.add(openDOM);
         file.add(openSAX);
+        file.add(checkXSD);
         file.add(saveXML);
         file.add(openBinary);
         file.add(saveBinary);
@@ -78,6 +86,28 @@ public class MainWindow extends JFrame {
                     JOptionPane.showMessageDialog(MainWindow.this, ansPane);
                 } catch (ParserConfigurationException | IOException | SAXException parserConfigurationException) {
                     parserConfigurationException.printStackTrace();
+                }
+            }
+        });
+        checkXSD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("XML files", "xml"));
+                    fileChooser.setCurrentDirectory(new File("."));
+                    if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
+                        SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+                        //Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\schema.xsd"));
+                        Schema schema = factory.newSchema(new File("schema.xsd"));
+                        Validator validator = schema.newValidator();
+                        validator.validate(new StreamSource(fileChooser.getSelectedFile()));
+                        JOptionPane.showMessageDialog(MainWindow.this, "Document is valid");
+                    }
+                } catch (SAXParseException exception) {
+                    JOptionPane.showMessageDialog(MainWindow.this, "Document isn't valid");
+                } catch (SAXException | IOException exception) {
+                    exception.printStackTrace();
                 }
             }
         });

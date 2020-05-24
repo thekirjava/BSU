@@ -1,29 +1,4 @@
 <?xml version="1.0"  encoding="UTF-8" standalone="yes"?>
 <data>
-	<libraryCard id="123456" name="aaaa" surname="12345">
-		<takenBooks>
-			aaaaaaaa 
-			eeeeeee
-		</takenBooks>
-		<returnedBooks>
-			Some other info 
-			ppooooooo
-		</returnedBooks>
-	</libraryCard>
-	<libraryCard id="123456" name="aaaa" surname="12345">
-		<takenBooks>
-			aaaaaaaa 
-		</takenBooks>
-		<returnedBooks>
-			Some other info 
-		</returnedBooks>
-	</libraryCard>
-	<libraryCard id="228228" name="John" surname="Dowson">
-		<takenBooks>
-			y
-		</takenBooks>
-		<returnedBooks>
-			qeqe
-		</returnedBooks>
-	</libraryCard>
+	
 </data>
