@@ -1,12 +1,19 @@
 <?xml version="1.0"  encoding="UTF-8" standalone="yes"?>
 <data>
-    <level1 attribute1="aaaa" attribute2="12345">
-        Some info
-        <level2>
+    <libraryCard name ="John" surname ="Dow" id="123456">
+        <takenBooks>
+            aaaaaaaa
+        </takenBooks>
+        <returnedBooks>
             Some other info
-        </level2>
-    </level1>
-    <level1>
-        Yet another info
-    </level1>
+        </returnedBooks>
+    </libraryCard>
+    <libraryCard name ="Mary" surname ="Olsen" id="0001777">
+        <takenBooks>
+            aaaaaaaa
+        </takenBooks>
+        <returnedBooks>
+            Some other info
+        </returnedBooks>
+    </libraryCard>
 </data>

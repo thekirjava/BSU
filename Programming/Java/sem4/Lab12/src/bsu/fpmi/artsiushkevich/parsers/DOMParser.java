@@ -25,38 +25,39 @@ public class DOMParser {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(file.getName());
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node n = nodeList.item(i);
-            ArrayList<DefaultMutableTreeNode> treeNode = dfs(n);
+            DefaultMutableTreeNode treeNode = dfs(n, false);
             if (treeNode != null) {
-                for (DefaultMutableTreeNode node : treeNode) {
-                    root.add(node);
-                }
+                root.add(treeNode);
             }
         }
         return root;
     }
 
-    private static ArrayList<DefaultMutableTreeNode> dfs(Node pos) {
+    private static DefaultMutableTreeNode dfs(Node pos, boolean book) {
         DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(pos.getNodeName());
         if (pos.getNodeName().equals("#text")) {
-            StringTokenizer tokenizer = new StringTokenizer(pos.getNodeValue(), "\n\t");
+            StringTokenizer tokenizer = new StringTokenizer(pos.getNodeValue(), "\n\t ");
             if (!tokenizer.hasMoreTokens()) {
                 return null;
             }
-            ArrayList<DefaultMutableTreeNode> ans = new ArrayList<>();
+            StringBuilder ans = new StringBuilder();
             while (tokenizer.hasMoreTokens()) {
-                ans.add(new DefaultMutableTreeNode(tokenizer.nextToken()));
+                ans.append(tokenizer.nextToken());
             }
-            return ans;
+            return new DefaultMutableTreeNode(ans.toString());
             //StringBuilder builder = new StringBuilder();
 
+        }
+        if (pos.getNodeName().equals("book")) {
+            return dfs(pos.getChildNodes().item(0), true);
         }
         NodeList list = pos.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node n = list.item(i);
-            ArrayList<DefaultMutableTreeNode> newNode = dfs(n);
+            DefaultMutableTreeNode newNode = dfs(n, false);
             if (newNode != null) {
-                for (DefaultMutableTreeNode node : newNode) {
-                    treeNode.add(node);
+                {
+                    treeNode.add(newNode);
                 }
             }
         }
@@ -67,8 +68,6 @@ public class DOMParser {
                 treeNode.add(new DefaultMutableTreeNode(n.getNodeName() + "=" + n.getNodeValue()));
             }
         }
-        ArrayList<DefaultMutableTreeNode> ans = new ArrayList<>();
-        ans.add(treeNode);
-        return ans;
+        return treeNode;
     }
 }

@@ -35,26 +35,19 @@ public class SAXParse {
             if (qName.equals("takenBooks")) {
                 takenFlag = true;
             }
-            if (qName.equals("returnBooks")) {
-                takenFlag = true;
+            if (qName.equals("returnedBooks")) {
+                returnFlag = true;
             }
-        }
-
-        @Override
-        public void characters(char[] ch, int start, int length) throws SAXException {
-            if (takenFlag || returnFlag) {
-                StringTokenizer tokenizer = new StringTokenizer(new String(ch, start, length));
-                while (tokenizer.hasMoreTokens()) {
-                    if (takenFlag) {
-                        card.taken++;
-                    }
-                    if (returnFlag) {
-                        card.returned++;
-                    }
-                    tokenizer.nextToken();
+            if (qName.equals("book")) {
+                if (takenFlag) {
+                    card.taken++;
+                }
+                if (returnFlag) {
+                    card.returned++;
                 }
             }
         }
+
 
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -77,7 +70,7 @@ public class SAXParse {
             if (qName.equals("takenBooks")) {
                 takenFlag = false;
             }
-            if (qName.equals("returnBooks")) {
+            if (qName.equals("returned(Books")) {
                 takenFlag = false;
             }
         }

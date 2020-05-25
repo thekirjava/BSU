@@ -37,7 +37,11 @@ public class XMLCreater {
             DefaultMutableTreeNode pos = (DefaultMutableTreeNode) parent.getChildAt(i);
             printTabs(level, printStream);
             if (pos.getChildCount() == 0) {
+                printStream.println("<book>");
+                printTabs(level + 1, printStream);
                 printStream.println(pos.toString());
+                printTabs(level, printStream);
+                printStream.println("</book>");
                 continue;
             }
             StringTokenizer tokenizer = new StringTokenizer(pos.toString());

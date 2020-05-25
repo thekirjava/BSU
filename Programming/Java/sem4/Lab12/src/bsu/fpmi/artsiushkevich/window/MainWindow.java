@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.net.URL;
 
 import static bsu.fpmi.artsiushkevich.parsers.DOMParser.parseDOM;
 
@@ -97,8 +98,7 @@ public class MainWindow extends JFrame {
                     fileChooser.setCurrentDirectory(new File("."));
                     if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                         SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-                        //Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\schema.xsd"));
-                        Schema schema = factory.newSchema(Thread.currentThread().getContextClassLoader().getResource("schema.xsd"));
+                        Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\resources\\schema.xsd"));
                         Validator validator = schema.newValidator();
                         validator.validate(new StreamSource(fileChooser.getSelectedFile()));
                         JOptionPane.showMessageDialog(MainWindow.this, "Document is valid");
