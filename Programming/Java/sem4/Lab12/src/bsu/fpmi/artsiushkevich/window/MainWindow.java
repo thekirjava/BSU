@@ -1,5 +1,6 @@
 package bsu.fpmi.artsiushkevich.window;
 
+import bsu.fpmi.artsiushkevich.Main;
 import bsu.fpmi.artsiushkevich.parsers.SAXParse;
 import bsu.fpmi.artsiushkevich.parsers.XMLCreater;
 import bsu.fpmi.artsiushkevich.utility.LibraryCard;
@@ -25,7 +26,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.net.URL;
 
 import static bsu.fpmi.artsiushkevich.parsers.DOMParser.parseDOM;
 import static bsu.fpmi.artsiushkevich.parsers.HTMLCreater.createHTML;
@@ -103,7 +103,7 @@ public class MainWindow extends JFrame {
                     if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                         SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
                         //Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\resources\\schema.xsd"));
-                        Schema schema = factory.newSchema(Thread.currentThread().getContextClassLoader().getResource("schema.xsd"));
+                        Schema schema = factory.newSchema(Main.class.getClassLoader().getResource("resources/schema.xsd"));
                         Validator validator = schema.newValidator();
                         validator.validate(new StreamSource(fileChooser.getSelectedFile()));
                         JOptionPane.showMessageDialog(MainWindow.this, "Document is valid");
@@ -123,7 +123,7 @@ public class MainWindow extends JFrame {
                 fileChooser.setCurrentDirectory(new File("."));
                 if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                     try {
-                        createHTML(fileChooser.getSelectedFile(), new File(Thread.currentThread().getContextClassLoader().getResource("style.xsl").getPath()));
+                        createHTML(fileChooser.getSelectedFile(), new File(Main.class.getClassLoader().getResource("resources/style.xsl").getPath()));
                     } catch (IOException | TransformerException ioException) {
                         ioException.printStackTrace();
                     }
