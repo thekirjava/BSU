@@ -93,40 +93,34 @@ public class MainWindow extends JFrame {
                 }
             }
         });
-        checkXSD.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("XML files", "xml"));
-                    fileChooser.setCurrentDirectory(new File("."));
-                    if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
-                        SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-                        //Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\resources\\schema.xsd"));
-                        Schema schema = factory.newSchema(Main.class.getClassLoader().getResource("resources/schema.xsd"));
-                        Validator validator = schema.newValidator();
-                        validator.validate(new StreamSource(fileChooser.getSelectedFile()));
-                        JOptionPane.showMessageDialog(MainWindow.this, "Document is valid");
-                    }
-                } catch (SAXParseException exception) {
-                    JOptionPane.showMessageDialog(MainWindow.this, "Document isn't valid");
-                } catch (SAXException | IOException exception) {
-                    exception.printStackTrace();
-                }
-            }
-        });
-        createHTML.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        checkXSD.addActionListener(e -> {
+            try {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("XML files", "xml"));
                 fileChooser.setCurrentDirectory(new File("."));
                 if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        createHTML(fileChooser.getSelectedFile(), Main.class.getClassLoader().getResource("resources/style.xsl"));
-                    } catch (IOException | TransformerException ioException) {
-                        ioException.printStackTrace();
-                    }
+                    SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+                    //Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\resources\\schema.xsd"));
+                    Schema schema = factory.newSchema(Main.class.getClassLoader().getResource("resources/schema.xsd"));
+                    Validator validator = schema.newValidator();
+                    validator.validate(new StreamSource(fileChooser.getSelectedFile()));
+                    JOptionPane.showMessageDialog(MainWindow.this, "Document is valid");
+                }
+            } catch (SAXParseException exception) {
+                JOptionPane.showMessageDialog(MainWindow.this, "Document isn't valid");
+            } catch (SAXException | IOException exception) {
+                exception.printStackTrace();
+            }
+        });
+        createHTML.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("XML files", "xml"));
+            fileChooser.setCurrentDirectory(new File("."));
+            if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
+                try {
+                    createHTML(fileChooser.getSelectedFile(), Main.class.getClassLoader().getResource("resources/style.xsl"));
+                } catch (IOException | TransformerException ioException) {
+                    ioException.printStackTrace();
                 }
             }
         });
@@ -144,111 +138,96 @@ public class MainWindow extends JFrame {
                 }
             }
         });
-        addItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                TreePath path = tree.getSelectionPath();
-                if ((path.getLastPathComponent().toString().equals("takenBooks")) || (path.getLastPathComponent().toString().equals("returnedBooks"))) {
-                    JPanel panel = new JPanel();
-                    panel.setLayout(new GridLayout(2, 1));
-                    JLabel label = new JLabel("Input book title");
-                    JTextField field = new JTextField();
-                    panel.add(label);
-                    panel.add(field);
-                    if (JOptionPane.showConfirmDialog(MainWindow.this, panel, "Input", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-                        String s = field.getText();
-                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-                        treeNode.add(new DefaultMutableTreeNode(s));
-                        tree.updateUI();
-                    }
-                }
-                if (path.getPathComponent(0).equals(path.getLastPathComponent())) {
-                    JPanel panel = new JPanel();
-                    panel.setLayout(new GridLayout(2, 3));
-                    JLabel nameLabel = new JLabel("Input name");
-                    JLabel surnameLabel = new JLabel("Input surname");
-                    JLabel idLabel = new JLabel("Input id");
-                    JTextField nameField = new JTextField("John");
-                    JTextField surnameField = new JTextField("Dow");
-                    JTextField idField = new JTextField("123456");
-                    panel.add(nameLabel);
-                    panel.add(surnameLabel);
-                    panel.add(idLabel);
-                    panel.add(nameField);
-                    panel.add(surnameField);
-                    panel.add(idField);
-                    if (JOptionPane.showConfirmDialog(MainWindow.this, panel, "Input", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-                        DefaultMutableTreeNode card = new DefaultMutableTreeNode("libraryCard");
-                        card.add(new DefaultMutableTreeNode("takenBooks"));
-                        card.add(new DefaultMutableTreeNode("returnedBooks"));
-                        card.add(new DefaultMutableTreeNode("id=" + idField.getText()));
-                        card.add(new DefaultMutableTreeNode("name=" + nameField.getText()));
-                        card.add(new DefaultMutableTreeNode("surname=" + surnameField.getText()));
-                        treeNode.add(card);
-                        tree.updateUI();
-                    }
+        addItem.addActionListener(e -> {
+            TreePath path = tree.getSelectionPath();
+            if ((path.getLastPathComponent().toString().equals("takenBooks")) || (path.getLastPathComponent().toString().equals("returnedBooks"))) {
+                JPanel panel = new JPanel();
+                panel.setLayout(new GridLayout(2, 1));
+                JLabel label = new JLabel("Input book title");
+                JTextField field = new JTextField();
+                panel.add(label);
+                panel.add(field);
+                if (JOptionPane.showConfirmDialog(MainWindow.this, panel, "Input", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                    String s = field.getText();
+                    DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+                    treeNode.add(new DefaultMutableTreeNode(s));
+                    tree.updateUI();
                 }
             }
-        });
-        deleteItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                TreePath path = tree.getSelectionPath();
-                if ((path.getLastPathComponent().toString().equals("libraryCard")) || (path.getParentPath().getLastPathComponent().toString().equals("takenBooks")) ||
-                        (path.getParentPath().getLastPathComponent().toString().equals("returnedBooks"))) {
+            if (path.getPathComponent(0).equals(path.getLastPathComponent())) {
+                JPanel panel = new JPanel();
+                panel.setLayout(new GridLayout(2, 3));
+                JLabel nameLabel = new JLabel("Input name");
+                JLabel surnameLabel = new JLabel("Input surname");
+                JLabel idLabel = new JLabel("Input id");
+                JTextField nameField = new JTextField("John");
+                JTextField surnameField = new JTextField("Dow");
+                JTextField idField = new JTextField("123456");
+                panel.add(nameLabel);
+                panel.add(surnameLabel);
+                panel.add(idLabel);
+                panel.add(nameField);
+                panel.add(surnameField);
+                panel.add(idField);
+                if (JOptionPane.showConfirmDialog(MainWindow.this, panel, "Input", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
                     DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-                    DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) path.getParentPath().getLastPathComponent();
-                    parentNode.remove(treeNode);
+                    DefaultMutableTreeNode card = new DefaultMutableTreeNode("libraryCard");
+                    card.add(new DefaultMutableTreeNode("takenBooks"));
+                    card.add(new DefaultMutableTreeNode("returnedBooks"));
+                    card.add(new DefaultMutableTreeNode("id=" + idField.getText()));
+                    card.add(new DefaultMutableTreeNode("name=" + nameField.getText()));
+                    card.add(new DefaultMutableTreeNode("surname=" + surnameField.getText()));
+                    treeNode.add(card);
                     tree.updateUI();
                 }
             }
         });
-        saveXML.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
-                fileChooser.setCurrentDirectory(new File("."));
-                if (fileChooser.showDialog(MainWindow.this, "Save") == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        XMLCreater.createXML(fileChooser.getSelectedFile(), (DefaultTreeModel) tree.getModel());
-                    } catch (FileNotFoundException fileNotFoundException) {
-                        fileNotFoundException.printStackTrace();
-                    }
+        deleteItem.addActionListener(e -> {
+            TreePath path = tree.getSelectionPath();
+            if ((path.getLastPathComponent().toString().equals("libraryCard")) || (path.getParentPath().getLastPathComponent().toString().equals("takenBooks")) ||
+                    (path.getParentPath().getLastPathComponent().toString().equals("returnedBooks"))) {
+                DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+                DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) path.getParentPath().getLastPathComponent();
+                parentNode.remove(treeNode);
+                tree.updateUI();
+            }
+        });
+        saveXML.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
+            fileChooser.setCurrentDirectory(new File("."));
+            if (fileChooser.showDialog(MainWindow.this, "Save") == JFileChooser.APPROVE_OPTION) {
+                try {
+                    XMLCreater.createXML(fileChooser.getSelectedFile(), (DefaultTreeModel) tree.getModel());
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
                 }
             }
         });
-        openBinary.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("Binary files", "bin"));
-                fileChooser.setCurrentDirectory(new File("."));
-                if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileChooser.getSelectedFile()));
-                        tree.setModel((TreeModel) inputStream.readObject());
-                    } catch (IOException | ClassNotFoundException ioException) {
-                        ioException.printStackTrace();
-                    }
+        openBinary.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Binary files", "bin"));
+            fileChooser.setCurrentDirectory(new File("."));
+            if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
+                try {
+                    ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileChooser.getSelectedFile()));
+                    tree.setModel((TreeModel) inputStream.readObject());
+                } catch (IOException | ClassNotFoundException ioException) {
+                    ioException.printStackTrace();
                 }
             }
         });
-        saveBinary.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("Binary files", "bin"));
-                fileChooser.setCurrentDirectory(new File("."));
-                if (fileChooser.showDialog(MainWindow.this, "Save") == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileChooser.getSelectedFile()));
-                        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-                        outputStream.writeObject(model);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
+        saveBinary.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Binary files", "bin"));
+            fileChooser.setCurrentDirectory(new File("."));
+            if (fileChooser.showDialog(MainWindow.this, "Save") == JFileChooser.APPROVE_OPTION) {
+                try {
+                    ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileChooser.getSelectedFile()));
+                    DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+                    outputStream.writeObject(model);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
             }
         });
