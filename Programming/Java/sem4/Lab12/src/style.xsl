@@ -9,16 +9,25 @@
                         <th>Name</th>
                         <th>Surname</th>
                         <th>ID</th>
-                        <th>Taken books amount</th>
-                        <th>Returned books amount</th>
+                        <th>Taken books</th>
+                        <th>Returned books</th>
                     </tr>
-                    <xsl:for-each select="catalog/cd">
+                    <xsl:for-each select="data/libraryCard">
                         <tr>
                             <td>
-                                <xsl:value-of select="title"/>
+                                <xsl:value-of select="@name"/>
                             </td>
                             <td>
-                                <xsl:value-of select="artist"/>
+                                <xsl:value-of select="@surname"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="@id"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="count(takenBooks/book)"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="count(returnedBooks/book)"/>
                             </td>
                         </tr>
                     </xsl:for-each>

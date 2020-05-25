@@ -14,6 +14,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -27,6 +28,7 @@ import java.io.*;
 import java.net.URL;
 
 import static bsu.fpmi.artsiushkevich.parsers.DOMParser.parseDOM;
+import static bsu.fpmi.artsiushkevich.parsers.HTMLCreater.createHTML;
 
 public class MainWindow extends JFrame {
     public MainWindow() {
@@ -40,6 +42,7 @@ public class MainWindow extends JFrame {
         JMenuItem openDOM = new JMenuItem("Open with DOM");
         JMenuItem openSAX = new JMenuItem("Open with SAX");
         JMenuItem checkXSD = new JMenuItem("Check with XSD");
+        JMenuItem createHTML = new JMenuItem("Create HTML");
         JMenuItem saveXML = new JMenuItem("Save to xml");
         JMenuItem openBinary = new JMenuItem("Open binary");
         JMenuItem saveBinary = new JMenuItem("Save to binary");
@@ -48,6 +51,7 @@ public class MainWindow extends JFrame {
         file.add(openDOM);
         file.add(openSAX);
         file.add(checkXSD);
+        file.add(createHTML);
         file.add(saveXML);
         file.add(openBinary);
         file.add(saveBinary);
@@ -98,7 +102,8 @@ public class MainWindow extends JFrame {
                     fileChooser.setCurrentDirectory(new File("."));
                     if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                         SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-                        Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\resources\\schema.xsd"));
+                        //Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\resources\\schema.xsd"));
+                        Schema schema = factory.newSchema(Thread.currentThread().getContextClassLoader().getResource("schema.xsd"));
                         Validator validator = schema.newValidator();
                         validator.validate(new StreamSource(fileChooser.getSelectedFile()));
                         JOptionPane.showMessageDialog(MainWindow.this, "Document is valid");
@@ -107,6 +112,21 @@ public class MainWindow extends JFrame {
                     JOptionPane.showMessageDialog(MainWindow.this, "Document isn't valid");
                 } catch (SAXException | IOException exception) {
                     exception.printStackTrace();
+                }
+            }
+        });
+        createHTML.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("XML files", "xml"));
+                fileChooser.setCurrentDirectory(new File("."));
+                if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        createHTML(fileChooser.getSelectedFile(), new File(Thread.currentThread().getContextClassLoader().getResource("style.xsl").getPath()));
+                    } catch (IOException | TransformerException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
             }
         });
