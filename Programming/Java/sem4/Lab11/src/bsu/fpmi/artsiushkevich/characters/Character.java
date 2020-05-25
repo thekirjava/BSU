@@ -6,8 +6,17 @@ public class Character {
     public void moveTo() {
     }
 
+    public void setState(boolean[][] state) {
+        this.state = state;
+    }
+
     protected Direction direction;
     protected Pair<Integer, Integer> position;
+    protected boolean[][] state;
+
+    public Direction getDirection() {
+        return direction;
+    }
 
     public int getX() {
         return x;
@@ -73,6 +82,7 @@ public class Character {
         this.lastDotY = lastDotY;
     }
 
+    public int frameCount;
     protected int x;
     protected int y;
     protected int lastX;

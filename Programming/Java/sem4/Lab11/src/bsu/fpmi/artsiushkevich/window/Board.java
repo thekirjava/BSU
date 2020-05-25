@@ -410,13 +410,12 @@ public class Board extends JPanel {
             drawDots(g);
             drawLives(g);
             /* Send the game map to player and all ghosts */
-            player.updateState(state);
+            player.setState(state);
             /* Don't let the player go in the ghost box*/
-            player.state[9][7] = false;
-            blinky.updateState(state);
-            pinky.updateState(state);
-            inky.updateState(state);
-            clyde.updateState(state);
+            blinky.setState(state);
+            pinky.setState(state);
+            inky.setState(state);
+            clyde.setState(state);
 
             /* Draw the top menu bar*/
             g.setColor(Color.YELLOW);
@@ -510,7 +509,7 @@ public class Board extends JPanel {
             sounds.nomNom();
 
             /* Increment dots eaten value to track for end game */
-            player.dotsEaten++;
+            player.eat();
 
             /* Delete the dot*/
             dots[player.getDotX()][player.getDotY()] = false;
@@ -532,9 +531,6 @@ public class Board extends JPanel {
             if (player.getDotsEaten() == 173) {
                 /*Demo mode can't get a high score */
                 if (!demo) {
-                    if (currScore > highScore) {
-                        updateScore(currScore);
-                    }
                     winScreen = true;
                 } else {
                     titleScreen = true;
@@ -544,7 +540,7 @@ public class Board extends JPanel {
         }
 
         /* If we moved to a location without dots, stop the sounds */
-        else if ((player.getDotX() != lastDotEatenX || player.getDotY() != lastDotEatenY) || player.stopped) {
+        else if ((player.getDotX() != lastDotEatenX || player.getDotY() != lastDotEatenY) || player.isStopped()) {
             /* Stop any pacman eating sounds */
             sounds.nomNomStop();
         }
@@ -590,17 +586,17 @@ public class Board extends JPanel {
             if (player.frameCount >= 10)
                 player.frameCount = 0;
 
-            switch (player.currDirection) {
-                case 'L':
+            switch (player.getDirection()) {
+                case WEST:
                     g.drawImage(pacmanLeftImage, player.getX(), player.getY(), Color.BLACK, null);
                     break;
-                case 'R':
+                case EAST:
                     g.drawImage(pacmanRightImage, player.getX(), player.getY(), Color.BLACK, null);
                     break;
-                case 'U':
+                case NORTH:
                     g.drawImage(pacmanUpImage, player.getX(), player.getY(), Color.BLACK, null);
                     break;
-                case 'D':
+                case SOUTH:
                     g.drawImage(pacmanDownImage, player.getX(), player.getY(), Color.BLACK, null);
                     break;
             }
