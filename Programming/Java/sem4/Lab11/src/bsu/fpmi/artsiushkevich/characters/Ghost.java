@@ -4,7 +4,7 @@ import bsu.fpmi.artsiushkevich.observer.Observer;
 
 public abstract class Ghost extends Character implements Observer{
 
-    Ghost(int level) {
+    Ghost() {
 
     }
     public abstract void findGoal();

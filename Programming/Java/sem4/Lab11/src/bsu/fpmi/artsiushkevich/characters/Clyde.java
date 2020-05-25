@@ -6,9 +6,6 @@ public class Clyde extends Ghost {
 
     }
 
-    public Clyde(int level) {
-        super(level);
-    }
 
     @Override
     public void findGoal() {

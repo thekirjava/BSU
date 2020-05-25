@@ -6,9 +6,6 @@ public class Pinky extends Ghost{
 
     }
 
-    public Pinky(int level) {
-        super(level);
-    }
 
     @Override
     public void findGoal() {
