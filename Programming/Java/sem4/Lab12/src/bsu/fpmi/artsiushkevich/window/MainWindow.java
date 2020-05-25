@@ -123,7 +123,7 @@ public class MainWindow extends JFrame {
                 fileChooser.setCurrentDirectory(new File("."));
                 if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                     try {
-                        createHTML(fileChooser.getSelectedFile(), new File(Main.class.getClassLoader().getResource("resources/style.xsl").getPath()));
+                        createHTML(fileChooser.getSelectedFile(), Main.class.getClassLoader().getResource("resources/style.xsl"));
                     } catch (IOException | TransformerException ioException) {
                         ioException.printStackTrace();
                     }

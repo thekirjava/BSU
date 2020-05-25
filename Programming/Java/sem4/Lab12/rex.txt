@@ -1,0 +1,1 @@
+/D:/Coding/BSU/Programming/Java/sem4/Lab12/out/production/Lab12/resources/style.xsl
