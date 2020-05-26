@@ -105,6 +105,9 @@ public class Board extends JPanel {
         titleScreen = true;
     }
 
+    public void newGame() {
+        New = 1;
+    }
 
     /* Reset occurs on a new game*/
     public void reset() {
@@ -523,9 +526,8 @@ public class Board extends JPanel {
             g.setColor(Color.YELLOW);
             g.setFont(font);
             if (demo)
-                g.drawString("DEMO MODE PRESS ANY KEY TO START A GAME\t High Score: " + highScore, 20, 10);
-            else
-                g.drawString("Score: " + (currScore) + "\t High Score: " + highScore, 20, 10);
+                g.drawString("DEMO MODE PRESS ANY KEY TO START A GAME", 20, 10);
+
 
             /* If this was the last dot */
             if (player.getDotsEaten() == 173) {
