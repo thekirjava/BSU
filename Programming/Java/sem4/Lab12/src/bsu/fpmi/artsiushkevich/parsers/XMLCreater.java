@@ -8,14 +8,13 @@ import java.io.PrintStream;
 import java.util.StringTokenizer;
 
 public class XMLCreater {
-    public static File createXML(File file, DefaultTreeModel model) throws FileNotFoundException {
+    public static void createXML(File file, DefaultTreeModel model) throws FileNotFoundException {
         PrintStream printStream = new PrintStream(file);
         printStream.println("<?xml version=\"1.0\"  encoding=\"UTF-8\" standalone=\"yes\"?>");
         printStream.println("<data>");
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         dfs(root, new boolean[root.getChildCount()], printStream, 1);
         printStream.println("</data>");
-        return file;
     }
 
     static void printTabs(int level, PrintStream printStream) {

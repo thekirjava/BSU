@@ -1,6 +1,5 @@
 package bsu.fpmi.artsiushkevich.parsers;
 
-import org.xml.sax.InputSource;
 
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;

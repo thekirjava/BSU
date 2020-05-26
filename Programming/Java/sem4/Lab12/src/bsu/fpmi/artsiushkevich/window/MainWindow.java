@@ -21,11 +21,10 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.util.Objects;
 
 import static bsu.fpmi.artsiushkevich.parsers.DOMParser.parseDOM;
 import static bsu.fpmi.artsiushkevich.parsers.HTMLCreater.createHTML;
@@ -34,7 +33,7 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         this.setTitle("Lab12");
         this.setSize(1000, 600);
-        //this.setResizable(false);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         JMenuBar menuBar = new JMenuBar();
@@ -84,8 +83,12 @@ public class MainWindow extends JFrame {
                     JPanel ansPane = new JPanel();
                     JLabel taker = new JLabel(ans.first.toString());
                     JLabel returner = new JLabel(ans.second.toString());
-                    ansPane.setLayout(new GridLayout(2, 1));
+                    ansPane.setLayout(new GridLayout(2, 2));
+                    JLabel takerLabel  = new JLabel("Library user with biggest amount of taken books");
+                    JLabel returnerLabel  = new JLabel("Library user with biggest amount of returned books");
+                    ansPane.add(takerLabel);
                     ansPane.add(taker);
+                    ansPane.add(returnerLabel);
                     ansPane.add(returner);
                     JOptionPane.showMessageDialog(MainWindow.this, ansPane);
                 } catch (ParserConfigurationException | IOException | SAXException parserConfigurationException) {
@@ -118,8 +121,8 @@ public class MainWindow extends JFrame {
             fileChooser.setCurrentDirectory(new File("."));
             if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                 try {
-                    createHTML(fileChooser.getSelectedFile(), Main.class.getClassLoader().getResource("resources/style.xsl"));
-                } catch (IOException | TransformerException ioException) {
+                    createHTML(fileChooser.getSelectedFile(), Objects.requireNonNull(Main.class.getClassLoader().getResource("resources/style.xsl")));
+                } catch (IOException | TransformerException | NullPointerException ioException) {
                     ioException.printStackTrace();
                 }
             }
@@ -140,6 +143,7 @@ public class MainWindow extends JFrame {
         });
         addItem.addActionListener(e -> {
             TreePath path = tree.getSelectionPath();
+            assert path != null;
             if ((path.getLastPathComponent().toString().equals("takenBooks")) || (path.getLastPathComponent().toString().equals("returnedBooks"))) {
                 JPanel panel = new JPanel();
                 panel.setLayout(new GridLayout(2, 1));
@@ -184,6 +188,7 @@ public class MainWindow extends JFrame {
         });
         deleteItem.addActionListener(e -> {
             TreePath path = tree.getSelectionPath();
+            assert path != null;
             if ((path.getLastPathComponent().toString().equals("libraryCard")) || (path.getParentPath().getLastPathComponent().toString().equals("takenBooks")) ||
                     (path.getParentPath().getLastPathComponent().toString().equals("returnedBooks"))) {
                 DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();

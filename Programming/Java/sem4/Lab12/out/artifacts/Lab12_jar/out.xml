@@ -1,0 +1,39 @@
+<?xml version="1.0"  encoding="UTF-8" standalone="yes"?>
+<data>
+	<libraryCard id="123456" name="John" surname="Dow">
+		<takenBooks>
+			<book>
+				One
+			</book>
+		</takenBooks>
+		<returnedBooks>
+			<book>
+				One
+			</book>
+			<book>
+				Two
+			</book>
+			<book>
+				Three
+			</book>
+			<book>
+				Four
+			</book>
+		</returnedBooks>
+	</libraryCard>
+	<libraryCard id="000777" name="Mary" surname="Olsen">
+		<takenBooks>
+			<book>
+				One
+			</book>
+			<book>
+				Two
+			</book>
+		</takenBooks>
+		<returnedBooks>
+			<book>
+				One
+			</book>
+		</returnedBooks>
+	</libraryCard>
+</data>

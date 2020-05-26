@@ -63,8 +63,8 @@ public class LibraryCard {
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", id='" + id + '\'' +
-                ", returned=" + returned +
                 ", taken=" + taken +
+                ", returned=" + returned +
                 '}';
     }
 

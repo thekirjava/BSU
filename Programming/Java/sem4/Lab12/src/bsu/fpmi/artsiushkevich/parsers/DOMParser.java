@@ -7,13 +7,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class DOMParser {
@@ -25,7 +23,7 @@ public class DOMParser {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(file.getName());
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node n = nodeList.item(i);
-            DefaultMutableTreeNode treeNode = dfs(n, false);
+            DefaultMutableTreeNode treeNode = dfs(n);
             if (treeNode != null) {
                 root.add(treeNode);
             }
@@ -33,7 +31,7 @@ public class DOMParser {
         return root;
     }
 
-    private static DefaultMutableTreeNode dfs(Node pos, boolean book) {
+    private static DefaultMutableTreeNode dfs(Node pos) {
         DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(pos.getNodeName());
         if (pos.getNodeName().equals("#text")) {
             StringTokenizer tokenizer = new StringTokenizer(pos.getNodeValue(), "\n\t ");
@@ -49,12 +47,12 @@ public class DOMParser {
 
         }
         if (pos.getNodeName().equals("book")) {
-            return dfs(pos.getChildNodes().item(0), true);
+            return dfs(pos.getChildNodes().item(0));
         }
         NodeList list = pos.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node n = list.item(i);
-            DefaultMutableTreeNode newNode = dfs(n, false);
+            DefaultMutableTreeNode newNode = dfs(n);
             if (newNode != null) {
                 {
                     treeNode.add(newNode);

@@ -11,7 +11,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 public class SAXParse {
     public Pair<LibraryCard, LibraryCard> parseSax(File file) throws ParserConfigurationException, SAXException, IOException {
@@ -24,7 +23,7 @@ public class SAXParse {
 
     class LibraryXMLHandler extends DefaultHandler {
         @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        public void startElement(String uri, String localName, String qName, Attributes attributes) {
             if (qName.equals("libraryCard")) {
                 card = new LibraryCard(attributes.getValue("name"),
                         attributes.getValue("surname"),
@@ -50,7 +49,7 @@ public class SAXParse {
 
 
         @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException {
+        public void endElement(String uri, String localName, String qName) {
             if (qName.equals("libraryCard")) {
                 if (card.returned > returner.returned) {
                     returner.setName(card.getName());
@@ -70,8 +69,8 @@ public class SAXParse {
             if (qName.equals("takenBooks")) {
                 takenFlag = false;
             }
-            if (qName.equals("returned(Books")) {
-                takenFlag = false;
+            if (qName.equals("returnedBooks")) {
+                returnFlag = false;
             }
         }
 
