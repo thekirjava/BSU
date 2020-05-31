@@ -84,8 +84,8 @@ public class MainWindow extends JFrame {
                     JLabel taker = new JLabel(ans.first.toString());
                     JLabel returner = new JLabel(ans.second.toString());
                     ansPane.setLayout(new GridLayout(2, 2));
-                    JLabel takerLabel  = new JLabel("Library user with biggest amount of taken books");
-                    JLabel returnerLabel  = new JLabel("Library user with biggest amount of returned books");
+                    JLabel takerLabel = new JLabel("Library user with biggest amount of taken books");
+                    JLabel returnerLabel = new JLabel("Library user with biggest amount of returned books");
                     ansPane.add(takerLabel);
                     ansPane.add(taker);
                     ansPane.add(returnerLabel);
@@ -103,14 +103,13 @@ public class MainWindow extends JFrame {
                 fileChooser.setCurrentDirectory(new File("."));
                 if (fileChooser.showDialog(MainWindow.this, "Open") == JFileChooser.APPROVE_OPTION) {
                     SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-                    //Schema schema = factory.newSchema(new File("D:\\Coding\\BSU\\Programming\\Java\\sem4\\Lab12\\src\\resources\\schema.xsd"));
                     Schema schema = factory.newSchema(Main.class.getClassLoader().getResource("resources/schema.xsd"));
                     Validator validator = schema.newValidator();
                     validator.validate(new StreamSource(fileChooser.getSelectedFile()));
                     JOptionPane.showMessageDialog(MainWindow.this, "Document is valid");
                 }
             } catch (SAXParseException exception) {
-                JOptionPane.showMessageDialog(MainWindow.this, "Document isn't valid");
+                JOptionPane.showMessageDialog(MainWindow.this, "Document isn't valid\n" + exception.getMessage());
             } catch (SAXException | IOException exception) {
                 exception.printStackTrace();
             }

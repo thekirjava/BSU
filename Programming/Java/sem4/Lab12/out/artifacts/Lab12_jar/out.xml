@@ -16,9 +16,6 @@
 			<book>
 				Three
 			</book>
-			<book>
-				Four
-			</book>
 		</returnedBooks>
 	</libraryCard>
 	<libraryCard id="000777" name="Mary" surname="Olsen">
@@ -28,6 +25,21 @@
 			</book>
 			<book>
 				Two
+			</book>
+		</takenBooks>
+		<returnedBooks>
+			<book>
+				One
+			</book>
+			<book>
+				Two
+			</book>
+		</returnedBooks>
+	</libraryCard>
+	<libraryCard id="555555" name="Jane" surname="Dow">
+		<takenBooks>
+			<book>
+				One
 			</book>
 		</takenBooks>
 		<returnedBooks>

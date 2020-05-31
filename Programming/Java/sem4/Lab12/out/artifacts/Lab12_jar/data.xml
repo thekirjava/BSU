@@ -1,6 +1,6 @@
 <?xml version="1.0"  encoding="UTF-8" standalone="yes"?>
 <data>
-    <libraryCard name="John" surname="Dow" id="123456">
+    <libraryCard name="Joe" surname="Dow" id="123456">
         <takenBooks>
             <book>
                 One
@@ -18,7 +18,7 @@
             </book>
         </returnedBooks>
     </libraryCard>
-    <libraryCard name="Mary" surname="Olsen" id="000777">
+    <libraryCard name="Mary" surname="Olsen" id="111777">
         <takenBooks>
             <book>
                 One
