@@ -2,16 +2,18 @@
 #include "Localization_Engine.h"
 #include <iostream>
 #include <string>
-static HMODULE lib;
+
+static HMODULE hLib;
+
 void Init(const char* lang)
 {
 	if (lang == nullptr) {
-		FreeLibrary(lib);
+		FreeLibrary(hLib);
 		return;
 	}
 	std::string s("Localization_" + (std::string)lang);
-	lib = LoadLibraryA(s.c_str());
-	if (lib == NULL) {
+	hLib = LoadLibraryA(s.c_str());
+	if (hLib == NULL) {
 		std::cerr << "Library isn't found\n";
 		return;
 	}
@@ -19,9 +21,9 @@ void Init(const char* lang)
 
 const char* GetFirst()
 {
-	if (lib != NULL) {
+	if (hLib != NULL) {
 		const char** result;
-		(FARPROC&)result = GetProcAddress(lib, "first");
+		(FARPROC&)result = GetProcAddress(hLib, "first");
 		return *result;
 	}
 	return "%{first}%";
@@ -29,9 +31,9 @@ const char* GetFirst()
 
 const char* GetSecond()
 {
-	if (lib != NULL) {
+	if (hLib != NULL) {
 		const char** result;
-		(FARPROC&)result = GetProcAddress(lib, "second");
+		(FARPROC&)result = GetProcAddress(hLib, "second");
 		return *result;
 	}
 	return "%{second}%";
