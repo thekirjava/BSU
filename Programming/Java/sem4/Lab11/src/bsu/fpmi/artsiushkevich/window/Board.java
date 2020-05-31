@@ -82,7 +82,6 @@ public class Board extends JPanel {
     boolean titleScreen;
     boolean winScreen = false;
     boolean overScreen = false;
-    boolean demo = false;
     int New;
 
     /* Used to call sound effects */
@@ -313,13 +312,13 @@ public class Board extends JPanel {
             g.setColor(Color.BLACK);
 
             /* Kill the pacman */
-            if (dying == 4)
+            if (dying == 4) {
                 g.fillRect(player.getX(), player.getY(), 20, 7);
-            else if (dying == 3)
+            } else if (dying == 3) {
                 g.fillRect(player.getX(), player.getY(), 20, 14);
-            else if (dying == 2)
+            } else if (dying == 2) {
                 g.fillRect(player.getX(), player.getY(), 20, 20);
-            else if (dying == 1) {
+            } else if (dying == 1) {
                 g.fillRect(player.getX(), player.getY(), 20, 20);
             }
 
@@ -327,10 +326,11 @@ public class Board extends JPanel {
          for the final frame to allow for the sound effect to end */
             long currTime = System.currentTimeMillis();
             long temp;
-            if (dying != 1)
+            if (dying != 1) {
                 temp = 100;
-            else
+            } else {
                 temp = 2000;
+            }
             /* If it's time to draw a new death frame... */
             if (currTime - timer >= temp) {
                 dying--;
@@ -338,13 +338,8 @@ public class Board extends JPanel {
                 /* If this was the last death frame...*/
                 if (dying == 0) {
                     if (numLives == -1) {
-                        /* Demo mode has infinite lives, just give it more lives*/
-                        if (demo)
-                            numLives = 2;
-                        else {
-                            /* Game over for player.  If relevant, update high score.  Set gameOver flag*/
-                            overScreen = true;
-                        }
+                        /* Game over for player.  If relevant, update high score.  Set gameOver flag*/
+                        overScreen = true;
                     }
                 }
             }
@@ -392,10 +387,7 @@ public class Board extends JPanel {
             g.setColor(Color.YELLOW);
             g.setFont(font);
             clearHighScores = false;
-            if (demo)
-                g.drawString("DEMO MODE PRESS ANY KEY TO START A GAME\t High Score: " + highScore, 20, 10);
-            else
-                g.drawString("Score: " + (currScore) + "\t High Score: " + highScore, 20, 10);
+            g.drawString("Score: " + (currScore) + "\t High Score: " + highScore, 20, 10);
         }
 
         /* oops is set to true when pacman has lost a life */
@@ -423,10 +415,7 @@ public class Board extends JPanel {
             /* Draw the top menu bar*/
             g.setColor(Color.YELLOW);
             g.setFont(font);
-            if (demo)
-                g.drawString("DEMO MODE PRESS ANY KEY TO START A GAME\t High Score: " + highScore, 20, 10);
-            else
-                g.drawString("Score: " + (currScore) + "\t High Score: " + highScore, 20, 10);
+            g.drawString("Score: " + (currScore) + "\t High Score: " + highScore, 20, 10);
             New++;
         }
         /* Second frame of new game */
@@ -447,8 +436,9 @@ public class Board extends JPanel {
             long currTime = System.currentTimeMillis();
             if (currTime - timer >= 5000) {
                 New = 0;
-            } else
+            } else {
                 return;
+            }
         }
 
         /* Drawing optimization */
@@ -461,22 +451,23 @@ public class Board extends JPanel {
 
 
         /* Detect collisions */
-        if (player.getX() == blinky.getX() && Math.abs(player.getY() - blinky.getY()) < 10)
+        if (player.getX() == blinky.getX() && Math.abs(player.getY() - blinky.getY()) < 10) {
             oops = true;
-        else if (player.getX() == pinky.getX() && Math.abs(player.getY() - pinky.getY()) < 10)
+        } else if (player.getX() == pinky.getX() && Math.abs(player.getY() - pinky.getY()) < 10) {
             oops = true;
-        else if (player.getX() == inky.getX() && Math.abs(player.getY() - inky.getY()) < 10)
+        } else if (player.getX() == inky.getX() && Math.abs(player.getY() - inky.getY()) < 10) {
             oops = true;
-        else if (player.getX() == clyde.getX() && Math.abs(player.getY() - clyde.getY()) < 10)
+        } else if (player.getX() == clyde.getX() && Math.abs(player.getY() - clyde.getY()) < 10) {
             oops = true;
-        else if (player.getY() == blinky.getY() && Math.abs(player.getX() - blinky.getX()) < 10)
+        } else if (player.getY() == blinky.getY() && Math.abs(player.getX() - blinky.getX()) < 10) {
             oops = true;
-        else if (player.getY() == pinky.getY() && Math.abs(player.getX() - pinky.getX()) < 10)
+        } else if (player.getY() == pinky.getY() && Math.abs(player.getX() - pinky.getX()) < 10) {
             oops = true;
-        else if (player.getY() == inky.getY() && Math.abs(player.getX() - inky.getX()) < 10)
+        } else if (player.getY() == inky.getY() && Math.abs(player.getX() - inky.getX()) < 10) {
             oops = true;
-        else if (player.getY() == clyde.getY() && Math.abs(player.getX() - clyde.getX()) < 10)
+        } else if (player.getY() == clyde.getY() && Math.abs(player.getX() - clyde.getX()) < 10) {
             oops = true;
+        }
 
         /* Kill the pacman */
         if (oops && !stopped) {
@@ -525,18 +516,11 @@ public class Board extends JPanel {
             g.fillRect(0, 0, 600, 20);
             g.setColor(Color.YELLOW);
             g.setFont(font);
-            if (demo)
-                g.drawString("DEMO MODE PRESS ANY KEY TO START A GAME", 20, 10);
-
 
             /* If this was the last dot */
             if (player.getDotsEaten() == 173) {
                 /*Demo mode can't get a high score */
-                if (!demo) {
-                    winScreen = true;
-                } else {
-                    titleScreen = true;
-                }
+                winScreen = true;
                 return;
             }
         }
@@ -589,16 +573,16 @@ public class Board extends JPanel {
                 player.frameCount = 0;
 
             switch (player.getDirection()) {
-                case WEST:
+                case RIGHT:
                     g.drawImage(pacmanLeftImage, player.getX(), player.getY(), Color.BLACK, null);
                     break;
-                case EAST:
+                case LEFT:
                     g.drawImage(pacmanRightImage, player.getX(), player.getY(), Color.BLACK, null);
                     break;
-                case NORTH:
+                case UP:
                     g.drawImage(pacmanUpImage, player.getX(), player.getY(), Color.BLACK, null);
                     break;
-                case SOUTH:
+                case DOWN:
                     g.drawImage(pacmanDownImage, player.getX(), player.getY(), Color.BLACK, null);
                     break;
             }

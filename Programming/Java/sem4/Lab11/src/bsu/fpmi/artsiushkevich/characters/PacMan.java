@@ -25,6 +25,11 @@ public class PacMan extends Character {
         return stopped;
     }
 
+    public void setDesiredDirection(Direction desiredDirection) {
+        this.desiredDirection = desiredDirection;
+    }
+
     private boolean stopped;
+    private Direction desiredDirection;
     private int dotsEaten;
 }

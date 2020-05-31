@@ -18,6 +18,10 @@ public class Character {
         return direction;
     }
 
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public int getX() {
         return x;
     }
