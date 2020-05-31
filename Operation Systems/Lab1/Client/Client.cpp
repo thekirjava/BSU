@@ -1,5 +1,8 @@
-﻿#include <iostream>
+﻿#pragma comment(lib, "Localization_Engine.lib")
+
+#include <iostream>
 #include "Localization_Engine.h"
+
 int main(int argc, char* argv[])
 {
 	if (argc == 1) {

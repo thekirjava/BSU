@@ -14,13 +14,8 @@ void Init(const char* lang)
 
 const char* GetFirst()
 {
-	if (hLib != NULL) {
-		const char* result;
-		get_old_first func =(get_old_first) GetProcAddress(hLib, "GetFirst");
-		result = func();
-		return result;
-	}
-	return "%{first}%";
+	get_old_first func = (get_old_first)GetProcAddress(hLib, "GetFirst");
+	return func();
 }
 
 const char* GetSecond()
