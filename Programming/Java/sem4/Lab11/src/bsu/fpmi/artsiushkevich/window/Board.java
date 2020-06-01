@@ -46,10 +46,10 @@ public class Board extends JPanel {
 
     /* Initialize the player and ghosts */
     PacMan player = new PacMan();
-    Blinky blinky = new Blinky();
-    Inky inky = new Inky();
-    Pinky pinky = new Pinky();
-    Clyde clyde = new Clyde();
+    Blinky blinky = new Blinky(player);
+    Inky inky = new Inky(player, blinky);
+    Pinky pinky = new Pinky(player);
+    Clyde clyde = new Clyde(player);
 
     /* Timer is used for playing sound effects and animations */
     long timer = System.currentTimeMillis();
@@ -397,10 +397,10 @@ public class Board extends JPanel {
         if (New == 1) {
             reset();
             player = new PacMan();
-            pinky = new Pinky();
-            inky = new Inky();
-            blinky = new Blinky();
-            clyde = new Clyde();
+            pinky = new Pinky(player);
+            blinky = new Blinky(player);
+            inky = new Inky(player, blinky);
+            clyde = new Clyde(player);
             drawBoard(g);
             drawDots(g);
             drawLives(g);

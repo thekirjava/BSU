@@ -24,6 +24,7 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         this.setSize(420, 460);
         this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         container.setLayout(new BorderLayout());
         b = new Board();
@@ -96,11 +97,11 @@ public class MainWindow extends JFrame {
             b.pinky.move();
             b.inky.move();
             b.clyde.move();
-            b.player.updatePellet();
-            b.blinky.updatePellet();
-            b.pinky.updatePellet();
-            b.inky.updatePellet();
-            b.clyde.updatePellet();
+            b.player.updateDot();
+            b.blinky.updateDot();
+            b.pinky.updateDot();
+            b.inky.updateDot();
+            b.clyde.updateDot();
         }
 
         /* We either have a new game or the user has died, either way we have to reset the board */
@@ -133,7 +134,13 @@ public class MainWindow extends JFrame {
 
             /*Start advancing frames once again*/
             b.stopped = false;
-            frameTimer.schedule(update, 5, 30);
+            frameTimer = new Timer();
+            frameTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    stepFrame(false);
+                }
+            }, 5, 30);
         }
         /* Otherwise we're in a normal state, advance one frame*/
         else {

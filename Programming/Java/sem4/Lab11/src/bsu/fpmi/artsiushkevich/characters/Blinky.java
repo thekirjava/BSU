@@ -1,16 +1,21 @@
 package bsu.fpmi.artsiushkevich.characters;
 
-public class Blinky extends Ghost{
+import bsu.fpmi.artsiushkevich.utility.Pair;
 
+public class Blinky extends Ghost {
+    public Blinky(PacMan pacManReference) {
+        super(pacManReference);
+    }
+
+    @Override
+    protected Pair<Integer, Integer> getGoal() {
+        return new Pair<>(pacManReference.getX(), pacManReference.getY());
+    }
 
     @Override
     public void handleEvent(String message) {
 
     }
 
-    @Override
-    public void findGoal() {
-
-    }
 
 }

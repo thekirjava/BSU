@@ -1,7 +1,5 @@
 package bsu.fpmi.artsiushkevich.window;
 
-import bsu.fpmi.artsiushkevich.characters.State;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;

@@ -2,17 +2,45 @@ package bsu.fpmi.artsiushkevich.characters;
 
 import bsu.fpmi.artsiushkevich.utility.Pair;
 
-public class Character {
-    public void moveTo() {
+public abstract class Character {
+    public abstract void move();
+
+    void move(Direction d) {
+        switch (d) {
+            case LEFT:
+                if (isValidDest(x - STEP, y)) {
+                    x -= STEP;
+                }
+                break;
+            case RIGHT:
+                if (isValidDest(x + GRID_SIZE, y)) {
+                    x += STEP;
+                }
+                break;
+            case UP:
+                if (isValidDest(x, y - STEP)) {
+                    y -= STEP;
+                }
+                break;
+            case DOWN:
+                if (isValidDest(x, y + GRID_SIZE)) {
+                    y += STEP;
+                }
+                break;
+        }
     }
 
     public void setState(boolean[][] state) {
         this.state = state;
     }
 
-    protected Direction direction;
-    protected Pair<Integer, Integer> position;
-    protected boolean[][] state;
+
+    public void updateDot() {
+        if (x % GRID_SIZE == 0 && y % GRID_SIZE == 0) {
+            dotX = x / GRID_SIZE - 1;
+            dotY = y / GRID_SIZE - 1;
+        }
+    }
 
     public Direction getDirection() {
         return direction;
@@ -86,6 +114,13 @@ public class Character {
         this.lastDotY = lastDotY;
     }
 
+    public boolean isValidDest(int x, int y) {
+        return ((x % 20 == 0) || (y % 20 == 0) && (20 <= x) && (x < 400) && (20 <= y) && (y < 400) && state[x / 20 - 1][y / 20 - 1]);
+    }
+
+    protected Direction direction;
+    protected Pair<Integer, Integer> position;
+    protected boolean[][] state;
     public int frameCount;
     protected int x;
     protected int y;
@@ -95,4 +130,8 @@ public class Character {
     protected int dotY;
     protected int lastDotX;
     protected int lastDotY;
+    protected final int STEP = 4;
+    protected final int MAX_SIZE = 400;
+    protected final int GRID_SIZE = 20;
+    protected boolean teleport;
 }
