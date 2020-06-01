@@ -25,6 +25,7 @@ public class MainWindow extends JFrame {
     public MainWindow() throws IOException {
         this.setSize(720, 760);
         this.setResizable(false);
+        this.setTitle("PacMan");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         container.setLayout(new BorderLayout());
