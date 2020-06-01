@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,58 +22,80 @@ public class MainWindow extends JFrame {
         }
     };
 
-    public MainWindow() {
-        this.setSize(420, 460);
+    public MainWindow() throws IOException {
+        this.setSize(720, 760);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         container.setLayout(new BorderLayout());
         b = new Board();
+        b.requestFocus();
         container.add(b, BorderLayout.CENTER);
-        b.addMouseListener(new MouseAdapter() {
+        this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+                if (b.titleScreen || b.winScreen || b.overScreen) {
+                    return;
+                }
+                int x = e.getX();
+                int y = e.getY();
+                if (400 <= y && y <= 460) {
+                    if (100 <= x && x <= 150) {
+                        b.New = 1;
+                    } else if (350 <= x && x <= 420) {
+                        System.exit(0);
+                    }
+                }
             }
         });
-        b.addKeyListener(new KeyAdapter() {
+        this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
+                if (b.titleScreen) {
+                    b.titleScreen = false;
+                    return;
+                } else if (b.winScreen || b.overScreen) {
+                    b.titleScreen = true;
+                    b.winScreen = false;
+                    b.overScreen = false;
+                    return;
+                }
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        b.player.setDesiredDirection(Direction.LEFT);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        b.player.setDesiredDirection(Direction.RIGHT);
+                        break;
+                    case KeyEvent.VK_UP:
+                        b.player.setDesiredDirection(Direction.UP);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        b.player.setDesiredDirection(Direction.DOWN);
+                        break;
+                }
+                repaint();
             }
         });
         b.newGame();
         stepFrame(true);
-
-
-        frameTimer.schedule(update, 5, 30);
+        frameTimer.schedule(update, 30, 30);
+        b.requestFocus();
     }
 
     public void stepFrame(boolean New) {
-        /* If we aren't on a special screen than the timers can be set to -1 to disable them */
         if (!b.titleScreen && !b.winScreen && !b.overScreen) {
             pseudoTimer = -1;
         }
-
-        /* If we are playing the dying animation, keep advancing frames until the animation is complete */
         if (b.dying > 0) {
             b.repaint();
             return;
         }
-
-    /* New can either be specified by the New parameter in stepFrame function call or by the state
-       of b.New.  Update New accordingly */
         New = New || (b.New != 0);
-
-
-
-    /* If this is the win screen or game over screen, make sure to only stay on the screen for 5 seconds.
-       If after 5 seconds the user hasn't pressed a key, go to title screen */
         if (b.winScreen || b.overScreen) {
             if (pseudoTimer == -1) {
                 pseudoTimer = System.currentTimeMillis();
             }
-
             long currTime = System.currentTimeMillis();
             if (currTime - pseudoTimer >= 5000) {
                 b.winScreen = false;
@@ -83,39 +106,14 @@ public class MainWindow extends JFrame {
             b.repaint();
             return;
         }
-
-
-        /* If we have a normal game state, move all pieces and update pellet status */
         if (!New) {
-      /* The pacman player has two functions, demoMove if we're in demo mode and move if we're in
-         user playable mode.  Call the appropriate one here */
-
-            b.player.move();
-
-            /* Also move the ghosts, and update the pellet states */
-            b.blinky.move();
-            b.pinky.move();
-            b.inky.move();
-            b.clyde.move();
-            b.player.updateDot();
-            b.blinky.updateDot();
-            b.pinky.updateDot();
-            b.inky.updateDot();
-            b.clyde.updateDot();
+            b.observable.notifyObservers("Move");
         }
-
-        /* We either have a new game or the user has died, either way we have to reset the board */
         if (b.stopped || New) {
-            /*Temporarily stop advancing frames */
             frameTimer.cancel();
-
-            /* If user is dying ... */
             while (b.dying > 0) {
-                /* Play dying animation. */
                 stepFrame(false);
             }
-
-            /* Move all game elements back to starting positions and orientations */
             b.player.setDirection(Direction.LEFT);
             b.player.setDesiredDirection(Direction.LEFT);
             b.player.setX(200);
@@ -128,11 +126,7 @@ public class MainWindow extends JFrame {
             b.inky.setY(180);
             b.clyde.setX(220);
             b.clyde.setY(180);
-
-            /* Advance a frame to display main state*/
             b.repaint(0, 0, 600, 600);
-
-            /*Start advancing frames once again*/
             b.stopped = false;
             frameTimer = new Timer();
             frameTimer.schedule(new TimerTask() {
@@ -140,12 +134,20 @@ public class MainWindow extends JFrame {
                 public void run() {
                     stepFrame(false);
                 }
-            }, 5, 30);
-        }
-        /* Otherwise we're in a normal state, advance one frame*/
-        else {
+            }, 30, 30);
+        } else {
             repaint();
         }
+    }
+
+    @Override
+    public void repaint() {
+        if (b.player.isTeleport()) {
+            b.repaint(b.player.getLastX() - 20, b.player.getLastY() - 20, 80, 80);
+            b.player.setTeleport(false);
+        }
+        b.repaint(0, 0, 600, 20);
+        b.repaint(0, 420, 600, 40);
     }
 
     private long pseudoTimer = -1;

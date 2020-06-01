@@ -3,13 +3,8 @@ package bsu.fpmi.artsiushkevich.characters;
 import bsu.fpmi.artsiushkevich.utility.Pair;
 
 public class Clyde extends Ghost {
-    public Clyde(PacMan pacManReference) {
-        super(pacManReference);
-    }
-
-    @Override
-    public void handleEvent(String message) {
-
+    public Clyde(int x, int y, PacMan pacManReference) {
+        super(x, y, pacManReference);
     }
 
     @Override
@@ -19,5 +14,4 @@ public class Clyde extends Ghost {
         }
         return new Pair<>(pacManReference.getX(), pacManReference.getY());
     }
-
 }

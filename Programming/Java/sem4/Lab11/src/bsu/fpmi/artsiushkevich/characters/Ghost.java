@@ -1,48 +1,261 @@
 package bsu.fpmi.artsiushkevich.characters;
 
-import bsu.fpmi.artsiushkevich.observer.Observer;
 import bsu.fpmi.artsiushkevich.utility.Pair;
 
-public abstract class Ghost extends Character implements Observer {
+import java.util.Random;
 
-    public Ghost(PacMan pacManReference) {
+public abstract class Ghost extends Character{
+
+    public Ghost(int x, int y, PacMan pacManReference) {
         this.pacManReference = pacManReference;
+        direction = Direction.LEFT;
+        dotX = x / GRID_SIZE - 1;
+        dotY = x / GRID_SIZE - 1;
+        lastDotX = dotX;
+        lastDotY = dotY;
+        this.lastX = x;
+        this.lastY = y;
+        this.x = x;
+        this.y = y;
     }
 
     protected Direction newDirection() {
+        if ((isValidDest(x - STEP, y)) && (!isValidDest(x + GRID_SIZE, y)) && (!isValidDest(x, y - STEP)) &&
+                (!isValidDest(x, y + GRID_SIZE))) {
+            return Direction.LEFT;
+        }
+        if ((!isValidDest(x - STEP, y)) && (isValidDest(x + GRID_SIZE, y)) && (!isValidDest(x, y - STEP)) &&
+                (!isValidDest(x, y + GRID_SIZE))) {
+            return Direction.RIGHT;
+        }
+        if ((!isValidDest(x - STEP, y)) && (!isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y - STEP)) &&
+                (!isValidDest(x, y + GRID_SIZE))) {
+            return Direction.UP;
+        }
+        if ((!isValidDest(x - STEP, y)) && (!isValidDest(x + GRID_SIZE, y)) && (!isValidDest(x, y - STEP)) &&
+                (isValidDest(x, y + GRID_SIZE))) {
+            return Direction.DOWN;
+        }
         Pair<Integer, Integer> goal = getGoal();
         switch (direction) {
             case LEFT:
-            case RIGHT:
-                if ((isValidDest(x, y - STEP)) && (isValidDest(x, y + GRID_SIZE))) {
-                    if (goal.second < y) {
+                if (goal.second == y) {
+                    if (isValidDest(x - STEP, y)) {
+                        return Direction.LEFT;
+                    }
+                    if ((isValidDest(x, y - STEP)) && (isValidDest(x, y + GRID_SIZE))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.UP;
+                        } else {
+                            return Direction.DOWN;
+                        }
+                    } else if (isValidDest(x, y - STEP)) {
                         return Direction.UP;
                     } else {
                         return Direction.DOWN;
                     }
-                } else if (isValidDest(x, y - STEP)) {
-                    return Direction.UP;
+                } else if (goal.second < y) {
+                    if (isValidDest(x, y - STEP)) {
+                        return Direction.UP;
+                    }
+                    if ((isValidDest(x - STEP, y)) && (isValidDest(x, y + GRID_SIZE))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.LEFT;
+                        } else {
+                            return Direction.DOWN;
+                        }
+                    } else if (isValidDest(x - STEP, y)) {
+                        return Direction.LEFT;
+                    } else {
+                        return Direction.DOWN;
+                    }
                 } else {
-                    return Direction.DOWN;
+                    if (isValidDest(x, y + GRID_SIZE)) {
+                        return Direction.DOWN;
+                    }
+                    if ((isValidDest(x - STEP, y)) && (isValidDest(x, y - STEP))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.LEFT;
+                        } else {
+                            return Direction.UP;
+                        }
+                    } else if (isValidDest(x - STEP, y)) {
+                        return Direction.LEFT;
+                    } else {
+                        return Direction.UP;
+                    }
+                }
+            case RIGHT:
+                if (goal.second == y) {
+                    if (isValidDest(x + GRID_SIZE, y)) {
+                        return Direction.RIGHT;
+                    }
+                    if ((isValidDest(x, y - STEP)) && (isValidDest(x, y + GRID_SIZE))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.UP;
+                        } else {
+                            return Direction.DOWN;
+                        }
+                    } else if (isValidDest(x, y - STEP)) {
+                        return Direction.UP;
+                    } else {
+                        return Direction.DOWN;
+                    }
+                } else if (goal.second < y) {
+                    if (isValidDest(x, y - STEP)) {
+                        return Direction.UP;
+                    }
+                    if ((isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y + GRID_SIZE))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.RIGHT;
+                        } else {
+                            return Direction.DOWN;
+                        }
+                    } else if (isValidDest(x + GRID_SIZE, y)) {
+                        return Direction.RIGHT;
+                    } else {
+                        return Direction.DOWN;
+                    }
+                } else {
+                    if (isValidDest(x, y + GRID_SIZE)) {
+                        return Direction.DOWN;
+                    }
+                    if ((isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y - STEP))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.RIGHT;
+                        } else {
+                            return Direction.UP;
+                        }
+                    } else if (isValidDest(x + GRID_SIZE, y)) {
+                        return Direction.RIGHT;
+                    } else {
+                        return Direction.UP;
+                    }
                 }
             case UP:
-            case DOWN:
-                if ((isValidDest(x - STEP, y)) && (isValidDest(x + GRID_SIZE, y))) {
-                    if (goal.first < x) {
+                if (goal.first == x) {
+                    if (isValidDest(x, y - STEP)) {
+                        return Direction.UP;
+                    }
+                    if ((isValidDest(x - STEP, y)) && (isValidDest(x + GRID_SIZE, y))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.LEFT;
+                        } else {
+                            return Direction.RIGHT;
+                        }
+                    } else if (isValidDest(x - STEP, y)) {
                         return Direction.LEFT;
                     } else {
                         return Direction.RIGHT;
                     }
-                } else if (isValidDest(x - STEP, y)) {
-                    return Direction.LEFT;
+                } else if (goal.first < x) {
+                    if (isValidDest(x - STEP, y)) {
+                        return Direction.LEFT;
+                    }
+                    if ((isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y - STEP))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.RIGHT;
+                        } else {
+                            return Direction.UP;
+                        }
+                    } else if (isValidDest(x + GRID_SIZE, y)) {
+                        return Direction.RIGHT;
+                    } else {
+                        return Direction.UP;
+                    }
                 } else {
-                    return Direction.RIGHT;
+                    if (isValidDest(x + GRID_SIZE, y)) {
+                        return Direction.RIGHT;
+                    }
+                    if ((isValidDest(x - STEP, y)) && (isValidDest(x, y - STEP))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.LEFT;
+                        } else {
+                            return Direction.UP;
+                        }
+                    } else if (isValidDest(x - STEP, y)) {
+                        return Direction.LEFT;
+                    } else {
+                        return Direction.UP;
+                    }
+                }
+            case DOWN:
+                if (goal.first == x) {
+                    if (isValidDest(x, y + GRID_SIZE)) {
+                        return Direction.DOWN;
+                    }
+                    if ((isValidDest(x - STEP, y)) && (isValidDest(x + GRID_SIZE, y))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.LEFT;
+                        } else {
+                            return Direction.RIGHT;
+                        }
+                    } else if (isValidDest(x - STEP, y)) {
+                        return Direction.LEFT;
+                    } else {
+                        return Direction.RIGHT;
+                    }
+                } else if (goal.first < x) {
+                    if (isValidDest(x - STEP, y)) {
+                        return Direction.LEFT;
+                    }
+                    if ((isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y + GRID_SIZE))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.RIGHT;
+                        } else {
+                            return Direction.DOWN;
+                        }
+                    } else if (isValidDest(x + GRID_SIZE, y)) {
+                        return Direction.RIGHT;
+                    } else {
+                        return Direction.DOWN;
+                    }
+                } else {
+                    if (isValidDest(x + GRID_SIZE, y)) {
+                        return Direction.RIGHT;
+                    }
+                    if ((isValidDest(x - STEP, y)) && (isValidDest(x, y + GRID_SIZE))) {
+                        Random random = new Random();
+                        if (random.nextInt() % 2 == 0) {
+                            return Direction.LEFT;
+                        } else {
+                            return Direction.DOWN;
+                        }
+                    } else if (isValidDest(x - STEP, y)) {
+                        return Direction.LEFT;
+                    } else {
+                        return Direction.DOWN;
+                    }
                 }
         }
         return null;
     }
 
     protected abstract Pair<Integer, Integer> getGoal();
+
+    @Override
+    public void updateDot() {
+        int tempX, tempY;
+        tempX = x / GRID_SIZE - 1;
+        tempY = y / GRID_SIZE - 1;
+        if ((tempX != dotX) || (tempY != dotY)) {
+            lastDotX = dotX;
+            lastDotY = dotY;
+            dotX = tempX;
+            dotY = tempY;
+        }
+    }
 
     public void move() {
         lastX = x;
@@ -59,17 +272,17 @@ public abstract class Ghost extends Character implements Observer {
 
 
     private boolean isChoiceDest() {
-        switch (direction) {
+       /* switch (direction) {
             case UP:
-                return ((isValidDest(x - STEP, y)) || (isValidDest(x + GRID_SIZE, y))) && (!isValidDest(x, y - STEP));
             case DOWN:
-                return ((isValidDest(x - STEP, y)) || (isValidDest(x + GRID_SIZE, y))) && (!isValidDest(x, y + GRID_SIZE));
+                return ((isValidDest(x - STEP, y)) || (isValidDest(x + GRID_SIZE, y)));
             case LEFT:
-                return ((isValidDest(x, y - STEP)) || (isValidDest(x, y + GRID_SIZE))) && (!isValidDest(x - STEP, y));
             case RIGHT:
-                return ((isValidDest(x, y - STEP)) || (isValidDest(x, y + GRID_SIZE))) && (!isValidDest(x + GRID_SIZE, y));
+                return ((isValidDest(x, y - STEP)) || (isValidDest(x, y + GRID_SIZE)));
         }
-        return false;
+        return false;*/
+        return (x % GRID_SIZE == 0) && (y % GRID_SIZE == 0);
     }
+
     PacMan pacManReference;
 }

@@ -1,12 +1,19 @@
 package bsu.fpmi.artsiushkevich.characters;
 
 public class PacMan extends Character {
-    public PacMan() {
+    public PacMan(int x, int y) {
         teleport = false;
+        dotsEaten = 0;
+        dotX = x / GRID_SIZE - 1;
+        dotY = y / GRID_SIZE - 1;
+        this.lastX = x;
+        this.lastY = y;
+        this.x = x;
+        this.y = y;
+        direction = Direction.LEFT;
+        desiredDirection = Direction.LEFT;
     }
 
-    public void setDirection() {
-    }
 
     public void eat() {
         dotsEaten++;
@@ -14,7 +21,7 @@ public class PacMan extends Character {
 
     @Override
     public void setState(boolean[][] state) {
-        this.state = state;
+        super.setState(state);
         this.state[9][7] = false;
     }
 
@@ -34,11 +41,7 @@ public class PacMan extends Character {
     public void move() {
         lastX = x;
         lastY = y;
-
-        /* Try to turn in the direction input by the user */
-        /*Can only turn if we're in center of a grid*/
-        if (x % 20 == 0 && y % 20 == 0 ||
-                /* Or if we're reversing*/
+        if (((x % 20 == 0) && (y % 20 == 0)) ||
                 (desiredDirection == Direction.LEFT && direction == Direction.RIGHT) ||
                 (desiredDirection == Direction.RIGHT && direction == Direction.LEFT) ||
                 (desiredDirection == Direction.UP && direction == Direction.DOWN) ||
@@ -46,7 +49,6 @@ public class PacMan extends Character {
         ) {
             move(desiredDirection);
         }
-        /* If we haven't moved, then move in the direction the pacman was headed anyway */
         if (lastX == x && lastY == y) {
             switch (direction) {
                 case LEFT:

@@ -3,13 +3,8 @@ package bsu.fpmi.artsiushkevich.characters;
 import bsu.fpmi.artsiushkevich.utility.Pair;
 
 public class Pinky extends Ghost {
-    @Override
-    public void handleEvent(String message) {
-
-    }
-
-    public Pinky(PacMan pacManReference) {
-        super(pacManReference);
+    public Pinky(int x, int y, PacMan pacManReference) {
+        super(x, y, pacManReference);
     }
 
     @Override

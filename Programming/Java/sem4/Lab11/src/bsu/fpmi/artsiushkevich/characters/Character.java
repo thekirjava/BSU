@@ -1,8 +1,8 @@
 package bsu.fpmi.artsiushkevich.characters;
 
-import bsu.fpmi.artsiushkevich.utility.Pair;
+import bsu.fpmi.artsiushkevich.observer.Observer;
 
-public abstract class Character {
+public abstract class Character implements Observer {
     public abstract void move();
 
     void move(Direction d) {
@@ -30,13 +30,24 @@ public abstract class Character {
         }
     }
 
+    @Override
+    public void handleEvent(String message) {
+        if (message.equals("Move")) {
+            move();
+            updateDot();
+        }
+    }
+
     public void setState(boolean[][] state) {
-        this.state = state;
+        this.state = new boolean[state.length][state[0].length];
+        for (int i = 0; i < state.length; i++) {
+            System.arraycopy(state[i], 0, this.state[i], 0, state[i].length);
+        }
     }
 
 
     public void updateDot() {
-        if (x % GRID_SIZE == 0 && y % GRID_SIZE == 0) {
+        if ((x % GRID_SIZE == 0) && (y % GRID_SIZE == 0)) {
             dotX = x / GRID_SIZE - 1;
             dotY = y / GRID_SIZE - 1;
         }
@@ -70,56 +81,37 @@ public abstract class Character {
         return lastX;
     }
 
-    public void setLastX(int lastX) {
-        this.lastX = lastX;
-    }
-
     public int getLastY() {
         return lastY;
-    }
-
-    public void setLastY(int lastY) {
-        this.lastY = lastY;
     }
 
     public int getDotX() {
         return dotX;
     }
 
-    public void setDotX(int dotX) {
-        this.dotX = dotX;
-    }
-
     public int getDotY() {
         return dotY;
-    }
-
-    public void setDotY(int dotY) {
-        this.dotY = dotY;
     }
 
     public int getLastDotX() {
         return lastDotX;
     }
 
-    public void setLastDotX(int lastDotX) {
-        this.lastDotX = lastDotX;
-    }
-
     public int getLastDotY() {
         return lastDotY;
     }
 
-    public void setLastDotY(int lastDotY) {
-        this.lastDotY = lastDotY;
-    }
-
     public boolean isValidDest(int x, int y) {
-        return ((x % 20 == 0) || (y % 20 == 0) && (20 <= x) && (x < 400) && (20 <= y) && (y < 400) && state[x / 20 - 1][y / 20 - 1]);
+        return (((x % 20 == 0) || (y % 20 == 0)) && (20 <= x) && (x < 400) && (20 <= y) && (y < 400) && (state[x / 20 - 1][y / 20 - 1]));
+    }
+    public boolean isTeleport() {
+        return teleport;
     }
 
+    public void setTeleport(boolean teleport) {
+        this.teleport = teleport;
+    }
     protected Direction direction;
-    protected Pair<Integer, Integer> position;
     protected boolean[][] state;
     public int frameCount;
     protected int x;
@@ -132,6 +124,9 @@ public abstract class Character {
     protected int lastDotY;
     protected final int STEP = 4;
     protected final int MAX_SIZE = 400;
+
+
+
     protected final int GRID_SIZE = 20;
     protected boolean teleport;
 }
