@@ -1,5 +1,7 @@
 package bsu.fpmi.artsiushkevich.characters;
 
+import java.awt.*;
+
 public class PacMan extends Character {
     public PacMan(int x, int y) {
         teleport = false;
@@ -86,6 +88,21 @@ public class PacMan extends Character {
         } else {
             stopped = false;
             frameCount++;
+        }
+    }
+
+
+    public void deathAnimation(Image pacmanImage, Graphics g, int dying) {
+        g.drawImage(pacmanImage, getX(), getY(), Color.BLACK, null);
+        g.setColor(Color.BLACK);
+        if (dying == 4) {
+            g.fillRect(getX(), getY(), 20, 7);
+        } else if (dying == 3) {
+            g.fillRect(getX(), getY(), 20, 14);
+        } else if (dying == 2) {
+            g.fillRect(getX(), getY(), 20, 20);
+        } else if (dying == 1) {
+            g.fillRect(getX(), getY(), 20, 20);
         }
     }
 

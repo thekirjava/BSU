@@ -2,6 +2,8 @@ package bsu.fpmi.artsiushkevich.characters;
 
 import bsu.fpmi.artsiushkevich.observer.Observer;
 
+import java.awt.*;
+
 public abstract class Character implements Observer {
     public abstract void move();
 
@@ -38,6 +40,17 @@ public abstract class Character implements Observer {
         }
     }
 
+    @Override
+    public void handleEvent(String message, Graphics graphics) {
+        if (message.equals("CopyArea")) {
+            graphics.copyArea(this.getX() - 20, this.getY() - 20, 80, 80, 0, 0);
+        }
+        if (message.equals("Move")) {
+            graphics.setColor(Color.BLACK);
+            graphics.fillRect(this.getLastX(), this.getLastY(), 20, 20);
+        }
+    }
+
     public void setState(boolean[][] state) {
         this.state = new boolean[state.length][state[0].length];
         for (int i = 0; i < state.length; i++) {
@@ -51,6 +64,10 @@ public abstract class Character implements Observer {
             dotX = x / GRID_SIZE - 1;
             dotY = y / GRID_SIZE - 1;
         }
+    }
+
+    public void drawCharacterFrame(Image character, Graphics graphics) {
+        graphics.drawImage(character, this.getX(), this.getY(), Color.BLACK, null);
     }
 
     public Direction getDirection() {
@@ -104,6 +121,7 @@ public abstract class Character implements Observer {
     public boolean isValidDest(int x, int y) {
         return (((x % 20 == 0) || (y % 20 == 0)) && (20 <= x) && (x < 400) && (20 <= y) && (y < 400) && (state[x / 20 - 1][y / 20 - 1]));
     }
+
     public boolean isTeleport() {
         return teleport;
     }
@@ -111,6 +129,7 @@ public abstract class Character implements Observer {
     public void setTeleport(boolean teleport) {
         this.teleport = teleport;
     }
+
     protected Direction direction;
     protected boolean[][] state;
     public int frameCount;
@@ -124,8 +143,6 @@ public abstract class Character implements Observer {
     protected int lastDotY;
     protected final int STEP = 4;
     protected final int MAX_SIZE = 400;
-
-
 
     protected final int GRID_SIZE = 20;
     protected boolean teleport;

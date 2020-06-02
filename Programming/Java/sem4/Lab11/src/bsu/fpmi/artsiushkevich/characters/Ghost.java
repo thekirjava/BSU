@@ -44,7 +44,7 @@ public abstract class Ghost extends Character{
                         return Direction.LEFT;
                     }
                     if ((isValidDest(x, y - STEP)) && (isValidDest(x, y + GRID_SIZE))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.UP;
                         } else {
@@ -60,7 +60,7 @@ public abstract class Ghost extends Character{
                         return Direction.UP;
                     }
                     if ((isValidDest(x - STEP, y)) && (isValidDest(x, y + GRID_SIZE))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.LEFT;
                         } else {
@@ -76,7 +76,7 @@ public abstract class Ghost extends Character{
                         return Direction.DOWN;
                     }
                     if ((isValidDest(x - STEP, y)) && (isValidDest(x, y - STEP))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.LEFT;
                         } else {
@@ -94,7 +94,7 @@ public abstract class Ghost extends Character{
                         return Direction.RIGHT;
                     }
                     if ((isValidDest(x, y - STEP)) && (isValidDest(x, y + GRID_SIZE))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.UP;
                         } else {
@@ -110,7 +110,7 @@ public abstract class Ghost extends Character{
                         return Direction.UP;
                     }
                     if ((isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y + GRID_SIZE))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.RIGHT;
                         } else {
@@ -126,7 +126,7 @@ public abstract class Ghost extends Character{
                         return Direction.DOWN;
                     }
                     if ((isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y - STEP))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.RIGHT;
                         } else {
@@ -144,7 +144,7 @@ public abstract class Ghost extends Character{
                         return Direction.UP;
                     }
                     if ((isValidDest(x - STEP, y)) && (isValidDest(x + GRID_SIZE, y))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.LEFT;
                         } else {
@@ -160,7 +160,7 @@ public abstract class Ghost extends Character{
                         return Direction.LEFT;
                     }
                     if ((isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y - STEP))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.RIGHT;
                         } else {
@@ -176,7 +176,7 @@ public abstract class Ghost extends Character{
                         return Direction.RIGHT;
                     }
                     if ((isValidDest(x - STEP, y)) && (isValidDest(x, y - STEP))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.LEFT;
                         } else {
@@ -194,7 +194,7 @@ public abstract class Ghost extends Character{
                         return Direction.DOWN;
                     }
                     if ((isValidDest(x - STEP, y)) && (isValidDest(x + GRID_SIZE, y))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.LEFT;
                         } else {
@@ -210,7 +210,7 @@ public abstract class Ghost extends Character{
                         return Direction.LEFT;
                     }
                     if ((isValidDest(x + GRID_SIZE, y)) && (isValidDest(x, y + GRID_SIZE))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.RIGHT;
                         } else {
@@ -226,7 +226,7 @@ public abstract class Ghost extends Character{
                         return Direction.RIGHT;
                     }
                     if ((isValidDest(x - STEP, y)) && (isValidDest(x, y + GRID_SIZE))) {
-                        Random random = new Random();
+                        Random random = new Random(System.currentTimeMillis());
                         if (random.nextInt() % 2 == 0) {
                             return Direction.LEFT;
                         } else {

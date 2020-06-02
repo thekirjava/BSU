@@ -263,17 +263,7 @@ public class Board extends JPanel {
     public void paint(Graphics g) {
         if (dying > 0) {
             sounds.nomNomStop();
-            g.drawImage(pacmanImage, player.getX(), player.getY(), Color.BLACK, null);
-            g.setColor(Color.BLACK);
-            if (dying == 4) {
-                g.fillRect(player.getX(), player.getY(), 20, 7);
-            } else if (dying == 3) {
-                g.fillRect(player.getX(), player.getY(), 20, 14);
-            } else if (dying == 2) {
-                g.fillRect(player.getX(), player.getY(), 20, 20);
-            } else if (dying == 1) {
-                g.fillRect(player.getX(), player.getY(), 20, 20);
-            }
+            player.deathAnimation(pacmanImage, g, dying);
             long currTime = System.currentTimeMillis();
             long temp;
             if (dying != 1) {
@@ -367,11 +357,12 @@ public class Board extends JPanel {
                 return;
             }
         }
-        g.copyArea(player.getX() - 20, player.getY() - 20, 80, 80, 0, 0);
+        /*g.copyArea(player.getX() - 20, player.getY() - 20, 80, 80, 0, 0);
         g.copyArea(blinky.getX() - 20, blinky.getY() - 20, 80, 80, 0, 0);
         g.copyArea(pinky.getX() - 20, pinky.getY() - 20, 80, 80, 0, 0);
         g.copyArea(inky.getX() - 20, inky.getY() - 20, 80, 80, 0, 0);
-        g.copyArea(clyde.getX() - 20, clyde.getY() - 20, 80, 80, 0, 0);
+        g.copyArea(clyde.getX() - 20, clyde.getY() - 20, 80, 80, 0, 0);*/
+        observable.notifyObservers("CopyArea", g);
         if ((player.getX() == blinky.getX()) && (Math.abs(player.getY() - blinky.getY()) < 10)) {
             oops = true;
         } else if ((player.getX() == pinky.getX()) && (Math.abs(player.getY() - pinky.getY()) < 10)) {
@@ -398,12 +389,13 @@ public class Board extends JPanel {
             drawLives(g);
             timer = System.currentTimeMillis();
         }
-        g.setColor(Color.BLACK);
+        /*g.setColor(Color.BLACK);
         g.fillRect(player.getLastX(), player.getLastY(), 20, 20);
         g.fillRect(blinky.getLastX(), blinky.getLastY(), 20, 20);
         g.fillRect(pinky.getLastX(), pinky.getLastY(), 20, 20);
         g.fillRect(inky.getLastX(), inky.getLastY(), 20, 20);
-        g.fillRect(clyde.getLastX(), clyde.getLastY(), 20, 20);
+        g.fillRect(clyde.getLastX(), clyde.getLastY(), 20, 20);*/
+        observable.notifyObservers("Move", g);
         if (dots[player.getDotX()][player.getDotY()] && (New != 2) && (New != 3)) {
             lastDotEatenX = player.getDotX();
             lastDotEatenY = player.getDotY();
@@ -457,16 +449,20 @@ public class Board extends JPanel {
             }
             switch (player.getDirection()) {
                 case LEFT:
-                    g.drawImage(pacmanLeftImage, player.getX(), player.getY(), Color.BLACK, null);
+                    //g.drawImage(pacmanLeftImage, player.getX(), player.getY(), Color.BLACK, null);
+                    player.drawCharacterFrame(pacmanLeftImage, g);
                     break;
                 case RIGHT:
-                    g.drawImage(pacmanRightImage, player.getX(), player.getY(), Color.BLACK, null);
+                    //g.drawImage(pacmanRightImage, player.getX(), player.getY(), Color.BLACK, null);
+                    player.drawCharacterFrame(pacmanRightImage, g);
                     break;
                 case UP:
-                    g.drawImage(pacmanUpImage, player.getX(), player.getY(), Color.BLACK, null);
+                    //g.drawImage(pacmanUpImage, player.getX(), player.getY(), Color.BLACK, null);
+                    player.drawCharacterFrame(pacmanUpImage, g);
                     break;
                 case DOWN:
-                    g.drawImage(pacmanDownImage, player.getX(), player.getY(), Color.BLACK, null);
+                    //g.drawImage(pacmanDownImage, player.getX(), player.getY(), Color.BLACK, null);
+                    player.drawCharacterFrame(pacmanDownImage, g);
                     break;
             }
         }
@@ -474,10 +470,10 @@ public class Board extends JPanel {
         g.drawRect(19, 19, 382, 382);
     }
 
-    private void ghostFrame(Graphics g, Image ghost10, Image ghost20, Image ghost30, Image ghost40) {
-        g.drawImage(ghost10, blinky.getX(), blinky.getY(), Color.BLACK, null);
-        g.drawImage(ghost20, pinky.getX(), pinky.getY(), Color.BLACK, null);
-        g.drawImage(ghost30, inky.getX(), inky.getY(), Color.BLACK, null);
-        g.drawImage(ghost40, clyde.getX(), clyde.getY(), Color.BLACK, null);
+    private void ghostFrame(Graphics g, Image blinkyFrame, Image pinkyFrame, Image inkyFrame, Image clydeFrame) {
+        blinky.drawCharacterFrame(blinkyFrame, g);
+        pinky.drawCharacterFrame(pinkyFrame, g);
+        inky.drawCharacterFrame(inkyFrame, g);
+        clyde.drawCharacterFrame(clydeFrame, g);
     }
 }
