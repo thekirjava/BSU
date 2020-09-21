@@ -1,0 +1,3 @@
+D:/Coding/BSU/Computere Architecture/Lab2/cmake-build-debug/CMakeFiles/Lab2.dir
+D:/Coding/BSU/Computere Architecture/Lab2/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Coding/BSU/Computere Architecture/Lab2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
