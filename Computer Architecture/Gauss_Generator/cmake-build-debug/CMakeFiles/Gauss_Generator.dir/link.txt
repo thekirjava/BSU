@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2019.1.4\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\Gauss_Generator.dir/objects.a
+C:\dev\mingw\mingw64\bin\ar.exe cr CMakeFiles\Gauss_Generator.dir/objects.a @CMakeFiles\Gauss_Generator.dir\objects1.rsp
+C:\dev\mingw\mingw64\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\Gauss_Generator.dir/objects.a -Wl,--no-whole-archive  -o Gauss_Generator.exe -Wl,--out-implib,libGauss_Generator.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Gauss_Generator.dir\linklibs.rsp
