@@ -1,8 +1,11 @@
 import reader
 import tagger
+import pos_tag
 
 r = reader.Reader('korpus.xml')
-maps = r.parse()
-t = tagger.Tagger(maps[0], 'input.txt')
-ans = t.tag()
-print(ans)
+words, prefix, postfix, tags = r.parse()
+t = tagger.Tagger(words, 'input.txt')
+ds = t.tag()
+pt = pos_tag.POSTagger(words, prefix, postfix, tags)
+pt.train(ds)
+
