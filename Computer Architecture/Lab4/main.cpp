@@ -97,7 +97,6 @@ void Decomposition1() {
     std::cout << "1D decomposition:\t";
     std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << "ms\t";
     std::cout << count << " iterations\n";
-
     std::ofstream out("result1.csv");
     out << std::fixed;
     for (int i = 0; i < N + 2; i++) {
@@ -139,7 +138,17 @@ void Decomposition2() {
     MPI_Comm_rank(MPI_COMM_WORLD, &processRank);
     MPI_Comm_size(MPI_COMM_WORLD, &processCount);
     double step = 1.0 / (N + 1.0);
-    int processCountX = 2, processCountY = 2;
+    int processCountX = 0, processCountY = 0;
+    if (processCount % static_cast<int>(std::sqrt(processCount)) == 0) {
+        processCountX = std::sqrt(processCount);
+        processCountY = std::sqrt(processCount);
+    } else if (processCount % 2 == 0) {
+        processCountX = processCount / 2;
+        processCountY = 2;
+    } else {
+        processCountX = processCount;
+        processCountY = 1;
+    }
     MPI_Bcast(&processCountX, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&processCountY, 1, MPI_INT, 0, MPI_COMM_WORLD);
     if ((processCountX * processCountY != processCount) ||
