@@ -72,6 +72,9 @@ std::vector<int> Decrypter::Kasiski::buildDiffs(const Decrypter::GrammsMap &gram
 }
 
 int Decrypter::Kasiski::listGCD(const std::vector<int> &diffs) const {
+    if (diffs.empty()) {
+        return 1;
+    }
     int gcd = diffs[0];
     for (int i = 1; i < diffs.size(); ++i) {
         gcd = binaryGCD(gcd, diffs[i]);
@@ -153,9 +156,6 @@ char Decrypter::FrequencyAnalyzer::findKeywordLetter(const std::string &part) co
 std::vector<Decrypter::FrequencyAnalyzer::CharFrequency>
 Decrypter::FrequencyAnalyzer::countFrequencies(const std::string &text) const {
     std::map<char, int> lettersCount;
-    for (const auto&[key, value]:FREQUENCIES) {
-        lettersCount[key] = 0;
-    }
     int nonLetters = 0;
     for (const auto &c:text) {
         if (('a' <= c) && (c <= 'z')) {
@@ -168,7 +168,9 @@ Decrypter::FrequencyAnalyzer::countFrequencies(const std::string &text) const {
     std::vector<CharFrequency> answer;
     answer.reserve(lettersCount.size());
     for (const auto&[key, value]: lettersCount) {
-        answer.push_back({key, double(value) / textLength});
+        if (value != 0) {
+            answer.push_back({key, double(value) / textLength});
+        }
     }
     std::sort(rbegin(answer), rend(answer));
     return answer;
